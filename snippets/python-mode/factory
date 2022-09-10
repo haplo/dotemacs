@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: factory-boy DjangoModelFactory
+# key: factory
+# group: django
+# --
+class $1Factory(factory.django.DjangoModelFactory):
+      $2
+
+      class Meta:
+            model = $1

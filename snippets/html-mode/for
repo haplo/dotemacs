@@ -1,0 +1,7 @@
+# contributor: Fidel Ramos <fidelramos@gmail.com>
+# name: {% for ... in ... %}{% endfor %}
+# key: for
+# --
+{% for $1 in $2 %}
+  $3
+{% endfor %}

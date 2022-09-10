@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Django ModelAdmin
+# key: djadmin
+# group: django
+# --
+@admin.register(${1:Model})
+class $1Admin(admin.ModelAdmin):
+    list_display = [$2]

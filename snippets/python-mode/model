@@ -1,0 +1,12 @@
+# This was cloned from a TextMate bundle for yasnippet.
+# --
+class ${1:Modelname}(models.Model):
+    """${2:docstring}"""
+    $0
+
+    class Meta:
+        verbose_name = _('${3:verbose_name}')
+        verbose_name_plural = _('${4:verbose_name_plural}')
+
+    def __str__(self):
+        return self.{$4:str_value}

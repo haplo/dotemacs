@@ -1,0 +1,7 @@
+# contributor: Fidel Ramos <fidelramos@gmail.com>
+# name: {% if ... %}...{% endif %}
+# key: if
+# --
+{% if $1 %}
+  $2
+{% endif %}
