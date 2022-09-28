@@ -340,6 +340,8 @@
    magit-visit-ref-create t
    ; don't ask for confirmation when pushing branches
    magit-push-always-verify nil
+   ; put history.el in the custom savefile dir
+   transient-history-file (expand-file-name "transient-history.el" my-savefile-dir)
    )
   ;; enable magit-clean
   (put 'magit-clean 'disabled nil)
