@@ -1165,9 +1165,10 @@
 ;; avoid compiz manager rendering bugs
 (add-to-list 'default-frame-alist '(alpha . 100))
 
-;; larger font for my monitor
-(add-to-list 'default-frame-alist '(font . "Noto Sans Mono 14"))
-(set-face-attribute 'default t :font "Noto Sans Mono 14")
+;; Use Hack font, a bit larger for my monitor
+;; https://sourcefoundry.org/hack/
+(add-to-list 'default-frame-alist '(font . "Hack 14"))
+(set-face-attribute 'default t :font "Hack 14")
 
 ;; highlight the current line
 (global-hl-line-mode +1)
