@@ -783,30 +783,42 @@
 ;;; Typescript ;;;
 ;;;;;;;;;;;;;;;;;;
 
-(defun my-tide-setup ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (subword-mode +1)
-  )
-
+(use-package typescript-mode
+  :defer t
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . my-typescript-mode-setup)
+  :preface
+  (defun my-typescript-mode-setup ()
+    (let ((width 2))
+      (setq-local typescript-indent-level width
+                  indent-level width
+                  tab-width width))
+    (subword-mode +1)
+    ))
 
 (use-package tide
-  :after (flycheck)
-  :mode ("\\.ts\\'" . typescript-mode)
-  :config
-  (add-hook 'my-typescript-mode-hook
-            (lambda () (run-hooks 'my-typescript-mode-overrides)))
-  (setq-default typescript-indent-level 2)
-  ;; format the buffer before saving
-  (add-hook 'before-save-hook
-            (lambda () (tide-format-before-save)))
-  (setq my-typescript-mode-hook 'my-tide-setup)
-  (add-hook 'typescript-mode-hook
-            (lambda () (run-hooks 'my-typescript-mode-hook))))
+  :after (flycheck typescript-mode web-mode)
+  :hook ((typescript-mode . my-tide-mode-setup)
+         (web-mode . my-tide-web-mode-setup))
+  :bind (:map typescript-mode-map
+              ("C-c C-f" . tide-format))
+  :preface
+  (defun my-tide-web-mode-setup ()
+    (when (string-equal "tsx" (file-name-extension buffer-file-name))
+      (my-tide-mode-setup)))
+
+  (defun my-tide-setup ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1))
+
+  :init
+  (with-eval-after-load 'flycheck
+    (flycheck-add-mode 'typescript-tslint 'web-mode))
+  )
 
 ;;;;;;;;;;;
 ;;; Web ;;;
