@@ -41,6 +41,15 @@
   (load-theme 'solarized-dark t)
 )
 
+(use-package all-the-icons
+  :if (display-graphic-p))
+
+;; Cooler modeline
+;; https://seagle0128.github.io/doom-modeline/
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
 (use-package diminish :ensure t)
 
 ;; On Linux Emacs doesn't use the shell PATH if it's not started from the shell
