@@ -411,6 +411,8 @@
 
 ;; https://magit.vc/
 (use-package magit
+  :if (executable-find "git")
+  :ensure t
   :config
   (setq
    magit-wip-after-apply-mode' t
