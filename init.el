@@ -1081,6 +1081,13 @@
    geiser-repl-history-filename (expand-file-name "geiser-history" my-savefile-dir)
    ))
 
+;;;;;;;;;;;;;;
+;;; Docker ;;;
+;;;;;;;;;;;;;;
+
+(use-package dockerfile-mode
+  :ensure t)
+
 ;;;;;;;;;;;;;;;;;
 ;;; org-mode  ;;;
 ;;;;;;;;;;;;;;;;;
