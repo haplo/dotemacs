@@ -248,12 +248,16 @@
 ;; enable some cool dired extensions like C-x C-j (dired-jump)
 (require 'dired-x)
 
-;; crux is a collection of general editing utilities
+;; crux is a collection of general editing utilities, see below for keybindings
+;; https://github.com/bbatsov/crux
 (use-package crux)
 
+;; Move line or region up and down
+;; https://github.com/emacsfodder/move-text
 (use-package move-text)
 
 ;; undo-tree is great to never lose an edit step
+;; https://www.emacswiki.org/emacs/UndoTree
 (use-package undo-tree
   :diminish
   :config
