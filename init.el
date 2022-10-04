@@ -49,7 +49,11 @@
   )
 
 (use-package all-the-icons
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  :config
+  (unless (find-font (font-spec :name "all-the-icons"))
+    (all-the-icons-install-fonts t))
+  (setq all-the-icons-scale-factor 1))
 
 ;; Cooler modeline
 ;; https://seagle0128.github.io/doom-modeline/
