@@ -129,6 +129,7 @@
 ;; automatically revert buffers for files that changed on disk when the open buffer has no
 ;; unsaved changes
 (global-auto-revert-mode t)
+(setq global-auto-revert-non-file-buffers t)
 
 ;; echo keystrokes after 0.1s (default is 1s)
 (setq echo-keystrokes 0.1)
