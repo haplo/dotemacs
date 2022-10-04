@@ -292,10 +292,13 @@
     ))
 
 ;; use settings from .editorconfig file when present
+;; https://github.com/editorconfig/editorconfig-emacs
 (use-package editorconfig
   :diminish
   :config (editorconfig-mode 1))
 
+;; show all remaining key combinations when doing multi-key commands
+;; https://github.com/justbur/emacs-which-key
 (use-package which-key
   :init
   (setq which-key-idle-delay 0.5)
@@ -336,6 +339,7 @@
 ;;; ivy, counsel, swiper ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; https://oremacs.com/swiper/
 (use-package ivy
   :diminish
   :config (progn
@@ -354,6 +358,7 @@
 ;;; git ;;;
 ;;;;;;;;;;;
 
+;; https://magit.vc/
 (use-package magit
   :config
   (setq
@@ -373,6 +378,7 @@
   (put 'magit-clean 'disabled nil)
   )
 
+;; https://magit.vc/manual/forge/
 (use-package forge
   :after magit
   :config
@@ -384,6 +390,7 @@
 ;;; projects ;;;
 ;;;;;;;;;;;;;;;;
 
+;; https://github.com/bbatsov/projectile
 (use-package projectile
   :config (progn
             (setq projectile-cache-file
@@ -396,6 +403,7 @@
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
 
+;; https://company-mode.github.io/
 (use-package company
   :hook (prog-mode . company-mode)
   :bind (:map company-mode-map
@@ -413,6 +421,7 @@
            company-echo-delay 0
            ))
 
+;; https://github.com/tumashu/company-posframe
 (use-package company-posframe
   :diminish
   :config
@@ -446,6 +455,7 @@
 ;;; syntax check ;;;
 ;;;;;;;;;;;;;;;;;;;;
 
+;; https://www.flycheck.org/en/latest/
 (use-package flycheck
   :hook ((after-init . global-flycheck-mode)
          (flycheck-mode . use-eslint-from-node-modules))
@@ -672,6 +682,7 @@
 ;;;;;;;;;;;;;;;;;;;
 
 ;; smart pairing for all programming modes
+;; https://smartparens.readthedocs.io/en/latest/
 (use-package smartparens
   :hook (prog-mode . smartparens-mode)
   :config (progn
@@ -688,6 +699,8 @@
 ;;; LSP ;;;
 ;;;;;;;;;;;
 
+;; https://emacs-lsp.github.io/lsp-mode/
+;; https://github.com/emacs-lsp/lsp-mode/
 (use-package lsp-mode
   :hook ((js2-mode . lsp)
          (python-mode . lsp)
@@ -724,9 +737,10 @@
      ("pylsp.plugins.pyls_black.enabled" t t)
      ("pylsp.plugins.pyls_isort.enabled" t t))))
 
+;; https://github.com/emacs-lsp/lsp-ui
 (use-package lsp-ui
   :commands lsp-ui-mode
-  :after lsp-mode
+  :after (lsp-mode)
   :bind (:map lsp-ui-mode-map
               ("M-j" . lsp-ui-imenu))
   :config
@@ -854,6 +868,7 @@
 ;;; Web ;;;
 ;;;;;;;;;;;
 
+;; https://web-mode.org/
 (use-package web-mode
   :after (smartparens flycheck)
   :mode (
@@ -913,6 +928,8 @@
 ;;; Python ;;;
 ;;;;;;;;;;;;;;
 
+;; activate Python virtualenvs
+;; https://github.com/jorgenschaefer/pyvenv
 (use-package pyvenv
   :config
   (setq pyvenv-mode-line-indicator
