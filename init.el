@@ -48,7 +48,12 @@
 ;; https://seagle0128.github.io/doom-modeline/
 (use-package doom-modeline
   :ensure t
-  :init (doom-modeline-mode 1))
+  :init (doom-modeline-mode 1)
+  :custom-face
+  (mode-line ((t (:family "Hack" :height 130))))
+  (mode-line-active ((t (:family "Hack" :height 130))))
+  (mode-line-inactive ((t (:family "Hack" :height 130))))
+  )
 
 (use-package diminish :ensure t)
 
@@ -1188,8 +1193,8 @@
 
 ;; Use Hack font, a bit larger for my monitor
 ;; https://sourcefoundry.org/hack/
-(add-to-list 'default-frame-alist '(font . "Hack 14"))
-(set-face-attribute 'default t :font "Hack 14")
+(add-to-list 'default-frame-alist '(font . "Hack 13"))
+(set-face-attribute 'default t :font "Hack 13")
 
 ;; highlight the current line
 (global-hl-line-mode +1)
