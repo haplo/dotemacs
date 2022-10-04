@@ -36,10 +36,17 @@
 (setq custom-file "~/.emacs.d/custom.el")
 
 ;; Theme
-(use-package solarized-theme
-  :init
-  (load-theme 'solarized-dark t)
-)
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-solarized-dark t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  )
 
 (use-package all-the-icons
   :if (display-graphic-p))
