@@ -459,6 +459,7 @@
 ;; https://www.flycheck.org/en/latest/
 (use-package flycheck
   :hook ((after-init . global-flycheck-mode)
+         (lsp-mode . flycheck-mode)
          (flycheck-mode . use-eslint-from-node-modules))
   :config
   (setq-default flycheck-highlighting-mode 'sexps)
