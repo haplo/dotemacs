@@ -561,8 +561,8 @@
 (define-key my-mode-map (kbd "s-k") 'crux-kill-whole-line)
 (define-key my-mode-map [(shift return)] 'crux-smart-open-line)
 (define-key my-mode-map [(control shift return)] 'crux-smart-open-line-above)
-(define-key my-mode-map [(control shift up)]  'move-text-up)
-(define-key my-mode-map [(control shift down)]  'move-text-down)
+(define-key my-mode-map [(meta shift up)]  'move-text-up)
+(define-key my-mode-map [(meta shift down)]  'move-text-down)
 (define-key my-mode-map [remap kill-whole-line] 'crux-kill-whole-line)
 
 ;; browse-kill-ring
