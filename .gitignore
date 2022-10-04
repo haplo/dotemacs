@@ -2,3 +2,4 @@ eln-cache
 elpa
 savefile
 .lsp-session*
+/custom.el
