@@ -314,6 +314,20 @@
         counsel-describe-variable-function #'helpful-variable))
 
 ;;;;;;;;;;;;;;;
+;;; ibuffer ;;;
+;;;;;;;;;;;;;;;
+
+(use-package ibuffer-projectile
+  :hook (ibuffer . (lambda ()
+                     (ibuffer-projectile-set-filter-groups)
+                     (unless (eq ibuffer-sorting-mode 'alphabetic)
+                       (ibuffer-do-sort-by-alphabetic)))))
+
+(use-package all-the-icons-ibuffer
+  :after (all-the-icons ibuffer)
+  :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
+
+;;;;;;;;;;;;;;;
 ;;; compile ;;;
 ;;;;;;;;;;;;;;;
 
