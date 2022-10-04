@@ -87,14 +87,6 @@
 (setq-default save-place t)
 (setq save-place-file (concat user-emacs-directory "places"))
 
-;; always delete and copy recursively
-(setq dired-recursive-deletes 'always)
-(setq dired-recursive-copies 'always)
-
-;; if there is a dired buffer displayed in the next window, use its
-;; current subdir, instead of the current subdir of this dired buffer
-(setq dired-dwim-target t)
-
 ;; ediff - don't start another frame
 (require 'ediff)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -257,9 +249,6 @@
 (setq semanticdb-default-save-directory
       (expand-file-name "semanticdb" my-savefile-dir))
 
-;; enable some cool dired extensions like C-x C-j (dired-jump)
-(require 'dired-x)
-
 ;; crux is a collection of general editing utilities, see below for keybindings
 ;; https://github.com/bbatsov/crux
 (use-package crux)
@@ -319,6 +308,40 @@
   :config
   (setq counsel-describe-function-function #'helpful-callable
         counsel-describe-variable-function #'helpful-variable))
+
+;;;;;;;;;;;;;
+;;; dired ;;;
+;;;;;;;;;;;;;
+
+(use-package dired
+  :ensure nil
+  :after all-the-icons-dired
+  :bind ("C-x C-j" . dired-jump)
+  :hook (dired-mode . all-the-icons-dired-mode)
+  :custom
+  (dired-auto-revert-buffer t)
+  (dired-listing-switches "-agho --group-directories-first")
+  ;; always delete and copy recursively
+  (dired-recursive-deletes 'always)
+  (dired-recursive-copies 'always)
+  ;; if there is a dired buffer displayed in the next window, use its
+  ;; current subdir, instead of the current subdir of this dired buffer
+  (dired-dwim-target t)
+  )
+
+(use-package dired-narrow
+  :after dired
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
+
+(use-package dired-subtree
+  :after dired
+  :bind (:map dired-mode-map
+              ("<backtab>" . dired-subtree-cycle)
+              ("<tab>"     . dired-subtree-toggle)))
+
+(use-package all-the-icons-dired
+  :after all-the-icons)
 
 ;;;;;;;;;;;;;;;
 ;;; ibuffer ;;;
