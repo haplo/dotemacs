@@ -317,15 +317,16 @@
 ;;; compile ;;;
 ;;;;;;;;;;;;;;;
 
-(require 'compile)
-(setq
- ; save before compiling
- compilation-ask-about-save nil
- ; kill old compile processes before starting the new one
- compilation-always-kill t
- ; automatically scroll to first error
- compilation-scroll-output 'first-error
- )
+(use-package compile
+  :config
+  (setq
+   ;; save before compiling
+   compilation-ask-about-save nil
+   ;; kill old compile processes before starting the new one
+   compilation-always-kill t
+   ;; automatically scroll to first error
+   compilation-scroll-output 'first-error
+   ))
 
 ;; Colorize output of Compilation Mode, see
 ;; http://stackoverflow.com/a/3072831/355252
