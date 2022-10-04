@@ -778,7 +778,8 @@
 ;; https://github.com/codesuki/add-node-modules-path
 (use-package add-node-modules-path
   :after (js2-mode)
-  :hook (js2-mode . #'add-node-modules-path)
+  :hook ((js2-mode . #'add-node-modules-path)
+         (typescript-mode . #'add-node-modules-path))
   )
 
 (defun use-eslint-from-node-modules ()
