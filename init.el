@@ -646,13 +646,6 @@
 ;; git-timemachine
 (define-key my-mode-map (kbd "s-m t") 'git-timemachine)
 
-;; Go keybindings
-(eval-after-load 'go-mode
-  '(progn
-     (define-key go-mode-map (kbd "M-RET") 'godef-jump)
-     (define-key go-mode-map (kbd "C-M-RET") 'godef-jump-other-window)
-     ))
-
 ;; Guix keybindings
 (define-key my-mode-map (kbd "s-g") 'guix)
 
@@ -957,6 +950,17 @@
 (defun my-rustic-mode-hook ()
   ;; format code on save
   (add-hook 'before-save-hook 'lsp-format-buffer nil t))
+
+;;;;;;;;;;
+;;; Go ;;;
+;;;;;;;;;;
+
+(use-package go-mode
+  :mode "\\.go\\'"
+  :bind (:map go-mode-map
+              ("M-RET" . godef-jump)
+              ("M-." . godef-jump)
+              ("C-M-RET" . godef-jump-other-window)))
 
 ;;;;;;;;;;;;
 ;;; Lisp ;;;
