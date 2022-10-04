@@ -87,9 +87,11 @@
 (setq-default calendar-week-start-day 1)
 
 ;; remember point location when reopening a file
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (concat user-emacs-directory "places"))
+(use-package saveplace
+  :init
+  (save-place-mode)
+  :config
+  (setq save-place-file (concat my-savefile-dir "saveplace")))
 
 ;; ediff - don't start another frame
 (require 'ediff)
