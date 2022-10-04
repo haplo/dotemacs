@@ -828,11 +828,13 @@
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
     (tide-hl-identifier-mode +1))
-
   :init
   (with-eval-after-load 'flycheck
+    ;; check .tsx files with typescript linter
     (flycheck-add-mode 'typescript-tslint 'web-mode))
-  )
+  :config
+    (flycheck-add-next-checker 'typescript-tide 'javascript-eslint)
+    )
 
 ;;;;;;;;;;;
 ;;; Web ;;;
