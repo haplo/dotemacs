@@ -302,6 +302,14 @@
   :config
   (add-hook 'after-init-hook 'which-key-mode))
 
+;; better Emacs help
+;; https://github.com/Wilfred/helpful
+(use-package helpful
+  :after (counsel)
+  :config
+  (setq counsel-describe-function-function #'helpful-callable
+        counsel-describe-variable-function #'helpful-variable))
+
 ;;;;;;;;;;;;;;;
 ;;; compile ;;;
 ;;;;;;;;;;;;;;;
@@ -620,6 +628,14 @@
 (define-key my-mode-map (kbd "C-x C-f") 'counsel-find-file)
 (define-key my-mode-map (kbd "C-r") 'swiper-backward)
 (define-key my-mode-map (kbd "C-s") 'swiper)
+
+;; helpful
+(define-key my-mode-map (kbd "C-h f") 'helpful-callable)  ; includes macros, default describe-function
+(define-key my-mode-map (kbd "C-h F") 'helpful-function)  ; excludes macros, default Info-goto-emacs-command-node
+(define-key my-mode-map (kbd "C-h v") 'helpful-variable)  ; default counsel-describe-variable
+(define-key my-mode-map (kbd "C-h k") 'helpful-key)       ; default describe-key
+(define-key my-mode-map (kbd "C-h C") 'helpful-command)   ; default describe-coding-system
+(define-key my-mode-map (kbd "C-h .") 'helpful-at-point)  ; default display-local-help
 
 ;; discover-my-major
 (define-key my-mode-map (kbd "C-h C-m") 'discover-my-major)
