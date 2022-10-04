@@ -667,6 +667,10 @@
 
 ;; Global org-mode keybindings
 (define-key my-mode-map (kbd "C-c c") 'org-capture)
+(define-key my-mode-map (kbd "C-c l") 'org-store-link)
+(define-key my-mode-map (kbd "C-c a") 'org-agenda)
+(define-key my-mode-map (kbd "C-c b") 'org-switchb)
+(define-key my-mode-map (kbd "C-c C-x C-j") 'org-clock-goto)
 
 ;; ivy, counsel, swiper
 (define-key my-mode-map (kbd "M-x") 'counsel-M-x)
@@ -1092,73 +1096,61 @@
 ;;; org-mode  ;;;
 ;;;;;;;;;;;;;;;;;
 
-(require 'org)
-
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-
-(setq org-log-done t)
-
-;; a few useful global keybindings for org-mode
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c b") 'org-switchb)
-(global-set-key (kbd "C-c C-x C-j") 'org-clock-goto)
-
-(setq org-disputed-keys (quote (([(shift up)] . [(super shift up)])
-                                ([(shift down)] . [(super shift down)])
-                                ([(shift left)] . [(super shift left)])
-                                ([(shift right)] . [(super shift right)])))
-      org-replace-disputed-keys t)
-
-(setq org-directory (expand-file-name "~/Org"))
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-
-;; add all *.org files in the org-directory defined above
-;; (setq org-agenda-files (list org-directory))
-
-;; custom org-agenda views
-(setq org-agenda-custom-commands
-      '(("r" tags "refile")))
-
-;; save time when a task is done
-(setq org-log-done 'time)
-
-;; templates for org-capture
-(setq org-capture-templates
-      `(("n" "Note" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Notes")
-         "** %?  :refile:\n  %i\n  %a")
-        ("t" "Task" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Tasks")
-         "** TODO %?")
-        ("m" "Media review")
-        ("mb" "Book" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Books")
-         "*** %^{Title} - %^{Author}\n    %?")
-        ("mm" "Movie" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Movies")
-         "*** %^{Title}\n    %?")
-        ("mp" "Podcast" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Podcasts")
-         "*** [[%^{URL}][%^{Title}]]\n    %?")
-        ("mv" "Video" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Videos")
-         "*** [[%^{URL}][%^{Title}]]\n    %?")
-        ("mw" "Web page" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Web pages")
-         "*** [[%^{URL}][%^{Title}]]\n    %?")
-        ("c" "Code" entry (file+headline ,(expand-file-name "code.org" org-directory) "Notes")
-         "** TODO %?  :refile:\n  %i\n  %a")
-        ("s" "Sesame Labs")
-        ("sn" "Note" entry (file ,(expand-file-name "sesamelabs/notes.org" org-directory))
-         "* %?")
-        ("si" "Interruption" entry (file+headline ,(expand-file-name "sesamelabs/meetings.org" org-directory) "Interruptions")
-         "** %?" :clock-in t :clock-resume t)
-        ("sm" "Meeting" entry (file ,(expand-file-name "sesamelabs/meetings.org" org-directory))
-         "* %?" :clock-in t :clock-resume t)
-        ("st" "Task" entry (file ,(expand-file-name "sesamelabs/tasks.org" org-directory))
-         "* TODO %?" :clock-in t :clock-resume t)
-        ("sr" "PR review" entry (file ,(expand-file-name "sesamelabs/tasks.org" org-directory))
-         "* [[%^{PR URL}][PR #%^{PR description}]]" :clock-in t :clock-resume t)
-        ))
-
-;; disable linum-mode in org buffers, it's too slow
-;; enable visual-line-mode for wrapping long lines
-(add-hook 'org-mode-hook
-  '(lambda () (linum-mode 0) (visual-line-mode +1)))
+(use-package org
+  :ensure nil
+  :mode ("\\.org\\'" . org-mode)
+  :hook (org-mode . (lambda ()
+                      (org-indent-mode)
+                      (variable-pitch-mode -1)
+                      (display-line-numbers-mode -1)
+                      ))
+  :custom
+  (org-directory (expand-file-name "~/Org"))
+  ;; add all *.org files in the org-directory defined above
+  ;; (setq org-agenda-files (list org-directory))
+  (org-default-notes-file (concat org-directory "/notes.org"))
+  (org-log-done t)
+  ;; save time when a task is done
+  (org-log-done 'time)
+  (org-disputed-keys (quote (([(shift up)] . [(super shift up)])
+                             ([(shift down)] . [(super shift down)])
+                             ([(shift left)] . [(super shift left)])
+                             ([(shift right)] . [(super shift right)])))
+                     org-replace-disputed-keys t)
+  ;; custom org-agenda views
+  (org-agenda-custom-commands '(("r" tags "refile")))
+  ;; templates for org-capture
+  (org-capture-templates
+   `(("n" "Note" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Notes")
+      "** %?  :refile:\n  %i\n  %a")
+     ("t" "Task" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Tasks")
+      "** TODO %?")
+     ("m" "Media review")
+     ("mb" "Book" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Books")
+      "*** %^{Title} - %^{Author}\n    %?")
+     ("mm" "Movie" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Movies")
+      "*** %^{Title}\n    %?")
+     ("mp" "Podcast" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Podcasts")
+      "*** [[%^{URL}][%^{Title}]]\n    %?")
+     ("mv" "Video" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Videos")
+      "*** [[%^{URL}][%^{Title}]]\n    %?")
+     ("mw" "Web page" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Web pages")
+      "*** [[%^{URL}][%^{Title}]]\n    %?")
+     ("c" "Code" entry (file+headline ,(expand-file-name "code.org" org-directory) "Notes")
+      "** TODO %?  :refile:\n  %i\n  %a")
+     ("s" "Sesame Labs")
+     ("sn" "Note" entry (file ,(expand-file-name "sesamelabs/notes.org" org-directory))
+      "* %?")
+     ("si" "Interruption" entry (file+headline ,(expand-file-name "sesamelabs/meetings.org" org-directory) "Interruptions")
+      "** %?" :clock-in t :clock-resume t)
+     ("sm" "Meeting" entry (file ,(expand-file-name "sesamelabs/meetings.org" org-directory))
+      "* %?" :clock-in t :clock-resume t)
+     ("st" "Task" entry (file ,(expand-file-name "sesamelabs/tasks.org" org-directory))
+      "* TODO %?" :clock-in t :clock-resume t)
+     ("sr" "PR review" entry (file ,(expand-file-name "sesamelabs/tasks.org" org-directory))
+      "* [[%^{PR URL}][PR #%^{PR description}]]" :clock-in t :clock-resume t)
+     ))
+  )
 
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode)
