@@ -434,9 +434,9 @@
 ;;;;;;;;;;;;;;;;;;;;
 
 (use-package flycheck
+  :hook ((after-init . global-flycheck-mode)
+         (flycheck-mode . use-eslint-from-node-modules))
   :config
-  (add-hook 'after-init-hook 'global-flycheck-mode)
-  (add-hook 'flycheck-mode-hook 'use-eslint-from-node-modules)
   (setq-default flycheck-highlighting-mode 'sexps)
   (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
     (vector #b00000000
