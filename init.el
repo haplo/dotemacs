@@ -811,15 +811,15 @@
     ))
 
 (use-package tide
-  :after (flycheck typescript-mode web-mode)
-  :hook ((typescript-mode . my-tide-mode-setup)
+  :after (company flycheck typescript-mode web-mode)
+  :hook ((typescript-mode . my-tide-setup)
          (web-mode . my-tide-web-mode-setup))
   :bind (:map typescript-mode-map
               ("C-c C-f" . tide-format))
   :preface
   (defun my-tide-web-mode-setup ()
     (when (string-equal "tsx" (file-name-extension buffer-file-name))
-      (my-tide-mode-setup)))
+      (my-tide-setup)))
 
   (defun my-tide-setup ()
     (interactive)
