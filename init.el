@@ -1182,6 +1182,8 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
   (org-log-done t)
   ;; save time when a task is done
   (org-log-done 'time)
+  ;; open files folded
+  (org-startup-folded t)
   (org-disputed-keys (quote (([(shift up)] . [(super shift up)])
                              ([(shift down)] . [(super shift down)])
                              ([(shift left)] . [(super shift left)])
