@@ -917,7 +917,9 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 ;; Support for JSX files
 ;; https://github.com/felipeochoa/rjsx-mode
-(use-package rjsx-mode)
+(use-package rjsx-mode
+  :mode "\\.jsx"
+  )
 
 (use-package prettier-js
   :after (js2-mode rjsx-mode)
