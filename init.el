@@ -910,9 +910,9 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;; Refactor operations on top of JS2
 ;; https://github.com/js-emacs/js2-refactor.el
 (use-package js2-refactor
+  :hook (js2-mode-hook . js2-refactor-mode)
   :config
   (js2r-add-keybindings-with-prefix "C-c C-m")
-  (add-hook 'js2-mode-hook 'js2-refactor-mode)
   )
 
 ;; Support for JSX files
