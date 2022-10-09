@@ -16,6 +16,11 @@
 ;; no startup screen
 (setq inhibit-startup-screen t)
 
+;; Enable MELPA if we need the package system (i.e. not running under Guix)
+(when (not guix-p)
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+
 ;; Super handy macro for loading packages but not stopping the init
 ;; process if they aren't found.
 ;; https://github.com/jwiegley/use-package
