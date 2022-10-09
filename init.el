@@ -90,7 +90,7 @@
   :init
   (save-place-mode)
   :config
-  (setq save-place-file (expand-file-name my-savefile-dir "saveplace")))
+  (setq save-place-file (expand-file-name "saveplace" my-savefile-dir)))
 
 ;; ediff - don't start another frame
 (require 'ediff)
