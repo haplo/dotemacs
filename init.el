@@ -1310,3 +1310,8 @@
 (use-package volatile-highlights
   :diminish
   :config (volatile-highlights-mode t))
+
+;; olivetti-mode centers text
+;; https://github.com/rnkn/olivetti
+(use-package olivetti
+  :hook (text-mode . olivetti-mode))
