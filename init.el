@@ -97,8 +97,9 @@
   (setq save-place-file (expand-file-name "saveplace" my-savefile-dir)))
 
 ;; ediff - don't start another frame
-(require 'ediff)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(use-package ediff
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;;;;;;;;;;;;;;
 ;;; editor ;;;
