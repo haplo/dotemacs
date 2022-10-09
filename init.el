@@ -208,8 +208,10 @@
 )
 
 ;; TRAMP is awesome
-(require 'tramp)
-(setq tramp-default-method "ssh")
+;; https://www.gnu.org/software/tramp/
+(use-package tramp
+  :config
+  (setq tramp-default-method "ssh"))
 
 (set-default 'imenu-auto-rescan t)
 
