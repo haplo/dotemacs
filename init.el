@@ -35,6 +35,7 @@
 (setq custom-file "~/.emacs.d/custom.el")
 
 ;; Theme
+;; https://github.com/hlissner/emacs-doom-themes
 (use-package doom-themes
   :ensure t
   :config
@@ -47,6 +48,8 @@
   (doom-themes-org-config)
   )
 
+;; Pretty icons
+;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons
   :if (display-graphic-p)
   :config
@@ -67,7 +70,8 @@
 
 (use-package diminish :ensure t)
 
-;; On Linux Emacs doesn't use the shell PATH if it's not started from the shell
+;; On Linux Emacs doesn't use the shell env if it's not started from the shell
+;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-initialize))
@@ -196,6 +200,7 @@
   :config (browse-kill-ring-default-keybindings))
 
 ;; automatically save buffers associated with files on buffer and window switch
+;; https://github.com/bbatsov/super-save
 (use-package super-save
   :diminish
   :config (super-save-mode +1)
@@ -225,6 +230,8 @@
             (setq avy-background t)
             (setq avy-style 'at-full)))
 
+;; highlight results in search and replace commands
+;; https://github.com/emacsorphanage/anzu
 (use-package anzu
   :diminish
   :config (global-anzu-mode))
