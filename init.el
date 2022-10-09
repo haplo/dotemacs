@@ -4,12 +4,6 @@
 ;;; init ;;;
 ;;;;;;;;;;;;
 
-;; minimal frame: no menu, scrollbar or toolbar
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-
 ;; no message in scratch buffer
 (setq initial-scratch-message "")
 
