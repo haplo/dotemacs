@@ -316,6 +316,18 @@
   (setq counsel-describe-function-function #'helpful-callable
         counsel-describe-variable-function #'helpful-variable))
 
+;;;;;;;;;;;;;;;;;
+;;; eyebrowse ;;;
+;;;;;;;;;;;;;;;;;
+
+;; manage window configurations
+;; https://depp.brause.cc/eyebrowse/
+(use-package eyebrowse
+  :ensure t
+  :config
+  (eyebrowse-mode t)
+  (eyebrowse-setup-opinionated-keys))
+
 ;;;;;;;;;;;;;
 ;;; dired ;;;
 ;;;;;;;;;;;;;
@@ -611,7 +623,7 @@
 (define-key my-mode-map (kbd "C-x C") 'full-calc)
 
 ;; whitespace cleanup
-(define-key my-mode-map (kbd "C-c C-w") 'whitespace-cleanup)
+(define-key my-mode-map (kbd "C-c M-w") 'whitespace-cleanup)
 
 ;; expand region
 (define-key my-mode-map (kbd "C-=") 'er/expand-region)
