@@ -684,6 +684,7 @@
 
 ;; magit
 (define-key my-mode-map (kbd "s-m m") 'magit-status)
+(define-key my-mode-map (kbd "s-m s-m") 'magit-status)
 (define-key my-mode-map (kbd "s-m j") 'magit-dispatch)
 (define-key my-mode-map (kbd "s-m k") 'magit-file-dispatch)
 (define-key my-mode-map (kbd "s-m l") 'magit-log-buffer-file)
