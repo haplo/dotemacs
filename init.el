@@ -148,6 +148,16 @@
 ;; Mouse yank inserts at point, not at cursor
 (setq mouse-yank-at-point t)
 
+;; UTF-8 all the way
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
+;; required for non-English keys (like dead acute) to work
+;; http://osdir.com/ml/help-gnu-emacs-gnu/2009-05/msg00170.hotel
+(require 'iso-transl)
+
 ;; hippie expand is dabbrev expand on steroids
 (setq hippie-expand-try-functions-list '(try-expand-dabbrev
                                          try-expand-dabbrev-all-buffers
