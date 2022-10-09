@@ -532,6 +532,25 @@
             (company-complete-common)
           (indent-for-tab-command)))))
 
+;;;;;;;;;;;;;;;;;;;
+;;; spell check ;;;
+;;;;;;;;;;;;;;;;;;;
+
+(use-package flyspell
+  ;; (prog-mode . flyspell-prog-mode) is too noisy, too many false positives
+  :hook ((text-mode . flyspell-mode))
+  :init
+  (cond
+   ((executable-find "aspell")
+    (setq ispell-program-name "aspell"
+          ispell-extra-args '("--camel-case")))
+   ((executable-find "hunspell")
+    (setq ispell-program-name "hunspell"))
+   (t
+    (setq ispell-program-name nil)))
+  :config
+  (setq flyspell-default-dictionary "american-w_accents"))
+
 ;;;;;;;;;;;;;;;;;;;;
 ;;; syntax check ;;;
 ;;;;;;;;;;;;;;;;;;;;
