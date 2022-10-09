@@ -923,15 +923,20 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 (use-package prettier-js
   :after (js2-mode rjsx-mode)
-  :config
-  (setq prettier-js-args '(
-                           "--trailing-comma" "es5"
-                           "--single-quote" "true"
-                           "--print-width" "100"
-                           ))
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'rjsx-mode-hook 'prettier-js-mode)
-  )
+  :hook ((js2-mode . 'my-prettier-setup)
+         (rjsx-mode . 'my-prettier-setup)))
+
+(defun my-prettier-setup ()
+  "Setup prettier."
+  (progn
+    (let ((prettier (my-node-executable-find "prettier")))
+      (when prettier (setq-local prettier-js-command prettier)))
+    (setq prettier-js-args '(
+                             "--trailing-comma" "es5"
+                             "--single-quote" "true"
+                             "--print-width" "100"
+                             ))
+    (prettier-js-mode)))
 
 (defun use-eslint-from-node-modules ()
   "Use local eslint if available."
