@@ -833,6 +833,35 @@
 ;;; Javascript ;;;
 ;;;;;;;;;;;;;;;;;;
 
+;; Find and use a specific executable from node_modules.
+;; This is more secure than using add-node-modules-path, which will add ALL npm
+;; binaries to path, and potentially introduce security holes
+;; borrowed from tko's spacemacs:
+;; https://github.com/tko/spacemacs/commit/1e66dfc0138c6a5337d3d9fb89466bb6dbe5573a#diff-4327bf953a571a99da1c8fcb473d516c50ebd83294a91bbf15f93280eccd948d
+(defun my-node-executable-find (command &rest extra-modules)
+  "Find COMMAND in node_modules and return its absolute path.
+This function searches directories \"node_modules/.bin\",
+\"node_modules/MODULE/node_modules/.bin\" for each extra module
+in EXTRA-MODULES, and the directories searched by `executable-find'."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (node_modules (expand-file-name "node_modules" root))
+         (bindirs (nconc
+                   (list
+                    ;; node_modules/.bin/{command}
+                    ".bin"
+                    ;; node_modules/{command}/bin/{command}
+                    ;; (format "%s/bin" command)
+                    )
+                   ;; node_modules/{moduleN}/node_modules/.bin/{command}
+                   (--map (f-join it "node_modules" ".bin") extra-modules))))
+    (or
+     (dolist (bindir bindirs)
+       (let ((path (f-join node_modules bindir command)))
+         (when (file-executable-p path) (cl-return path))))
+     (executable-find command))))
+
 ;; Major mode for Javascript files
 ;; https://github.com/mooz/js2-mode
 (use-package js2-mode
@@ -873,67 +902,58 @@
   (add-hook 'rjsx-mode-hook 'prettier-js-mode)
   )
 
-;; use local packages instead of global ones
-;; https://github.com/codesuki/add-node-modules-path
-(use-package add-node-modules-path
-  :after (js2-mode)
-  :hook ((js2-mode . #'add-node-modules-path)
-         (typescript-mode . #'add-node-modules-path))
-  )
-
 (defun use-eslint-from-node-modules ()
   "Use local eslint if available."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
+  (let ((eslint (my-node-executable-find "eslint")))
+    (when eslint (setq-local flycheck-javascript-eslint-executable eslint))))
 
 ;;;;;;;;;;;;;;;;;;
 ;;; Typescript ;;;
 ;;;;;;;;;;;;;;;;;;
 
+(defun use-tsserver-from-node-modules ()
+  "Have tide use tsserver from local node_modules if available."
+  (let ((tsserver (my-node-executable-find "tsserver")))
+    (when tsserver (setq-local tide-tsserver-executable tsserver))))
+
+(defun my-typescript-setup ()
+  (use-tsserver-from-node-modules)
+  (tide-setup)
+  (flycheck-mode +1)
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (subword-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (let ((width 2))
+    (setq-local typescript-indent-level width
+                typescript-expr-indent-offset width
+                indent-level width
+                tab-width width))
+  )
+
+(defun my-typescript-web-mode-setup ()
+  "Personal tide setup for .tsx files."
+  (when (string-equal "tsx" (file-name-extension buffer-file-name))
+    (my-typescript-setup)))
+
 (use-package typescript-mode
-  :defer t
   :mode "\\.ts\\'"
-  :hook (typescript-mode . my-typescript-mode-setup)
-  :preface
-  (defun my-typescript-mode-setup ()
-    (let ((width 2))
-      (setq-local typescript-indent-level width
-                  indent-level width
-                  tab-width width))
-    (subword-mode +1)
-    ))
+  :hook ((typescript-mode . my-typescript-setup)
+         (web-mode . my-typescript-web-mode-setup))
+)
 
 (use-package tide
   :after (company flycheck typescript-mode web-mode)
-  :hook ((typescript-mode . my-tide-setup)
-         (web-mode . my-tide-web-mode-setup))
   :bind (:map typescript-mode-map
               ("C-c C-f" . tide-format))
-  :preface
-  (defun my-tide-web-mode-setup ()
-    (when (string-equal "tsx" (file-name-extension buffer-file-name))
-      (my-tide-setup)))
-
-  (defun my-tide-setup ()
-    (interactive)
-    (tide-setup)
-    (flycheck-mode +1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
-    (tide-hl-identifier-mode +1))
+  :commands (tide-setup)
   :init
   (with-eval-after-load 'flycheck
     ;; check .tsx files with typescript linter
     (flycheck-add-mode 'typescript-tslint 'web-mode))
   :config
-    (flycheck-add-next-checker 'typescript-tide 'javascript-eslint)
-    )
+  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint)
+  )
 
 ;;;;;;;;;;;
 ;;; Web ;;;
