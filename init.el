@@ -223,9 +223,10 @@
 (put 'downcase-region 'disabled nil)
 
 ;; bookmarks
-(require 'bookmark)
-(setq bookmark-default-file (expand-file-name "bookmarks" my-savefile-dir)
-      bookmark-save-flag 1)
+(use-package bookmark
+  :config
+  (setq bookmark-default-file (expand-file-name "bookmarks" my-savefile-dir)
+        bookmark-save-flag 1))
 
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
