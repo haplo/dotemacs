@@ -171,11 +171,14 @@
 
 
 ;; use directory name in buffer names of files with the same name
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-(setq uniquify-separator "/")
-(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
-(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward
+        uniquify-separator "/"
+        ;; rename after killing uniquified
+        uniquify-after-kill-buffer-p t
+        ;; don't muck with special buffers
+        uniquify-ignore-buffers-re "^\\*"))
 
 ;; savehist keeps track of some history
 (require 'savehist)
