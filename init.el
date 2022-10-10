@@ -192,13 +192,14 @@
         savehist-file (expand-file-name "savehist" my-savefile-dir)))
 
 ;; save recent files
-(require 'recentf)
-(setq recentf-save-file (expand-file-name "recentf" my-savefile-dir)
-      recentf-max-saved-items 500
-      recentf-max-menu-items 15
-      ;; disable recentf-cleanup on Emacs start, because it can cause
-      ;; problems with remote files
-      recentf-auto-cleanup 'never)
+(use-package recentf
+  :config
+  (setq recentf-save-file (expand-file-name "recentf" my-savefile-dir)
+        recentf-max-saved-items 500
+        recentf-max-menu-items 15
+        ;; disable recentf-cleanup on Emacs start, because it can cause
+        ;; problems with remote files
+        recentf-auto-cleanup 'never))
 
 ;; smarter kill-ring navigation
 (use-package browse-kill-ring
