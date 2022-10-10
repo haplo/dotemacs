@@ -272,8 +272,9 @@
   :config (global-whitespace-cleanup-mode))
 
 ;; saner regex syntax
-(require 're-builder)
-(setq reb-re-syntax 'string)
+(use-package re-builder
+  :config
+  (setq reb-re-syntax 'string))
 
 (require 'eshell)
 (setq eshell-directory-name (expand-file-name "eshell" my-savefile-dir))
