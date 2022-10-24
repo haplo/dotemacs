@@ -970,6 +970,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
     (when tsserver (setq-local tide-tsserver-executable tsserver))))
 
 (defun my-typescript-setup ()
+  (interactive)
   (use-tsserver-from-node-modules)
   (tide-setup)
   (flycheck-mode +1)
@@ -986,6 +987,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 (defun my-typescript-web-mode-setup ()
   "Personal tide setup for .tsx files."
+  (interactive)
   (when (string-equal "tsx" (file-name-extension buffer-file-name))
     (my-typescript-setup)))
 
