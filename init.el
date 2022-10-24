@@ -1392,3 +1392,9 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;; https://github.com/rnkn/olivetti
 (use-package olivetti
   :hook (text-mode . olivetti-mode))
+
+;; display emojis (and nice interactive picker)
+;; https://github.com/iqbalansari/emacs-emojify
+(use-package emojify
+  :hook (after-init . global-emojify-mode)
+  :bind ("C-c C-e" . 'emojify-insert-emoji))
