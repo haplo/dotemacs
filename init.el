@@ -1333,6 +1333,18 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
   (add-hook 'term-mode-hook (lambda ()
                               (yas-minor-mode -1))))
 
+;;;;;;;;;;;;;;;
+;;; Writing ;;;
+;;;;;;;;;;;;;;;
+
+;; detect opportunities to improve writing (passive voice, weasel words...)
+;; https://github.com/bnbeckwith/writegood-mode
+(use-package writegood-mode
+  :hook (text-mode . writegood-mode)
+  :bind (("C-c M-w" . 'writegood-mode)
+         ("C-c M-g" . 'writegood-grade-level)
+         ("C-c M-r" . 'writegood-reading-ease)))
+
 ;;;;;;;;;;;;;;
 ;;; visual ;;;
 ;;;;;;;;;;;;;;
