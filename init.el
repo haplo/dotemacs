@@ -4,6 +4,10 @@
 ;;; init ;;;
 ;;;;;;;;;;;;
 
+;; supress native compilation warnings
+(setq comp-deferred-compilation-deny-list '())
+(setq native-comp-async-report-warnings-errors nil)
+
 ;; no message in scratch buffer
 (setq initial-scratch-message "")
 
