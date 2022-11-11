@@ -1183,8 +1183,10 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;;; Docker ;;;
 ;;;;;;;;;;;;;;
 
-(use-package dockerfile-mode
-  :ensure t)
+(use-package dockerfile-mode)
+
+(use-package docker-compose-mode
+  :mode "docker-compose.*\\.yml")
 
 ;;;;;;;;;;;;;;;;;
 ;;; org-mode  ;;;
