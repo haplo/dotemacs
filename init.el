@@ -772,7 +772,7 @@
 (define-key my-mode-map (kbd "C-h C-m") 'discover-my-major)
 
 ;; Docker
-(define-key my-mode-map (kbd "s-d") 'docker)
+(define-key my-mode-map (kbd "s-D") 'docker)
 
 ;; git-timemachine
 (define-key my-mode-map (kbd "s-m t") 'git-timemachine)
