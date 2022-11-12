@@ -52,6 +52,18 @@
   (doom-themes-org-config)
   )
 
+;; Toggle betweem light and dark themes
+(defun my-toggle-theme ()
+  (interactive)
+  (cond
+   ((eq (car custom-enabled-themes) 'doom-solarized-dark)
+    (disable-theme 'doom-solarized-dark)
+    (load-theme 'doom-solarized-light t))
+   ((eq (car custom-enabled-themes) 'doom-solarized-light)
+    (disable-theme 'doom-solarized-light)
+    (load-theme 'doom-solarized-dark t))
+   ))
+
 ;; Pretty icons
 ;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons
@@ -779,6 +791,9 @@
 
 ;; Guix keybindings
 (define-key my-mode-map (kbd "s-g") 'guix)
+
+;; Switch light/dark theme
+(define-key my-mode-map [f5] 'my-toggle-theme)
 
 ;;;;;;;;;;;;;;;;;
 ;;; keychords ;;;
