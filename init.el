@@ -1374,6 +1374,13 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 (use-package toml-mode
   :mode ("\\.toml\'"))
 
+;;;;;;;;;;;;;;;;;;
+;;; Prisma ORM ;;;
+;;;;;;;;;;;;;;;;;;
+
+(use-package prisma-mode
+  :mode "\\.prisma\'")
+
 ;;;;;;;;;;;;;;;;
 ;;; Snippets ;;;
 ;;;;;;;;;;;;;;;;
