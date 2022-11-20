@@ -23,6 +23,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`anzu`](https://github.com/emacsorphanage/anzu): highlight search and replace.
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
 * [`browse-kill-ring`](https://github.com/browse-kill-ring/browse-kill-ring): Browse. The. Kill. Ring.
+* [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
 * [`company`](https://company-mode.github.io/): autocomplete.
 * [`company-posframe`](https://github.com/tumashu/company-posframe): display documentation for autocompletion candidates.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
@@ -58,6 +59,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`magit`](https://magit.vc/manual/forge/): the best Git interface there is.
 * [`markdown-mode`](https://jblevins.org/projects/markdown-mode/): major mode to edit Markdown files.
 * [`move-text`](https://github.com/emacsfodder/move-text): move lines or regions up and down.
+* [`nov-el`](https://depp.brause.cc/nov.el/): major mode for reading EPUB files in Emacs.
 * [`olivetti`](https://github.com/rnkn/olivetti): center text for better writing.
 * [`org`](https://orgmode.org/): the most powerful note taking and planning software ever created.
 * [`org-superstar`](https://github.com/integral-dw/org-superstar-mode): prettier headings in org-mode.

@@ -1408,6 +1408,27 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
          ("C-c M-r" . 'writegood-reading-ease)))
 
 ;;;;;;;;;;;;;;
+;;; Ebooks ;;;
+;;;;;;;;;;;;;;
+
+(use-package calibredb
+  :defer t
+  :bind ("C-c M-e" . 'calibredb-find-counsel)
+  :init
+  (setq sql-sqlite-program "sqlite3")
+  :config
+  (setq calibredb-root-dir "~/Calibre"
+        calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir)
+        calibredb-library-alist '(("~Calibre"))))
+
+(use-package nov-mode
+  :defer t
+  :mode "\\.epub\'"
+  :custom
+  (nov-place-file (expand-file-name "nov-places" my-savefile-dir))
+  )
+
+;;;;;;;;;;;;;;
 ;;; visual ;;;
 ;;;;;;;;;;;;;;
 
