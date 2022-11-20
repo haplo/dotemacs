@@ -321,7 +321,6 @@
 ;; show uncommitted changes in the gutter
 ;; https://github.com/dgutov/diff-hl
 (use-package diff-hl
-  :hook (dired-mode . diff-hl-dired-mode)
   :hook (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   :config (global-diff-hl-mode +1)
   ;; disable on slow TRAMP connections with diff-hl-disable-on-remote to t
@@ -370,39 +369,76 @@
   (eyebrowse-mode t)
   (eyebrowse-setup-opinionated-keys))
 
-;;;;;;;;;;;;;
-;;; dired ;;;
-;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;
+;;; dired / dirvish ;;;
+;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package dired
-  :ensure nil
-  :after all-the-icons-dired
-  :bind ("C-x C-j" . dired-jump)
-  :hook (dired-mode . all-the-icons-dired-mode)
+(use-package dirvish
+  :ensure t
+  :bind
+  (("C-x C-j" . dired-jump)
+   :map dirvish-mode-map  ; Dirvish inherits `dired-mode-map'
+   ("a"   . dirvish-quick-access)
+   ("f"   . dirvish-file-info-menu)
+   ("y"   . dirvish-yank-menu)
+   ("N"   . dirvish-narrow)
+   ("^"   . dirvish-history-last)
+   ("h"   . dirvish-history-jump) ; remapped `describe-mode'
+   ("s"   . dirvish-quicksort)    ; remapped `dired-sort-toggle-or-edit'
+   ("v"   . dirvish-vc-menu)      ; remapped `dired-view-file'
+   ("TAB" . dirvish-subtree-toggle)
+   ("M-f" . dirvish-history-go-forward)
+   ("M-b" . dirvish-history-go-backward)
+   ("M-l" . dirvish-ls-switches-menu)
+   ("M-m" . dirvish-mark-menu)
+   ("M-t" . dirvish-layout-toggle)
+   ("M-s" . dirvish-setup-menu)
+   ("M-e" . dirvish-emerge-menu)
+   ("M-j" . dirvish-fd-jump)
+   )
+  :init
+  (dirvish-override-dired-mode)
   :custom
-  (dired-auto-revert-buffer t)
-  (dired-listing-switches "-agho --group-directories-first")
-  ;; always delete and copy recursively
-  (dired-recursive-deletes 'always)
-  (dired-recursive-copies 'always)
-  ;; if there is a dired buffer displayed in the next window, use its
-  ;; current subdir, instead of the current subdir of this dired buffer
-  (dired-dwim-target t)
+  (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
+  (dirvish-attributes '(vc-state
+                        subtree-state
+                        all-the-icons
+                        collapse
+                        git-msg
+                        ;; file-time
+                        file-size))
+  :config
+  (dirvish-peek-mode)
+  (dirvish-side)
+  (setq dirvish-quick-access-entries '(("h" "~/"                   "Home")
+                                       ("c" "~/Code/"              "Code")
+                                       ("d" "~/Downloads/"         "Downloads")
+                                       ("D" "~/Documents/"         "Documents")
+                                       ("m" "~/Music/"             "Music")
+                                       ("M" "~/Music to sort/"     "Music to sort")
+                                       ("p" "~/Pictures/"          "Photos")
+                                       ("P" "~/Pictures to sort/"  "Photos to sort")
+                                       ("s" "~/Sync/"  "Sync"))
+        dirvish-cache-dir (expand-file-name "dirvish" my-savefile-dir)
+        ;; slightly larger dirvish-side
+        dirvish-side-width 50
+        ;; dirvish-side
+        dirvish-side-follow-mode t
+        ;; by default jump inside home
+        dirvish-fd-default-dir "~"
+        ;; revert dired (and dirvish) buffers on revisiting their directory
+        dired-auto-revert-buffer t
+        ;; always delete and copy recursively
+        dired-recursive-deletes 'always
+        dired-recursive-copies 'always
+        ;; if there is a dired buffer displayed in the next window, use its
+        ;; current subdir, instead of the current subdir of this dired buffer
+        dired-dwim-target t
+        ;; TODO: enable in Emacs 29, drag & drop support
+        ;; dired-mouse-drag-files t
+        ;; mouse-drag-and-drop-region-cross-program t
+        )
   )
-
-(use-package dired-narrow
-  :after dired
-  :bind (:map dired-mode-map
-              ("/" . dired-narrow)))
-
-(use-package dired-subtree
-  :after dired
-  :bind (:map dired-mode-map
-              ("<backtab>" . dired-subtree-cycle)
-              ("<tab>"     . dired-subtree-toggle)))
-
-(use-package all-the-icons-dired
-  :after all-the-icons)
 
 ;;;;;;;;;;;;;;;
 ;;; ibuffer ;;;
@@ -807,6 +843,8 @@
   (key-chord-define-global "jl" 'avy-goto-line)
   (key-chord-define-global "jk" 'avy-goto-char)
   (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
+  (key-chord-define-global "qq" 'dirvish-dwim)
+  (key-chord-define-global "qs" 'dirvish-side)
   (key-chord-define-global "uu" 'undo-tree-visualize)
   (key-chord-define-global "xx" 'execute-extended-command)
   (key-chord-define-global "yy" 'browse-kill-ring)

@@ -9,7 +9,7 @@ The stated goals:
   I know every line of the configuration and why are they there.
 - Primarily based on [Guix](https://guix.gnu.org/).
   This means no need to use external package repositories, not ELPA nor MELPA.
-  I use [use-package](https://github.com/jwiegley/use-package) extensively, so the configuration should potentially work without Guix, but that case is usually untested.
+  I use [use-package](https://github.com/jwiegley/use-package) extensively, so the configuration should potentially work without Guix, but that case goes usually untested.
 
 I used to have an [Emacs configuration based on Prelude](https://github.com/haplo/prelude)
 which is now discontinued.
@@ -19,7 +19,6 @@ which is now discontinued.
 This list might be outdated, you would do better by grepping [init.el](init.el) for `use-package` uses.
 
 * [`all-the-icons`](https://github.com/domtronn/all-the-icons.el): pretty icons.
-* [`all-the-icons-dired`](https://github.com/jtbm37/all-the-icons-dired): pretty icons in *dired*.
 * [`all-the-icons-ibuffer`](https://github.com/seagle0128/all-the-icons-ibuffer): pretty icons in *ibuffer*.
 * [`anzu`](https://github.com/emacsorphanage/anzu): highlight search and replace.
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
@@ -30,8 +29,8 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
-* [`dired`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html):  built-in directory editor.
-* [`dired-hacks`](https://github.com/Fuco1/dired-hacks): useful extensions to `dired`, such as [`dired-narrow`](https://github.com/Fuco1/dired-hacks#dired-narrow) and [`dired-subtree`](https://github.com/Fuco1/dired-hacks#dired-subtree).
+* [`dirvish`](https://github.com/alexluigit/dirvish): an improved batteries-included dired replacement.
+* [`discover-my-major`](https://framagit.org/steckerhalter/discover-my-major): show keybindings associated to the current major mode.
 * [`dockerfile-mode`](https://github.com/spotify/dockerfile-mode): major mode to edit Dockerfiles.
 * [`doom-modeline`](https://seagle0128.github.io/doom-modeline/): a very nice modeline.
 * [`doom-themes`](https://github.com/hlissner/emacs-doom-themes): collection of themes for [Doom Emacs](https://github.com/doomemacs/doomemacs), they place nicely with `doom-modeline`.
@@ -77,10 +76,12 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`tramp`](https://www.gnu.org/software/tramp/): remote file editing, beyond cool.
 * [`typescript-mode`](https://github.com/emacs-typescript/typescript.el): major mode for Typescript files.
 * [`undo-tree`](https://www.dr-qubit.org/undo-tree.html): visualize and navigate the undo tree for a buffer, never lose an edit.
+* [`visual-regexp`](https://github.com/emacsmirror/visual-regexp): live view of the matches of a regular expression.
 * [`volatile-highlights`](https://github.com/k-talo/volatile-highlights.el): visual feedback for some operations.
 * [`web-mode`](https://web-mode.org/): major mode for web templates (HTML and much more).
 * [`which-key`](https://github.com/justbur/emacs-which-key): show all possible key combinations.
 * [`whitespace-cleanup-mode`](https://github.com/purcell/whitespace-cleanup-mode): minor mode to clean up a buffer's whitespace on save.
+* [`writegood-mode`](https://github.com/bnbeckwith/writegood-mode): minor mode to aid in finding common writing problems in English.
 * [`yaml-mode`](https://github.com/yoshiki/yaml-mode): major mode for YAML files.
 * [`yasnippet`](https://joaotavora.github.io/yasnippet/): snippet extension.
 
