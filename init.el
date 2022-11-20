@@ -534,7 +534,10 @@
 (use-package projectile
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
-        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir))
+        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir)
+        ;; open a dirvish buffer when switching projects
+        projectile-switch-project-action 'dirvish
+        )
   (projectile-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;
