@@ -251,9 +251,8 @@
 
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
-  :config (progn
-            (setq avy-background t)
-            (setq avy-style 'at-full)))
+  :config (setq avy-background t
+                avy-style 'at-full))
 
 ;; highlight results in search and replace commands
 ;; https://github.com/emacsorphanage/anzu
@@ -311,12 +310,11 @@
 (use-package undo-tree
   :diminish
   :config
-  (progn
-    ;; autosave the undo-tree history
-    (setq undo-tree-history-directory-alist
-          `((".*" . ,temporary-file-directory)))
-    (setq undo-tree-auto-save-history t)
-    (global-undo-tree-mode)))
+  ;; autosave the undo-tree history
+  (setq undo-tree-history-directory-alist
+        `((".*" . ,temporary-file-directory)))
+  (setq undo-tree-auto-save-history t)
+  (global-undo-tree-mode))
 
 ;; show uncommitted changes in the gutter
 ;; https://github.com/dgutov/diff-hl
@@ -330,10 +328,8 @@
 ;; https://github.com/leoliu/easy-kill
 (use-package easy-kill
   :config
-  (progn
-    (global-set-key [remap kill-ring-save] 'easy-kill)
-    (global-set-key [remap mark-sexp] 'easy-mark)
-    ))
+  (global-set-key [remap kill-ring-save] 'easy-kill)
+  (global-set-key [remap mark-sexp] 'easy-mark))
 
 ;; use settings from .editorconfig file when present
 ;; https://github.com/editorconfig/editorconfig-emacs
@@ -484,17 +480,17 @@
 ;; https://oremacs.com/swiper/
 (use-package ivy
   :diminish
-  :config (progn
-            (ivy-mode t)
-            (setq ivy-use-virtual-buffers t
-                  enable-recursive-minibuffers t
-                  ;; show more candidates
-                  ivy-height 20
-                  ;; don't start filtering with ^
-                  ivy-initial-inputs-alist nil
-                  ;; case-insensitive search when running counsel-git-log
-                  counsel-git-log-cmd "GIT_PAGER=cat git log --no-color -i --grep '%s'"
-                  )))
+  :config
+  (ivy-mode t)
+  (setq ivy-use-virtual-buffers t
+        enable-recursive-minibuffers t
+        ;; show more candidates
+        ivy-height 20
+        ;; don't start filtering with ^
+        ivy-initial-inputs-alist nil
+        ;; case-insensitive search when running counsel-git-log
+        counsel-git-log-cmd "GIT_PAGER=cat git log --no-color -i --grep '%s'"
+        ))
 
 ;;;;;;;;;;;
 ;;; git ;;;
@@ -536,12 +532,10 @@
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
-  :config (progn
-            (setq projectile-cache-file
-                  (expand-file-name  "projectile.cache" my-savefile-dir))
-            (setq projectile-known-projects-file
-                  (expand-file-name "projectile-bookmarks.eld" my-savefile-dir))
-            (projectile-mode t)))
+  :config
+  (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
+        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir))
+  (projectile-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;; autocomplete ;;;
@@ -859,13 +853,12 @@
 ;; https://smartparens.readthedocs.io/en/latest/
 (use-package smartparens
   :hook (prog-mode . smartparens-mode)
-  :config (progn
-            (require 'smartparens-config)
-            (setq sp-base-key-bindings 'paredit)
-            (setq sp-autoskip-closing-pair 'always)
-            (setq sp-hybrid-kill-entire-symbol nil)
-            (sp-use-paredit-bindings)
-            )
+  :config
+  (require 'smartparens-config)
+  (setq sp-base-key-bindings 'paredit
+        sp-autoskip-closing-pair 'always
+        sp-hybrid-kill-entire-symbol nil)
+  (sp-use-paredit-bindings)
   :init (show-smartparens-global-mode +1)
 )
 
