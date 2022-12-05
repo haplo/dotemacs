@@ -1295,7 +1295,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
      ("st" "Task" entry (file ,(expand-file-name "sesamelabs/tasks.org" org-directory))
       "* TODO %?" :clock-in t :clock-resume t)
      ("sr" "PR review" entry (file ,(expand-file-name "sesamelabs/tasks.org" org-directory))
-      "* REVIEW [[%^{PR URL}][PR #%^{PR description}]]" :clock-in t :clock-resume t)
+      "* TODO [[%^{PR URL}][PR #%^{PR description}]]" :clock-in t :clock-resume t)
      ))
   )
 
