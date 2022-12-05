@@ -1349,6 +1349,13 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
          ("\\.markdown\\'" . markdown-mode))
   )
 
+;;;;;;;;;;;
+;;; CSV ;;;
+;;;;;;;;;;;
+
+(use-package csv-mode
+  :mode "\\.csv\'")
+
 ;;;;;;;;;;;;
 ;;; JSON ;;;
 ;;;;;;;;;;;;
