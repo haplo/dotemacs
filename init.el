@@ -658,7 +658,10 @@
     :severity 0
     :overlay-category 'flycheck-info-overlay
     :fringe-bitmap 'flycheck-fringe-bitmap-ball
-    :fringe-face 'flycheck-fringe-info))
+    :fringe-face 'flycheck-fringe-info)
+  ;; Use global flake8 configuration for Python code linting
+  (setq flycheck-flake8rc "~/.config/.flake8")
+  )
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; keybindings ;;;
