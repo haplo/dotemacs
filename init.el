@@ -494,6 +494,8 @@
         ivy-initial-inputs-alist nil
         ;; case-insensitive search when running counsel-git-log
         counsel-git-log-cmd "GIT_PAGER=cat git log --no-color -i --grep '%s'"
+        ;; show file at point as candidate in counsel-find-file
+        counsel-find-file-at-point t
         ))
 
 ;;;;;;;;;;;
