@@ -117,6 +117,10 @@
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-package smex
+  :config
+  (setq smex-save-to-file (expand-file-name "smex" my-savefile-dir)))
+
 ;;;;;;;;;;;;;;
 ;;; editor ;;;
 ;;;;;;;;;;;;;;
