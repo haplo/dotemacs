@@ -1005,6 +1005,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 (defun my-prettier-setup ()
   "Setup prettier."
+  (interactive)
   (progn
     (let ((prettier (my-node-executable-find "prettier")))
       (when prettier (setq-local prettier-js-command prettier)))
