@@ -274,12 +274,6 @@
 ;; it's 2020 already
 (setq-default fill-column my-line-length)
 
-;; whitespace-mode config
-(require 'whitespace)
-(setq-default whitespace-line-column my-line-length)
-(setq whitespace-style '(face tabs empty trailing lines-tail))
-(global-whitespace-mode)
-
 ;; progressively expand region around cursor
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
