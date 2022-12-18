@@ -1,0 +1,4 @@
+# key: eslint-line
+# name: eslint-disable-next-line
+# --
+// eslint-disable-next-line $0

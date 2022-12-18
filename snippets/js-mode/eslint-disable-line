@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: eslint-disable-line
+# key: eslint-disable-line
+# --
+// eslint-disable-line $0
