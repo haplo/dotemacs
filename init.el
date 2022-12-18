@@ -404,7 +404,6 @@
                         file-size))
   :config
   (dirvish-peek-mode)
-  (dirvish-side)
   (setq dirvish-quick-access-entries '(("h" "~/"                   "Home")
                                        ("c" "~/Code/"              "Code")
                                        ("d" "~/Downloads/"         "Downloads")
