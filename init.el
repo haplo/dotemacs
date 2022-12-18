@@ -289,8 +289,9 @@
   :config
   (setq reb-re-syntax 'string))
 
-(require 'eshell)
-(setq eshell-directory-name (expand-file-name "eshell" my-savefile-dir))
+(use-package eshell
+  :config
+  (setq eshell-directory-name (expand-file-name "eshell" my-savefile-dir)))
 
 (setq semanticdb-default-save-directory
       (expand-file-name "semanticdb" my-savefile-dir))
