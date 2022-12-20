@@ -548,19 +548,21 @@
 (use-package company
   :hook (prog-mode . company-mode)
   :bind (:map company-mode-map
-              ([tab] . 'indent-or-complete)
-              ("TAB" . 'indent-or-complete)
+              ([tab] . 'company-indent-or-complete-common)
+              ("TAB" . 'company-indent-or-complete-common)
               )
-  :config (setq
-           ;; bigger popup window
-           company-tooltip-limit 20
-           ;; wait until at least one character before autocompleting
-           company-minimum-prefix-length 1
-           ;; shorter delay before autocompletion popup
-           company-idle-delay 0.3
-           ;; removes annoying blinking
-           company-echo-delay 0
-           ))
+  :config
+  (setq ;; bigger popup window
+        company-tooltip-limit 20
+        ;; wait until at least one character before autocompleting
+        company-minimum-prefix-length 1
+        ;; shorter delay before autocompletion popup
+        company-idle-delay 0.3
+        ;; removes annoying blinking
+        company-echo-delay 0
+        ;; show quick-access numbers
+        company-show-numbers t
+        ))
 
 ;; https://github.com/tumashu/company-posframe
 (use-package company-posframe
@@ -569,28 +571,6 @@
   (setq company-posframe-quickhelp-delay 0.1)
   (company-posframe-mode t)
   )
-
-(defun check-expansion ()
-  (save-excursion
-    (if (looking-at "\\_>") t
-      (backward-char 1)
-      (if (looking-at "\\.") t
-        (backward-char 1)
-        (if (looking-at "::") t nil)))))
-
-(defun do-yas-expand ()
-  (let ((yas/fallback-behavior 'return-nil))
-    (yas/expand)))
-
-(defun indent-or-complete ()
-  (interactive)
-  (if (minibufferp)
-      (minibuffer-complete)
-    (if (or (not yas/minor-mode)
-            (null (do-yas-expand)))
-        (if (check-expansion)
-            (company-complete-common)
-          (indent-for-tab-command)))))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; spell check ;;;
