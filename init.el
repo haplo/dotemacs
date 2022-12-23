@@ -860,7 +860,7 @@
   (key-chord-define-global "qq" 'dirvish-dwim)
   (key-chord-define-global "qs" 'dirvish-side)
   (key-chord-define-global "uu" 'undo-tree-visualize)
-  (key-chord-define-global "xx" 'execute-extended-command)
+  (key-chord-define-global "xx" 'magit-status)
   (key-chord-define-global "yy" 'browse-kill-ring)
   (key-chord-define-global "''" 'sp-rewrap-sexp)
   (key-chord-mode +1)
