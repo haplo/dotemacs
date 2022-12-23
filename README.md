@@ -30,6 +30,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
+* [`direnv`](https://github.com/wbolster/emacs-direnv): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
 * [`dirvish`](https://github.com/alexluigit/dirvish): an improved batteries-included dired replacement.
 * [`discover-my-major`](https://framagit.org/steckerhalter/discover-my-major): show keybindings associated to the current major mode.
 * [`dockerfile-mode`](https://github.com/spotify/dockerfile-mode): major mode to edit Dockerfiles.

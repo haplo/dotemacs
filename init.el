@@ -554,6 +554,17 @@
         )
   (projectile-mode t))
 
+;;;;;;;;;;;;;;
+;;; direnv ;;;
+;;;;;;;;;;;;;;
+
+;; use direnv to update Emacs environment
+;; https://github.com/wbolster/emacs-direnv
+;; https://direnv.net/
+(use-package direnv
+  :config
+  (direnv-mode))
+
 ;;;;;;;;;;;;;;;;;;;;
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
