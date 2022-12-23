@@ -553,22 +553,31 @@
 
 ;; https://company-mode.github.io/
 (use-package company
-  :hook (prog-mode . company-mode)
   :bind (:map company-mode-map
               ([tab] . 'company-indent-or-complete-common)
               ("TAB" . 'company-indent-or-complete-common)
-              )
+         :map company-active-map
+              ("<tab>" . company-complete-common-or-cycle)
+              ("<backtab>" . (lambda() (interactive) (company-complete-common-or-cycle -1)))
+              ("C-n" . company-select-next-or-abort)
+              ("C-p" . company-select-previous-or-abort)
+              ("C-l" . company-other-backend)
+         )
   :config
+  (setq company-global-modes '(not magit-mode org-mode))
+  (global-company-mode t)
   (setq ;; bigger popup window
         company-tooltip-limit 20
         ;; wait until at least one character before autocompleting
         company-minimum-prefix-length 1
         ;; shorter delay before autocompletion popup
-        company-idle-delay 0.3
+        company-idle-delay 0.2
         ;; removes annoying blinking
         company-echo-delay 0
         ;; show quick-access numbers
         company-show-numbers t
+        ;; utf-8 all the way
+        selection-coding-system 'utf-8
         ))
 
 ;; https://github.com/tumashu/company-posframe
