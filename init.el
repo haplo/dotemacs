@@ -121,6 +121,13 @@
   :config
   (setq smex-save-to-file (expand-file-name "smex" my-savefile-dir)))
 
+;; run garbage collection when frame loses focus, which should mean I'm not using
+;; Emacs at that time so I won't care about any slowdown
+(add-function :after after-focus-change-function
+  (defun my-garbage-collect-maybe ()
+    (unless (frame-focus-state)
+      (garbage-collect))))
+
 ;;;;;;;;;;;;;;
 ;;; editor ;;;
 ;;;;;;;;;;;;;;
