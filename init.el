@@ -855,6 +855,7 @@
   (key-chord-define-global "qs" 'dirvish-side)
   (key-chord-define-global "uu" 'undo-tree-visualize)
   (key-chord-define-global "xx" 'magit-status)
+  (key-chord-define-global "xz" 'projectile-find-file-dwim)
   (key-chord-define-global "yy" 'browse-kill-ring)
   (key-chord-define-global "''" 'sp-rewrap-sexp)
   (key-chord-mode +1)
