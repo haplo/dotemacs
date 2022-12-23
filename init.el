@@ -788,8 +788,6 @@
 ;; visual-regexp
 (define-key my-mode-map (kbd "s-v r") 'vr/replace)
 (define-key my-mode-map (kbd "s-v q") 'vr/query-replace)
-(define-key my-mode-map (kbd "C-M-r") 'vr/isearch-backward)
-(define-key my-mode-map (kbd "C-M-s") 'vr/isearch-forward)
 
 ;; Global org-mode keybindings
 (define-key my-mode-map (kbd "C-c c") 'org-capture)
