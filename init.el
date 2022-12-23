@@ -865,9 +865,6 @@
   :init (setq lsp-keymap-prefix "s-l")
   :config
   (setq lsp-headerline-breadcrumb-enable t
-        ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
-        gc-cons-threshold (* 200 1024 1024)
-        read-process-output-max (* 8 1024 1024)
         ;; lock files will kill `npm start'
         create-lockfiles nil
         lsp-idle-delay 0.5
@@ -1455,14 +1452,6 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 ;; move the mouse away from the cursor
 (mouse-avoidance-mode 'animate)
-
-;; avoid compiz manager rendering bugs
-(add-to-list 'default-frame-alist '(alpha . 100))
-
-;; Use Hack font, a bit larger for my monitor
-;; https://sourcefoundry.org/hack/
-(add-to-list 'default-frame-alist '(font . "Hack 13"))
-(set-face-attribute 'default t :font "Hack 13")
 
 ;; highlight the current line
 (global-hl-line-mode +1)

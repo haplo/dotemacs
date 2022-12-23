@@ -100,3 +100,4 @@ Here are the ones I have studied more in depth:
 - [Zoltán Király’s Emacs configuration](https://github.com/zoliky/dotemacs).
 - [FrostyX's Emacs configuration](https://github.com/FrostyX/dotfiles/blob/master/.emacs.d/frostyx.org).
 - [Emacs Siren](https://github.com/jimeh/.emacs.d).
+- [Crandel](https://github.com/Crandel/home/blob/master/.config/emacs/early-init.el)
