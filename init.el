@@ -105,6 +105,9 @@
 ;; mondays are the first day of my week (for M-x calendar)
 (setq-default calendar-week-start-day 1)
 
+;; Cycle between candidates when there are not a lot of them
+(setq completion-cycle-threshold 3)
+
 ;; remember point location when reopening a file
 (use-package saveplace
   :init
