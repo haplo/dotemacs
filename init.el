@@ -1273,6 +1273,8 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
                              ([(shift left)] . [(super shift left)])
                              ([(shift right)] . [(super shift right)])))
                      org-replace-disputed-keys t)
+  ;; don't ask for confirmation before running an org-babel block
+  (org-confirm-babel-evaluate nil)
   ;; custom org-agenda views
   (org-agenda-custom-commands '(("r" tags "refile")))
   ;; hide org native markup (e.g. / / for italics, * * for bold, ~ ~ for code)
