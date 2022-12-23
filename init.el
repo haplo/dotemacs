@@ -1364,7 +1364,9 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;;;;;;;;;;;
 
 (use-package csv-mode
-  :mode "\\.csv\'")
+  :mode "\\.csv\'"
+  ;; always enter CSV mode in align mode, easier to read
+  :hook (csv-mode . csv-align-mode))
 
 ;;;;;;;;;;;;
 ;;; JSON ;;;
