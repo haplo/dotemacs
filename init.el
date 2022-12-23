@@ -581,9 +581,8 @@
               ("C-p" . company-select-previous-or-abort)
               ("C-l" . company-other-backend)
          )
+  :hook (prog-mode . company-mode)
   :config
-  (setq company-global-modes '(not magit-mode org-mode))
-  (global-company-mode t)
   (setq ;; bigger popup window
         company-tooltip-limit 20
         ;; wait until at least one character before autocompleting
