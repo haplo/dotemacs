@@ -843,7 +843,6 @@
 (define-key my-mode-map [remap kill-whole-line] 'crux-kill-whole-line)
 
 ;; browse-kill-ring
-(define-key my-mode-map (kbd "s-y") 'browse-kill-ring)
 (define-key my-mode-map (kbd "C-x C-k") 'browse-kill-ring)
 
 ;; anzu
@@ -882,6 +881,10 @@
 (define-key my-mode-map (kbd "C-s") 'consult-line)
 (define-key my-mode-map [remap goto-line] 'consult-goto-line)
 (define-key my-mode-map [remap insert-register] 'consult-register)
+
+;; embark
+(define-key my-mode-map (kbd "M-r") 'embark-act)
+(define-key my-mode-map (kbd "C-h u") 'embark-save-unicode-character)
 
 ;; helpful
 (define-key my-mode-map (kbd "C-h f") 'helpful-callable)  ; includes macros, default describe-function
@@ -923,7 +926,7 @@
   (key-chord-define-global "uu" 'undo-tree-visualize)
   (key-chord-define-global "xx" 'magit-status)
   (key-chord-define-global "xz" 'projectile-find-file-dwim)
-  (key-chord-define-global "yy" 'browse-kill-ring)
+  (key-chord-define-global "yy" 'consult-yank-from-kill-ring)
   (key-chord-define-global "''" 'sp-rewrap-sexp)
   (key-chord-mode +1)
   )
