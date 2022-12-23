@@ -1497,7 +1497,8 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;; olivetti-mode centers text
 ;; https://github.com/rnkn/olivetti
 (use-package olivetti
-  :hook (text-mode . olivetti-mode))
+  :hook ((markdown-mode . olivetti-mode)
+         (org-mode . olivetti-mode)))
 
 ;; display emojis (and nice interactive picker)
 ;; https://github.com/iqbalansari/emacs-emojify
