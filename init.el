@@ -1142,19 +1142,10 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;;; Python ;;;
 ;;;;;;;;;;;;;;
 
-;; activate Python virtualenvs
-;; https://github.com/jorgenschaefer/pyvenv
-(use-package pyvenv
-  :config
-  (setq pyvenv-mode-line-indicator
-        '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] "))))
-
 (defun my-python-config ()
   "My personal configuration for python-mode"
   (subword-mode +1)
-  (pyvenv-mode +1)
   ; (python-docstring-mode +1)  ; not available in Guix yet
-  ; (auto-virtualenv-set-virtualenv)  ; not available in Guix yet
   (lsp-deferred)
   )
 (add-hook 'python-mode-hook #'my-python-config)
