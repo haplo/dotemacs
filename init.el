@@ -862,6 +862,7 @@
   (key-chord-define-global "uu" 'undo-tree-visualize)
   (key-chord-define-global "xx" 'execute-extended-command)
   (key-chord-define-global "yy" 'browse-kill-ring)
+  (key-chord-define-global "''" 'sp-rewrap-sexp)
   (key-chord-mode +1)
   )
 
@@ -873,13 +874,15 @@
 ;; https://smartparens.readthedocs.io/en/latest/
 (use-package smartparens
   :hook (prog-mode . smartparens-mode)
-  :config
+  :init
+  (smartparens-global-mode)
+  (show-smartparens-global-mode +1)
   (require 'smartparens-config)
+  :config
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
         sp-hybrid-kill-entire-symbol nil)
   (sp-use-paredit-bindings)
-  :init (show-smartparens-global-mode +1)
 )
 
 ;;;;;;;;;;;
