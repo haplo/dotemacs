@@ -540,6 +540,10 @@
 ;;; projects ;;;
 ;;;;;;;;;;;;;;;;
 
+(use-package project
+  :config
+  (setq project-list-file (expand-file-name "projects" my-savefile-dir)))
+
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
   :config
