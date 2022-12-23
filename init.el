@@ -1445,7 +1445,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 (setq-default visible-bell t)
 
 ;; better scrolling
-(setq scroll-margin 0
+(setq scroll-margin 1
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
