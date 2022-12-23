@@ -633,6 +633,7 @@
   :hook ((after-init . global-flycheck-mode)
          (lsp-mode . flycheck-mode)
          (flycheck-mode . use-eslint-from-node-modules))
+  :bind ("C-c n" . flycheck-next-error)
   :config
   (setq-default flycheck-highlighting-mode 'sexps)
   (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
