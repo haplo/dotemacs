@@ -745,10 +745,7 @@
 ;; crux
 (define-key my-mode-map (kbd "C-c o") 'crux-open-with)
 (define-key my-mode-map (kbd "C-a") 'crux-move-beginning-of-line)
-(define-key my-mode-map (kbd "C-c n") 'crux-cleanup-buffer-or-region)
-(define-key my-mode-map (kbd "C-c f")  'crux-recentf-find-file)
 (define-key my-mode-map (kbd "C-M-z") 'crux-indent-defun)
-(define-key my-mode-map (kbd "C-c u") 'crux-view-url)
 (define-key my-mode-map (kbd "C-c e") 'crux-eval-and-replace)
 (define-key my-mode-map (kbd "C-c s") 'crux-swap-windows)
 (define-key my-mode-map (kbd "C-c D") 'crux-delete-file-and-buffer)
@@ -756,7 +753,6 @@
 (define-key my-mode-map (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
 (define-key my-mode-map (kbd "C-c r") 'crux-rename-buffer-and-file)
 (define-key my-mode-map (kbd "C-c t") 'crux-visit-term-buffer)
-(define-key my-mode-map (kbd "C-c k") 'crux-kill-other-buffers)
 (define-key my-mode-map (kbd "C-c I") 'crux-find-user-init-file)
 (define-key my-mode-map (kbd "C-c S") 'crux-find-shell-init-file)
 (define-key my-mode-map (kbd "s-k") 'crux-kill-whole-line)
