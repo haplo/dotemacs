@@ -27,6 +27,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`company`](https://company-mode.github.io/): autocomplete.
 * [`company-posframe`](https://github.com/tumashu/company-posframe): display documentation for autocompletion candidates.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
+* [`consult`](https://github.com/minad/consult): practical commands based on the Emacs completion function `completing-read`.
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
@@ -39,6 +40,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`easy-kill`](https://github.com/leoliu/easy-kill): mark/kill words, sexps, lines and more.
 * [`editorconfig`](https://github.com/editorconfig/editorconfig-emacs): support for *.editorconfig* files.
 * [`eldoc`](https://elpa.gnu.org/packages/eldoc.html): display documentation about current function in echo area.
+* [`embark`](https://github.com/oantolin/embark/): choose a command to run based on what is near point, both during a minibuffer completion session and in normal buffers.
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
 * [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
 * [`eyebrowse`](https://depp.brause.cc/eyebrowse/): manage [window](https://www.emacswiki.org/emacs/Window) configurations.
@@ -49,19 +51,19 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`go-mode`](https://github.com/dominikh/go-mode.el): major mode for [Go](https://go.dev/) files.
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.
 * [`ibuffer-projectile`](https://github.com/purcell/ibuffer-projectile): group buffers by project in *ibuffer* view.
-* [`ivy`](https://oremacs.com/swiper/): better candidate selection for Emacs completion.
 * [`js2-mode`](https://github.com/mooz/js2-mode): major mode for Javascript files.
 * [`js2-refactor`](https://github.com/js-emacs/js2-refactor.el): refactor operations for Javascript code.
 * [`json-mode`](https://github.com/joshwnj/json-mode): major mode for JSON files.
 * [`key-chord`](https://github.com/emacsorphanage/key-chord): execute commands by pressing quicks quickly.
-* [`lsp-ivy`](https://github.com/emacs-lsp/lsp-ivy): jump to LSP workspace symbols using ivy.
 * [`lsp-mode`](https://emacs-lsp.github.io/lsp-mode/): [Language Server Protocol](https://en.wikipedia.org/wiki/Language_Server_Protocol) support for Emacs.
 * [`lsp-ui`](https://github.com/emacs-lsp/lsp-ui): UI components for *lsp-mode*.
 * [`magit`](https://magit.vc/manual/forge/): the best Git interface there is.
+* [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
 * [`markdown-mode`](https://jblevins.org/projects/markdown-mode/): major mode to edit Markdown files.
 * [`move-text`](https://github.com/emacsfodder/move-text): move lines or regions up and down.
 * [`nov-el`](https://depp.brause.cc/nov.el/): major mode for reading EPUB files in Emacs.
 * [`olivetti`](https://github.com/rnkn/olivetti): center text for better writing.
+* [`orderless`](https://github.com/oantolin/orderless): completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 * [`org`](https://orgmode.org/): the most powerful note taking and planning software ever created.
 * [`org-superstar`](https://github.com/integral-dw/org-superstar-mode): prettier headings in org-mode.
 * [`prettier-js`](https://github.com/prettier/prettier-emacs): autoformatter for Javascript code.
@@ -79,6 +81,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`tramp`](https://www.gnu.org/software/tramp/): remote file editing, beyond cool.
 * [`typescript-mode`](https://github.com/emacs-typescript/typescript.el): major mode for Typescript files.
 * [`undo-tree`](https://www.dr-qubit.org/undo-tree.html): visualize and navigate the undo tree for a buffer, never lose an edit.
+* [`vertico`](https://github.com/minad/vertico): performant and minimalistic vertical completion UI based on the default completion system.
 * [`visual-regexp`](https://github.com/emacsmirror/visual-regexp): live view of the matches of a regular expression.
 * [`volatile-highlights`](https://github.com/k-talo/volatile-highlights.el): visual feedback for some operations.
 * [`web-mode`](https://web-mode.org/): major mode for web templates (HTML and much more).

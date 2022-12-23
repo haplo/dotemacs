@@ -356,11 +356,7 @@
 
 ;; better Emacs help
 ;; https://github.com/Wilfred/helpful
-(use-package helpful
-  :after (counsel)
-  :config
-  (setq counsel-describe-function-function #'helpful-callable
-        counsel-describe-variable-function #'helpful-variable))
+(use-package helpful)
 
 ;;;;;;;;;;;;;;;;;
 ;;; eyebrowse ;;;
@@ -481,26 +477,110 @@
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook #'colorize-compilation-buffer)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; ivy, counsel, swiper ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; vertico, consult, marginalia, embark, orderless ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; https://oremacs.com/swiper/
-(use-package ivy
-  :diminish
+;; performant and minimalistic vertical completion UI
+;; https://github.com/minad/vertico
+(use-package vertico
+  :ensure t
+  :commands
+  :init
+  (vertico-mode)
+  (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
   :config
-  (ivy-mode t)
-  (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t
-        ;; show more candidates
-        ivy-height 20
-        ;; don't start filtering with ^
-        ivy-initial-inputs-alist nil
-        ;; case-insensitive search when running counsel-git-log
-        counsel-git-log-cmd "GIT_PAGER=cat git log --no-color -i --grep '%s'"
-        ;; show file at point as candidate in counsel-find-file
-        counsel-find-file-at-point t
-        ))
+  (setq vertico-count 20)
+  )
+
+;; practical commands based on core function completing-read
+;; https://github.com/minad/consult
+(use-package consult
+  :ensure t
+  :bind (("C-c j" . consult-outline)
+         ("C-c i" . consult-imenu)
+         ("C-c k" . consult-ripgrep)
+         ("C-c K" . my-consult-ripgrep-at-point)
+         ("C-c C-m" . consult-minor-mode-menu)
+         ("C-x l" . consult-locate)
+         :map consult-narrow-map
+         ([C-right] .  consult-narrow-right)
+         ([C-left] .  consult-narrow-left)
+         )
+  :preface
+  (defun get-project-root ()
+    (if (fboundp 'projectile-project-root)
+        (projectile-project-root)
+      (vc-root-dir)))
+  (defun my-consult-ripgrep-at-point ()
+    (interactive)
+    (consult-ripgrep (get-project-root) (thing-at-point 'symbol)))
+  (defun consult--orderless-regexp-compiler (input type &rest _config)
+    (setq input (orderless-pattern-compiler input))
+    (cons
+     (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+     (lambda (str) (orderless--highlight input str))))
+  (defun consult-narrow-left ()
+    (interactive)
+    (when consult--narrow-keys
+      (consult-narrow
+       (if consult--narrow
+           (let ((idx (seq-position consult--narrow-keys
+                                    (assq consult--narrow consult--narrow-keys))))
+             (unless (eq idx 0)
+               (car (nth (1- idx) consult--narrow-keys))))
+         (caar (last consult--narrow-keys))))))
+  (defun consult-narrow-right ()
+    (interactive)
+    (when consult--narrow-keys
+      (consult-narrow
+       (if consult--narrow
+           (let ((idx (seq-position consult--narrow-keys
+                                    (assq consult--narrow consult--narrow-keys))))
+             (unless (eq idx (1- (length consult--narrow-keys)))
+               (car (nth (1+ idx) consult--narrow-keys))))
+         (caar consult--narrow-keys)))))
+  :custom
+  (consult-narrow-key ",")
+  (consult-find-command "fd --color=never --full-path ARG OPTS")
+  (consult--regexp-compiler consult--orderless-regexp-compiler)
+  :config
+  (consult-customize
+   consult--source-hidden-buffer
+   consult--source-buffer
+   consult--source-recent-file
+   consult--source-bookmark
+   consult--source-project-buffer
+   consult--source-project-recent-file
+   :preview-key '[M-.])
+  )
+
+;; adds marginalia annotations to the minibuffer completions
+;; https://github.com/minad/marginalia
+(use-package marginalia
+  :ensure t
+  :after (:any consult vertico)
+  :config
+  (marginalia-mode))
+
+;; choose a command to run based on what is near point, both during a
+;; minibuffer completion session and in normal buffers
+;; https://github.com/oantolin/embark/
+(use-package embark
+  :ensure t
+  :bind
+  (("M-r" . embark-act)
+   ("C-h B" . embark-bindings))
+)
+
+;; completion style that divides the pattern into space-separated components
+;; and matches candidates that match all of the components in any order
+;; https://github.com/oantolin/orderless
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+)
 
 ;;;;;;;;;;;
 ;;; git ;;;
@@ -773,6 +853,7 @@
 ;; projectile
 (define-key my-mode-map (kbd "C-c p") 'projectile-command-map)
 (define-key my-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key my-mode-map [remap projectile-switch-to-buffer] 'counsel-projectile-switch-to-buffer)
 
 ;; magit
 (define-key my-mode-map (kbd "s-m m") 'magit-status)
@@ -793,33 +874,19 @@
 (define-key my-mode-map (kbd "C-c b") 'org-switchb)
 (define-key my-mode-map (kbd "C-c C-x C-j") 'org-clock-goto)
 
-;; ivy, counsel, swiper
-(define-key my-mode-map (kbd "M-x") 'counsel-M-x)
-(define-key my-mode-map (kbd "M-y") 'counsel-yank-pop)
-(define-key my-mode-map (kbd "C-c g") 'counsel-git)
-(define-key my-mode-map (kbd "C-c j") 'counsel-git-grep)
-(define-key my-mode-map (kbd "C-c v") 'ivy-push-view)
-(define-key my-mode-map (kbd "C-c V") 'ivy-pop-view)
-(define-key my-mode-map (kbd "C-c C-r") 'ivy-resume)
-(define-key my-mode-map (kbd "C-c C-s") 'ivy-yasnippet)
-(define-key my-mode-map (kbd "C-c L") 'counsel-git-log)
-(define-key my-mode-map (kbd "C-c k") 'counsel-rg)
-(define-key my-mode-map (kbd "C-c j") 'counsel-org-goto)
-(define-key my-mode-map (kbd "C-c C-j") 'counsel-org-goto-all)
-(define-key my-mode-map (kbd "C-h f") 'counsel-describe-function)
-(define-key my-mode-map (kbd "C-h v") 'counsel-describe-variable)
-(define-key my-mode-map (kbd "C-h l") 'counsel-find-library)
-(define-key my-mode-map (kbd "C-h S") 'counsel-info-lookup-symbol)
-(define-key my-mode-map (kbd "C-h u") 'counsel-unicode-char)
-(define-key my-mode-map (kbd "C-x l") 'counsel-locate)
-(define-key my-mode-map (kbd "C-x C-f") 'counsel-find-file)
-(define-key my-mode-map (kbd "C-r") 'swiper-backward)
-(define-key my-mode-map (kbd "C-s") 'swiper)
+;; consult
+(define-key my-mode-map (kbd "M-y") 'consult-yank-pop)
+(define-key my-mode-map (kbd "C-x b") 'consult-buffer)
+(define-key my-mode-map (kbd "C-c C-s") 'consult-yasnippet)
+;; (define-key my-mode-map (kbd "C-c C-j") 'counsel-org-goto-all)
+(define-key my-mode-map (kbd "C-s") 'consult-line)
+(define-key my-mode-map [remap goto-line] 'consult-goto-line)
+(define-key my-mode-map [remap insert-register] 'consult-register)
 
 ;; helpful
 (define-key my-mode-map (kbd "C-h f") 'helpful-callable)  ; includes macros, default describe-function
 (define-key my-mode-map (kbd "C-h F") 'helpful-function)  ; excludes macros, default Info-goto-emacs-command-node
-(define-key my-mode-map (kbd "C-h v") 'helpful-variable)  ; default counsel-describe-variable
+(define-key my-mode-map (kbd "C-h v") 'helpful-variable)
 (define-key my-mode-map (kbd "C-h k") 'helpful-key)       ; default describe-key
 (define-key my-mode-map (kbd "C-h C") 'helpful-command)   ; default describe-coding-system
 (define-key my-mode-map (kbd "C-h .") 'helpful-at-point)  ; default display-local-help
@@ -936,9 +1003,6 @@
         lsp-ui-doc-include-signature t
         lsp-ui-doc-use-webkit nil
         ))
-
-(use-package lsp-ivy
-  :commands lsp-ivy-workspace-symbol)
 
 ;;;;;;;;;;;;;;;;;;
 ;;; Javascript ;;;
@@ -1253,6 +1317,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
                       (variable-pitch-mode -1)
                       (display-line-numbers-mode -1)
                       ))
+  :bind (("C-c j" . consult-org-heading))
   :custom
   (org-directory (expand-file-name "~/Org"))
   ;; add all *.org files in the org-directory defined above
@@ -1430,7 +1495,6 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 (use-package calibredb
   :defer t
-  :bind ("C-c M-e" . 'calibredb-find-counsel)
   :init
   (setq sql-sqlite-program "sqlite3")
   :config
