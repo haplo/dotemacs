@@ -19,6 +19,9 @@
   (setq ;; Silence compiler warnings as they can be pretty disruptive
         native-comp-async-report-warnings-errors nil))
 
+;; don't resize frame as font, menu, tool bar... change
+(setq frame-inhibit-implied-resize t)
+
 ;; Default font, https://sourcefoundry.org/hack/
 (set-face-attribute 'default t :font "Hack 13")
 
