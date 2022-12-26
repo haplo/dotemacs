@@ -1331,7 +1331,8 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
                       (variable-pitch-mode -1)
                       (display-line-numbers-mode -1)
                       ))
-  :bind (("C-c j" . consult-org-heading))
+  :bind (:map org-mode-map
+         ("C-c j" . consult-org-heading))
   :custom
   (org-directory (expand-file-name "~/Org"))
   ;; add all *.org files in the org-directory defined above
