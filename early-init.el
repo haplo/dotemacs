@@ -25,7 +25,7 @@
 (setq default-frame-alist
         '(
           (alpha 100 100)
-          (cursor-type              . 'box)
+          (cursor-type              . box)
           (font                     . "Hack 13")
           (menu-bar-lines           . 0)
           (tool-bar-lines           . 0)
