@@ -1246,12 +1246,8 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
               ("C-c C-c e" . lsp-rust-analyzer-expand-macro)
               ;; ("C-c C-c d" . dap-hydra)
               ("C-c C-c h" . lsp-ui-doc-glance))
-  :preface
-  (defun my-rustic-mode-hook ()
-    ;; format code on save
-    (add-hook 'before-save-hook 'lsp-format-buffer nil t))
   :config
-  (add-hook 'rustic-mode-hook 'my-rustic-mode-hook))
+  (setq rustic-format-on-save t))
 
 ;;;;;;;;;;
 ;;; Go ;;;
