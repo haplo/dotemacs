@@ -491,7 +491,9 @@
 ;; https://github.com/minad/vertico
 (use-package vertico
   :ensure t
-  :commands
+  :bind (:map vertico-map
+         ("C-M-n" . vertico-next-group)
+         ("C-M-p" . vertico-previous-group))
   :init
   (vertico-mode)
   (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
