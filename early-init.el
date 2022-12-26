@@ -7,7 +7,8 @@
 
 ;; increase garbage collection threshold for faster startup
 ;; default is 800 KiB, it's already $YEAR so we can do more
-(setq gc-cons-threshold (* 256 1024 1024))
+(setq gc-cons-threshold (* 128 1024 1024)
+      gc-cons-percentage 0.2)
 
 ;; read more from subprocesses
 ;; default is 4 KiB, it's already $YEAR so we can do more
