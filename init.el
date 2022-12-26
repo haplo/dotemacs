@@ -563,6 +563,14 @@
   :config
   (marginalia-mode))
 
+;; pretty icons in completion minibuffer
+;; https://github.com/iyefrat/all-the-icons-completion
+(use-package all-the-icons-completion
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
+
 ;; choose a command to run based on what is near point, both during a
 ;; minibuffer completion session and in normal buffers
 ;; https://github.com/oantolin/embark/
