@@ -351,8 +351,8 @@
 (use-package which-key
   :init
   (setq which-key-idle-delay 0.5)
-  :config
-  (add-hook 'after-init-hook 'which-key-mode))
+  :hook
+  (after-init . which-key-mode))
 
 ;; better Emacs help
 ;; https://github.com/Wilfred/helpful
@@ -1053,6 +1053,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 (use-package js2-mode
   :mode "\\.js\\'"
   :interpreter "node"
+  :hook (js2-mode . (lambda () (run-hooks 'my-js-mode-overrides)))
   :config
   (defun my-js-mode-overrides ()
     ;; electric-layout-mode doesn't play nice with smartparens
@@ -1060,9 +1061,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
     (setq mode-name "JS2")
     (js2-imenu-extras-mode +1)
     (subword-mode +1)
-    )
-  (add-hook 'js2-mode-hook (lambda () (run-hooks 'my-js-mode-overrides)))
-  )
+    ))
 
 ;; Refactor operations on top of JS2
 ;; https://github.com/js-emacs/js2-refactor.el
@@ -1481,12 +1480,11 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;; load yasnippet
 (use-package yasnippet
   :diminish yas-minor-mode
+  ;; term-mode does not play well with yasnippet
+  :hook (term-mode . (lambda () (yas-minor-mode -1)))
   :config
   (add-to-list 'yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
-  (yas-global-mode 1)
-  ;; term-mode does not play well with yasnippet
-  (add-hook 'term-mode-hook (lambda ()
-                              (yas-minor-mode -1))))
+  (yas-global-mode 1))
 
 ;;;;;;;;;;;;;;;
 ;;; Writing ;;;
