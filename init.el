@@ -358,6 +358,10 @@
 ;; https://github.com/Wilfred/helpful
 (use-package helpful)
 
+;; edit a grep buffer and apply those changes to the file buffer like sed interactively
+;; https://github.com/mhayashi1120/Emacs-wgrep
+(use-package wgrep)
+
 ;;;;;;;;;;;;;;;;;
 ;;; eyebrowse ;;;
 ;;;;;;;;;;;;;;;;;
