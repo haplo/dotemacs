@@ -328,7 +328,7 @@
 ;; show uncommitted changes in the gutter
 ;; https://github.com/dgutov/diff-hl
 (use-package diff-hl
-  :hook (magit-post-refresh-hook . diff-hl-magit-post-refresh)
+  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
   :config (global-diff-hl-mode +1)
   ;; disable on slow TRAMP connections with diff-hl-disable-on-remote to t
   )
@@ -1059,7 +1059,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;; Refactor operations on top of JS2
 ;; https://github.com/js-emacs/js2-refactor.el
 (use-package js2-refactor
-  :hook (js2-mode-hook . js2-refactor-mode)
+  :hook (js2-mode . js2-refactor-mode)
   :config
   (js2r-add-keybindings-with-prefix "C-c C-m")
   )
