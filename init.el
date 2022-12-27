@@ -68,6 +68,7 @@
 ;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons
   :if (display-graphic-p)
+  :demand t
   :config
   (unless (find-font (font-spec :name "all-the-icons"))
     (all-the-icons-install-fonts t))
@@ -84,7 +85,9 @@
   (mode-line-inactive ((t (:family "Hack" :height 130))))
   )
 
-(use-package diminish :ensure t)
+(use-package diminish
+  :ensure t
+  :demand t)
 
 ;; On Linux Emacs doesn't use the shell env if it's not started from the shell
 ;; https://github.com/purcell/exec-path-from-shell
@@ -121,6 +124,7 @@
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package smex
+  :demand t
   :config
   (setq smex-save-to-file (expand-file-name "smex" my-savefile-dir)))
 
@@ -202,6 +206,7 @@
 
 ;; use directory name in buffer names of files with the same name
 (use-package uniquify
+  :demand t
   :config
   (setq uniquify-buffer-name-style 'forward
         uniquify-separator "/"
@@ -212,6 +217,7 @@
 
 ;; savehist keeps track of some history
 (use-package savehist
+  :demand t
   :config
   (setq savehist-additional-variables
         ;; search entries
@@ -223,6 +229,7 @@
 
 ;; save recent files
 (use-package recentf
+  :demand t
   :config
   (setq recentf-save-file (expand-file-name "recentf" my-savefile-dir)
         recentf-max-saved-items 500
@@ -265,6 +272,7 @@
 
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
+  :demand t
   :config (setq avy-background t
                 avy-style 'at-full))
 
@@ -272,6 +280,7 @@
 ;; https://github.com/emacsorphanage/anzu
 (use-package anzu
   :diminish
+  :demand t
   :config (global-anzu-mode))
 
 ;; make a shell script executable automatically on save
@@ -287,11 +296,13 @@
 ;; progressively expand region around cursor
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
-  :ensure t)
+  :ensure t
+  :demand t)
 
 ;; automatically clean up whitespace on save only on initially clean buffers
 ;; disable by setting whitespace-cleanup-mode to nil in dir or local variables
 (use-package whitespace-cleanup-mode
+  :demand t
   :config (global-whitespace-cleanup-mode))
 
 ;; saner regex syntax
@@ -308,7 +319,8 @@
 
 ;; crux is a collection of general editing utilities, see below for keybindings
 ;; https://github.com/bbatsov/crux
-(use-package crux)
+(use-package crux
+  :demand t)
 
 ;; Move line or region up and down
 ;; https://github.com/emacsfodder/move-text
@@ -349,6 +361,7 @@
 ;; show all remaining key combinations when doing multi-key commands
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
+  :demand t
   :init
   (setq which-key-idle-delay 0.5)
   :hook
@@ -370,6 +383,7 @@
 ;; https://depp.brause.cc/eyebrowse/
 (use-package eyebrowse
   :ensure t
+  :demand t
   :config
   (eyebrowse-mode t)
   (eyebrowse-setup-opinionated-keys))
@@ -380,6 +394,7 @@
 
 (use-package dirvish
   :ensure t
+  :demand t
   :bind
   (("C-x C-j" . dired-jump)
    :map dirvish-mode-map  ; Dirvish inherits `dired-mode-map'
@@ -455,6 +470,7 @@
                        (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package all-the-icons-ibuffer
+  :demand t
   :after (all-the-icons ibuffer)
   :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
 
@@ -491,6 +507,7 @@
 ;; https://github.com/minad/vertico
 (use-package vertico
   :ensure t
+  :demand t
   :bind (:map vertico-map
          ("C-M-n" . vertico-next-group)
          ("C-M-p" . vertico-previous-group))
@@ -505,6 +522,7 @@
 ;; https://github.com/minad/consult
 (use-package consult
   :ensure t
+  :demand t
   :bind (("C-c j" . consult-outline)
          ("C-c i" . consult-imenu)
          ("C-c k" . consult-ripgrep)
@@ -567,6 +585,7 @@
 ;; https://github.com/minad/marginalia
 (use-package marginalia
   :ensure t
+  :demand t
   :after (:any consult vertico)
   :config
   (marginalia-mode))
@@ -574,6 +593,7 @@
 ;; pretty icons in completion minibuffer
 ;; https://github.com/iyefrat/all-the-icons-completion
 (use-package all-the-icons-completion
+  :demand t
   :after (marginalia all-the-icons)
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :init
@@ -584,6 +604,7 @@
 ;; https://github.com/oantolin/embark/
 (use-package embark
   :ensure t
+  :demand t
   :bind
   (("M-r" . embark-act)
    ("C-h B" . embark-bindings))
@@ -594,6 +615,7 @@
 ;; https://github.com/oantolin/orderless
 (use-package orderless
   :ensure t
+  :demand t
   :custom
   (completion-styles '(orderless basic))
 )
@@ -606,6 +628,7 @@
 (use-package magit
   :if (executable-find "git")
   :ensure t
+  :demand t
   :config
   (setq
    magit-wip-after-apply-mode' t
@@ -637,11 +660,13 @@
 ;;;;;;;;;;;;;;;;
 
 (use-package project
+  :demand t
   :config
   (setq project-list-file (expand-file-name "projects" my-savefile-dir)))
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
+  :demand t
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
         projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir)
@@ -658,6 +683,7 @@
 ;; https://github.com/wbolster/emacs-direnv
 ;; https://direnv.net/
 (use-package direnv
+  :demand t
   :config
   (direnv-mode))
 
@@ -726,6 +752,7 @@
 
 ;; https://www.flycheck.org/en/latest/
 (use-package flycheck
+  :demand t
   :hook ((after-init . global-flycheck-mode)
          (lsp-mode . flycheck-mode)
          (flycheck-mode . use-eslint-from-node-modules))
@@ -775,6 +802,7 @@
 
 ;; use shift + arrow keys to switch between visible buffers
 (use-package windmove
+  :demand t
   :config (windmove-default-keybindings))
 
 ;; define a new minor mode
