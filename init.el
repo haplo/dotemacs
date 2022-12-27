@@ -618,6 +618,12 @@
    :map minibuffer-local-map
    ("M-r" . embark-act)))
 
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
+
 ;; completion style that divides the pattern into space-separated components
 ;; and matches candidates that match all of the components in any order
 ;; https://github.com/oantolin/orderless
