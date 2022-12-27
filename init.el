@@ -975,7 +975,7 @@
 (define-key my-mode-map (kbd "M-y") 'consult-yank-pop)
 (define-key my-mode-map (kbd "C-x b") 'consult-buffer)
 (define-key my-mode-map (kbd "C-c C-s") 'consult-yasnippet)
-;; (define-key my-mode-map (kbd "C-c C-j") 'counsel-org-goto-all)
+(define-key my-mode-map (kbd "C-c C-j") 'consult-org-agenda)
 (define-key my-mode-map (kbd "C-s") 'consult-line)
 (define-key my-mode-map [remap goto-line] 'consult-goto-line)
 (define-key my-mode-map [remap insert-register] 'consult-register)
@@ -1416,7 +1416,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
   :custom
   (org-directory (expand-file-name "~/Org"))
   ;; add all *.org files in the org-directory defined above
-  ;; (setq org-agenda-files (list org-directory))
+  (setq org-agenda-files (list org-directory))
   (org-default-notes-file (concat org-directory "/notes.org"))
   (org-log-done t)
   ;; save time when a task is done
