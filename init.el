@@ -1045,6 +1045,7 @@
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
         sp-hybrid-kill-entire-symbol nil)
+  (sp-use-paredit-bindings)
 )
 
 ;;;;;;;;;;;
