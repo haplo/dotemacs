@@ -52,7 +52,9 @@
   (doom-themes-org-config)
   )
 
-;; Toggle betweem light and dark themes
+(defvar my-toggle-theme-hook nil)
+
+;; Toggle between light and dark themes
 (defun my-toggle-theme ()
   (interactive)
   (cond
@@ -62,7 +64,8 @@
    ((eq (car custom-enabled-themes) 'doom-solarized-light)
     (disable-theme 'doom-solarized-light)
     (load-theme 'doom-solarized-dark t))
-   ))
+   )
+  (run-hooks 'my-toggle-theme-hook))
 
 ;; Pretty icons
 ;; https://github.com/domtronn/all-the-icons.el
@@ -832,6 +835,7 @@
 (use-package kind-icon
   :demand t
   :after corfu
+  :hook (my-toggle-theme . (lambda () (interactive) (kind-icon-reset-cache)))
   :custom
   ;; explicitly enable icons
   (kind-icon-use-icons t)
