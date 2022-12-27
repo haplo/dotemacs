@@ -841,6 +841,7 @@
       (apply #'consult-completion-in-region completion-in-region--data)))
   :config
   (global-corfu-mode)
+  (corfu-indexed-mode)
   :custom
   ;; I like autocompletion popping up automatically
   (corfu-auto t)
