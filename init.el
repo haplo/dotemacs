@@ -755,12 +755,18 @@
               ("<escape>" . corfu-quit)
               ("<return>" . corfu-insert)
               ("M-d" . corfu-show-documentation)
-              ("M-l" . corfu-show-location))
+              ("M-l" . corfu-show-location)
+              ("M-m" . corfu-move-to-minibuffer))
   :preface
   (defun corfu-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if `completion-at-point' is bound."
     (when (where-is-internal #'completion-at-point (list (current-local-map)))
       (corfu-mode 1)))
+  (defun corfu-move-to-minibuffer ()
+    (interactive)
+    (let ((completion-extra-properties corfu--extra)
+          completion-cycle-threshold completion-cycling)
+      (apply #'consult-completion-in-region completion-in-region--data)))
   :config
   (global-corfu-mode)
   :custom
