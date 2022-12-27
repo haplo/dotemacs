@@ -46,6 +46,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`doom-themes`](https://github.com/hlissner/emacs-doom-themes): collection of themes for [Doom Emacs](https://github.com/doomemacs/doomemacs), they place nicely with `doom-modeline`.
 * [`easy-kill`](https://github.com/leoliu/easy-kill): mark/kill words, sexps, lines and more.
 * [`editorconfig`](https://github.com/editorconfig/editorconfig-emacs): support for *.editorconfig* files.
+* [`eglot`](https://joaotavora.github.io/eglot/): LSP client built-in since Emacs 29.
 * [`eldoc`](https://elpa.gnu.org/packages/eldoc.html): display documentation about current function in echo area.
 * [`embark`](https://github.com/oantolin/embark/): choose a command to run based on what is near point, both during a minibuffer completion session and in normal buffers.
 * [`emojify`](https://github.com/iqbalansari/emacs-emojify): display emojis.
@@ -66,8 +67,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`json-mode`](https://github.com/joshwnj/json-mode): major mode for JSON files.
 * [`key-chord`](https://github.com/emacsorphanage/key-chord): execute commands by pressing quicks quickly.
 * [`kind-icon`](https://github.com/jdtsmith/kind-icon): icons for completion-at-point candidates.
-* [`lsp-mode`](https://emacs-lsp.github.io/lsp-mode/): [Language Server Protocol](https://en.wikipedia.org/wiki/Language_Server_Protocol) support for Emacs.
-* [`lsp-ui`](https://github.com/emacs-lsp/lsp-ui): UI components for *lsp-mode*.
 * [`magit`](https://magit.vc/manual/forge/): the best Git interface there is.
 * [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
 * [`markdown-mode`](https://jblevins.org/projects/markdown-mode/): major mode to edit Markdown files.

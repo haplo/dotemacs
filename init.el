@@ -856,7 +856,8 @@
     (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion))))
+  (completion-category-overrides '((file (styles basic partial-completion))
+                                   (eglot (styles orderless))))
   (orderless-style-dispatchers '(my-orderless-dispatch))
   ;; allow escaping space with backslash
   (orderless-component-separator #'orderless-escapable-split-on-space))
@@ -1298,58 +1299,20 @@
 ;;; LSP ;;;
 ;;;;;;;;;;;
 
-;; https://emacs-lsp.github.io/lsp-mode/
-;; https://github.com/emacs-lsp/lsp-mode/
-(use-package lsp-mode
-  :hook ((js2-mode . lsp)
-         (python-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
-  :bind (:map lsp-mode-map
-              ("M-RET" . 'lsp-find-definition)
-              ("M-?" . 'lsp-find-references)
-              )
-  :init (setq lsp-keymap-prefix "s-l")
+;; https://joaotavora.github.io/eglot/
+(use-package eglot
+  :hook ((js2-mode . eglot)
+         (python-mode . eglot))
   :config
-  (setq lsp-headerline-breadcrumb-enable t
-        ;; lock files will kill `npm start'
-        create-lockfiles nil
-        lsp-idle-delay 0.5
-        lsp-eldoc-render-all t
-        ;; set lsp-log-io to t to log LSP messages to *lsp-log* buffer
-        lsp-log-io nil
-        ;; Rust settings
-        lsp-rust-analyzer-cargo-watch-command "clippy"
-        lsp-rust-analyzer-server-display-inlay-hints t
-        lsp-rust-analyzer-display-chaining-hints t
-        lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil
-        lsp-rust-analyzer-display-closure-return-type-hints t
-        lsp-rust-analyzer-display-parameter-hints nil
-        lsp-rust-analyzer-display-reborrow-hints nil
+  (setq ;; increase when need to debug LSP sessions
+        eglot-events-buffer-size 0
         )
-                                        ; (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
-  (lsp-register-custom-settings
-   '(("pylsp.plugins.pyls_mypy.enabled" t t)
-     ("pylsp.plugins.pyls_mypy.live_mode" nil t)
-     ("pylsp.plugins.pyls_black.enabled" t t)
-     ("pylsp.plugins.pyls_isort.enabled" t t))))
-
-;; https://github.com/emacs-lsp/lsp-ui
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :after (lsp-mode)
-  :bind (:map lsp-ui-mode-map
-              ("M-j" . lsp-ui-imenu))
-  :config
-  (setq lsp-ui-sideline-enable t
-        lsp-ui-doc-enable t
-        lsp-ui-peek-enable t
-        lsp-ui-peek-always-show t
-        lsp-ui-doc-position 'top
-        lsp-ui-doc-alignment 'window
-        lsp-ui-doc-max-height 30
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-use-webkit nil
-        ))
+  ;; (lsp-register-custom-settings
+  ;;  '(("pylsp.plugins.pyls_mypy.enabled" t t)
+  ;;    ("pylsp.plugins.pyls_mypy.live_mode" nil t)
+  ;;    ("pylsp.plugins.pyls_black.enabled" t t)
+  ;;    ("pylsp.plugins.pyls_isort.enabled" t t)))
+  )
 
 ;;;;;;;;;;;;;;;;;;
 ;;; Javascript ;;;
@@ -1478,17 +1441,15 @@
 ;;; Python ;;;
 ;;;;;;;;;;;;;;
 
-(defun my-python-config ()
-  "My personal configuration for python-mode"
-  (subword-mode +1)
-  ; (python-docstring-mode +1)  ; not available in Guix yet
-  (lsp-deferred)
-  )
-(add-hook 'python-mode-hook #'my-python-config)
-
-(defun lsp-python-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t))
-(add-hook 'python-mode-hook #'lsp-python-install-save-hooks)
+(use-package python
+  :hook (python-mode . my-python-config)
+  :preface
+  (defun my-python-config ()
+    "My personal configuration for python-mode"
+    (subword-mode +1)
+    ; (python-docstring-mode +1)  ; not available in Guix yet
+    (eglot-ensure)
+    ))
 
 ;;;;;;;;;;;;
 ;;; Rust ;;;
@@ -1497,13 +1458,13 @@
 (use-package rustic
   :ensure
   :mode "\\.rs\'"
-  :bind (:map rustic-mode-map
-              ("C-c C-c s" . lsp-rust-analyzer-status)
-              ("C-c C-c e" . lsp-rust-analyzer-expand-macro)
-              ;; ("C-c C-c d" . dap-hydra)
-              ("C-c C-c h" . lsp-ui-doc-glance))
-  :config
-  (setq rustic-format-on-save t))
+  :hook ((rust-mode . eglot-ensure))
+  :init
+  (setq rustic-lsp-client 'eglot)
+  ;; rust-analyzer should be installed with rustup
+  ;; https://rust-analyzer.github.io/manual.html#rustup
+  (setq rustic-analyzer-command '("rustup run stable rust-analyzer"))
+  )
 
 ;;;;;;;;;;
 ;;; Go ;;;
