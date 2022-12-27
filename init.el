@@ -528,6 +528,7 @@
          ("C-c k" . consult-ripgrep)
          ("C-c K" . my-consult-ripgrep-at-point)
          ("C-c C-m" . consult-minor-mode-menu)
+         ("C-h C-m" . consult-man)
          ("C-x l" . consult-locate)
          :map consult-narrow-map
          ([C-right] .  consult-narrow-right)
