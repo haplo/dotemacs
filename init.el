@@ -230,7 +230,7 @@
 
 ;; smarter kill-ring navigation
 (use-package browse-kill-ring
-  :config (browse-kill-ring-default-keybindings))
+  :bind (("C-x C-k" . browse-kill-ring)))
 
 ;; automatically save buffers associated with files on buffer and window switch
 ;; https://github.com/bbatsov/super-save
@@ -260,6 +260,9 @@
   (setq bookmark-default-file (expand-file-name "bookmarks" my-savefile-dir)
         bookmark-save-flag 1))
 
+(use-package align-regex
+  :bind (("C-x \\" . align-regexp)))
+
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
   :demand t
@@ -271,7 +274,15 @@
 (use-package anzu
   :diminish
   :demand t
+  :bind (("M-%" . anzu-query-replace)
+         ("C-M-%" . anzu-query-replace-regexp))
   :config (global-anzu-mode))
+
+;; live visual feedback when defining a regexp for replace
+;; https://github.com/benma/visual-regexp.el
+(use-package visual-regexp
+  :bind (("s-v r" . vr/replace)
+         ("s-v q" . vr/query-replace)))
 
 ;; make a shell script executable automatically on save
 (add-hook 'after-save-hook
@@ -287,12 +298,14 @@
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
   :ensure t
-  :demand t)
+  :demand t
+  :bind (("C-=" . er/expand-region)))
 
 ;; automatically clean up whitespace on save only on initially clean buffers
 ;; disable by setting whitespace-cleanup-mode to nil in dir or local variables
 (use-package whitespace-cleanup-mode
   :demand t
+  :bind (("C-c M-w" . whitespace-cleanup))
   :config (global-whitespace-cleanup-mode))
 
 ;; saner regex syntax
@@ -310,7 +323,24 @@
 ;; crux is a collection of general editing utilities, see below for keybindings
 ;; https://github.com/bbatsov/crux
 (use-package crux
-  :demand t)
+  :demand t
+  :bind (("C-c o" . crux-open-with)
+         ("C-a" . crux-move-beginning-of-line)
+         ("C-M-z" . crux-indent-defun)
+         ("C-c e" . crux-eval-and-replace)
+         ("C-c D" . crux-delete-file-and-buffer)
+         ("C-c d" . crux-duplicate-current-line-or-region)
+         ("C-c C-d" . crux-duplicate-and-comment-current-line-or-region)
+         ("C-c r" . crux-rename-buffer-and-file)
+         ("C-c t" . crux-visit-term-buffer)
+         ("C-c I" . crux-find-user-init-file)
+         ("C-c S" . crux-find-shell-init-file)
+         ("C-c C-k" . crux-kill-whole-line)
+         ([(shift return)] . crux-smart-open-line)
+         ([(control shift return)] . crux-smart-open-line-above)
+         ([(meta shift up)]  . move-text-up)
+         ([(meta shift down)]  . move-text-down)
+         ([remap kill-whole-line] . crux-kill-whole-line)))
 
 ;; Move line or region up and down
 ;; https://github.com/emacsfodder/move-text
@@ -359,7 +389,19 @@
 
 ;; better Emacs help
 ;; https://github.com/Wilfred/helpful
-(use-package helpful)
+(use-package helpful
+  :bind (;; includes macros, default describe-function
+         ("C-h f" . helpful-callable)
+         ;; excludes macros, default Info-goto-emacs-command-node
+         ("C-h F" . helpful-function)
+         ("C-h v" . helpful-variable)
+         ;; default describe-key
+         ("C-h k" . helpful-key)
+         ;; default describe-coding-system
+         ("C-h C" . helpful-command)
+         ;; default display-local-help
+         ("C-h ." . helpful-at-point)
+))
 
 ;; edit a grep buffer and apply those changes to the file buffer like sed interactively
 ;; https://github.com/mhayashi1120/Emacs-wgrep
@@ -455,6 +497,9 @@
 ;;; ibuffer ;;;
 ;;;;;;;;;;;;;;;
 
+(use-package ibuffer
+  :bind (("C-x C-b" . ibuffer)))
+
 (use-package ibuffer-projectile
   :hook (ibuffer . (lambda ()
                      (ibuffer-projectile-set-filter-groups)
@@ -515,22 +560,36 @@
 (use-package consult
   :ensure t
   :demand t
-  :bind (("C-c j" . consult-outline)
+  :after (projectile)
+  :bind (("C-c f" . consult-find)
+         ("C-c j" . consult-outline)
          ("C-c i" . consult-imenu)
-         ("C-c k" . consult-ripgrep)
-         ("C-c K" . my-consult-ripgrep-at-point)
+         ("C-c g" . consult-ripgrep)
+         ("C-c G" . my-consult-ripgrep-at-point)
+         ("C-s" . consult-line)
+         ("C-c s" . my-consult-line-at-point)
+         ("C-c M-s" . consult-line-multi)
+         ("C-c C-s" . consult-yasnippet)
+         ("C-c C-j" . consult-org-agenda)
          ("C-c C-m" . consult-minor-mode-menu)
          ("C-h C-m" . consult-man)
          ("C-x l" . consult-locate)
+         ("C-x b" . consult-buffer)
+         ("M-y" . consult-yank-pop)
+         ([remap goto-line] . consult-goto-line)
+         ([remap insert-register] . consult-register)
+         ([remap projectile-switch-to-buffer] . consult-project-buffer)
          :map consult-narrow-map
          ([C-right] .  consult-narrow-right)
-         ([C-left] .  consult-narrow-left)
-         )
+         ([C-left] .  consult-narrow-left))
   :preface
   (defun get-project-root ()
     (if (fboundp 'projectile-project-root)
         (projectile-project-root)
       (vc-root-dir)))
+  (defun my-consult-line-at-point ()
+    (interactive)
+    (consult-line (thing-at-point 'symbol)))
   (defun my-consult-ripgrep-at-point ()
     (interactive)
     (consult-ripgrep (get-project-root) (thing-at-point 'symbol)))
@@ -679,6 +738,12 @@
   :if (executable-find "git")
   :ensure t
   :demand t
+  :bind (("s-m m" . magit-status)
+         ("s-m s-m" . magit-status)
+         ("s-m j" . magit-dispatch)
+         ("s-m k" . magit-file-dispatch)
+         ("s-m l" . magit-log-buffer-file)
+         ("s-m b" . magit-blame))
   :config
   (setq
    magit-wip-after-apply-mode' t
@@ -705,6 +770,12 @@
         (expand-file-name "forge-database.sqlite" my-savefile-dir))
   )
 
+;; git-timemachine
+;; https://codeberg.org/pidu/git-timemachine
+(use-package git-timemachine
+  :bind (("s-m t" . git-timemachine)))
+
+
 ;;;;;;;;;;;;;;;;
 ;;; projects ;;;
 ;;;;;;;;;;;;;;;;
@@ -717,6 +788,7 @@
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
   :demand t
+  :bind-keymap (("s-p" . projectile-command-map))
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
         projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir)
@@ -974,10 +1046,7 @@
 (add-hook 'minibuffer-setup-hook #'turn-off-my-mode)
 
 ;; I hate minimize
-(define-key my-mode-map (kbd "C-x C-z") 'ignore)
-
-;; replace buffer-menu with ibuffer
-(define-key my-mode-map (kbd "C-x C-b") 'ibuffer)
+(global-unset-key (kbd "C-x C-z"))
 
 ;; quicker window splitting
 (define-key my-mode-map (kbd "M-1") 'delete-other-windows) ; was digit-argument
@@ -994,59 +1063,6 @@
 (define-key my-mode-map (kbd "C-x C-c") 'calc) ; was save-buffers-kill-terminal
 (define-key my-mode-map (kbd "C-x C") 'full-calc)
 
-;; whitespace cleanup
-(define-key my-mode-map (kbd "C-c M-w") 'whitespace-cleanup)
-
-;; expand region
-(define-key my-mode-map (kbd "C-=") 'er/expand-region)
-
-;; align code
-(define-key my-mode-map (kbd "C-x \\") 'align-regexp)
-
-;; crux
-(define-key my-mode-map (kbd "C-c o") 'crux-open-with)
-(define-key my-mode-map (kbd "C-a") 'crux-move-beginning-of-line)
-(define-key my-mode-map (kbd "C-M-z") 'crux-indent-defun)
-(define-key my-mode-map (kbd "C-c e") 'crux-eval-and-replace)
-(define-key my-mode-map (kbd "C-c s") 'crux-swap-windows)
-(define-key my-mode-map (kbd "C-c D") 'crux-delete-file-and-buffer)
-(define-key my-mode-map (kbd "C-c d") 'crux-duplicate-current-line-or-region)
-(define-key my-mode-map (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
-(define-key my-mode-map (kbd "C-c r") 'crux-rename-buffer-and-file)
-(define-key my-mode-map (kbd "C-c t") 'crux-visit-term-buffer)
-(define-key my-mode-map (kbd "C-c I") 'crux-find-user-init-file)
-(define-key my-mode-map (kbd "C-c S") 'crux-find-shell-init-file)
-(define-key my-mode-map (kbd "s-k") 'crux-kill-whole-line)
-(define-key my-mode-map [(shift return)] 'crux-smart-open-line)
-(define-key my-mode-map [(control shift return)] 'crux-smart-open-line-above)
-(define-key my-mode-map [(meta shift up)]  'move-text-up)
-(define-key my-mode-map [(meta shift down)]  'move-text-down)
-(define-key my-mode-map [remap kill-whole-line] 'crux-kill-whole-line)
-
-;; browse-kill-ring
-(define-key my-mode-map (kbd "C-x C-k") 'browse-kill-ring)
-
-;; anzu
-(define-key my-mode-map (kbd "M-%") 'anzu-query-replace)
-(define-key my-mode-map (kbd "C-M-%") 'anzu-query-replace-regexp)
-
-;; projectile
-(define-key my-mode-map (kbd "C-c p") 'projectile-command-map)
-(define-key my-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key my-mode-map [remap projectile-switch-to-buffer] 'consult-project-buffer)
-
-;; magit
-(define-key my-mode-map (kbd "s-m m") 'magit-status)
-(define-key my-mode-map (kbd "s-m s-m") 'magit-status)
-(define-key my-mode-map (kbd "s-m j") 'magit-dispatch)
-(define-key my-mode-map (kbd "s-m k") 'magit-file-dispatch)
-(define-key my-mode-map (kbd "s-m l") 'magit-log-buffer-file)
-(define-key my-mode-map (kbd "s-m b") 'magit-blame)
-
-;; visual-regexp
-(define-key my-mode-map (kbd "s-v r") 'vr/replace)
-(define-key my-mode-map (kbd "s-v q") 'vr/query-replace)
-
 ;; Global org-mode keybindings
 (define-key my-mode-map (kbd "C-c c") 'org-capture)
 (define-key my-mode-map (kbd "C-c l") 'org-store-link)
@@ -1054,39 +1070,8 @@
 (define-key my-mode-map (kbd "C-c b") 'org-switchb)
 (define-key my-mode-map (kbd "C-c C-x C-j") 'org-clock-goto)
 
-;; consult
-(define-key my-mode-map (kbd "M-y") 'consult-yank-pop)
-(define-key my-mode-map (kbd "C-x b") 'consult-buffer)
-(define-key my-mode-map (kbd "C-c C-s") 'consult-yasnippet)
-(define-key my-mode-map (kbd "C-c C-j") 'consult-org-agenda)
-(define-key my-mode-map (kbd "C-s") 'consult-line)
-(define-key my-mode-map (kbd "C-M-s") 'consult-line-multi)
-(define-key my-mode-map [remap goto-line] 'consult-goto-line)
-(define-key my-mode-map [remap insert-register] 'consult-register)
-
-;; embark
-(define-key my-mode-map (kbd "M-r") 'embark-act)
-(define-key my-mode-map (kbd "C-h u") 'embark-save-unicode-character)
-
-;; helpful
-(define-key my-mode-map (kbd "C-h f") 'helpful-callable)  ; includes macros, default describe-function
-(define-key my-mode-map (kbd "C-h F") 'helpful-function)  ; excludes macros, default Info-goto-emacs-command-node
-(define-key my-mode-map (kbd "C-h v") 'helpful-variable)
-(define-key my-mode-map (kbd "C-h k") 'helpful-key)       ; default describe-key
-(define-key my-mode-map (kbd "C-h C") 'helpful-command)   ; default describe-coding-system
-(define-key my-mode-map (kbd "C-h .") 'helpful-at-point)  ; default display-local-help
-
 ;; discover-my-major
 (define-key my-mode-map (kbd "C-h M-m") 'discover-my-major)
-
-;; Docker
-(define-key my-mode-map (kbd "s-D") 'docker)
-
-;; git-timemachine
-(define-key my-mode-map (kbd "s-m t") 'git-timemachine)
-
-;; Guix keybindings
-(define-key my-mode-map (kbd "s-g") 'guix)
 
 ;; Switch light/dark theme
 (define-key my-mode-map [f5] 'my-toggle-theme)
@@ -1479,10 +1464,21 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;;; Docker ;;;
 ;;;;;;;;;;;;;;
 
+;; Docker
+(use-package docker
+  :bind (("s-D" . docker)))
+
 (use-package dockerfile-mode)
 
 (use-package docker-compose-mode
   :mode "docker-compose.*\\.yml")
+
+;;;;;;;;;;;;
+;;; Guix ;;;
+;;;;;;;;;;;;
+
+(use-package guix
+  :bind (("s-g" . guix)))
 
 ;;;;;;;;;;;;;;;;;
 ;;; org-mode  ;;;
@@ -1664,9 +1660,9 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;; https://github.com/bnbeckwith/writegood-mode
 (use-package writegood-mode
   :hook (text-mode . writegood-mode)
-  :bind (("C-c M-w" . 'writegood-mode)
-         ("C-c M-g" . 'writegood-grade-level)
-         ("C-c M-r" . 'writegood-reading-ease)))
+  :bind (("C-x M-w" . 'writegood-mode)
+         ("C-x M-g" . 'writegood-grade-level)
+         ("C-x M-r" . 'writegood-reading-ease)))
 
 ;;;;;;;;;;;;;;
 ;;; Ebooks ;;;
