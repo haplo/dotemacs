@@ -14,8 +14,8 @@
 ;; no startup screen
 (setq inhibit-startup-screen t)
 
-;; Enable MELPA if we need the package system (i.e. not running under Guix)
-(when (not guix-p)
+;; add MELPA repository if we need the package system (i.e. not running under Guix)
+(unless guix-p
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 
