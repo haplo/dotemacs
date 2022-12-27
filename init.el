@@ -612,8 +612,9 @@
   :demand t
   :bind
   (("M-r" . embark-act)
-   ("C-h B" . embark-bindings))
-)
+   ("C-h B" . embark-bindings)
+   :map minibuffer-local-map
+   ("M-r" . embark-act)))
 
 ;; completion style that divides the pattern into space-separated components
 ;; and matches candidates that match all of the components in any order
