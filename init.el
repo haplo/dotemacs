@@ -346,16 +346,11 @@
 ;; https://github.com/emacsfodder/move-text
 (use-package move-text)
 
-;; undo-tree is great to never lose an edit step
-;; https://www.emacswiki.org/emacs/UndoTree
-(use-package undo-tree
-  :diminish
+;; display undo history as a tree and allow moving around its branches
+;; https://github.com/casouri/vundo
+(use-package vundo
   :config
-  ;; autosave the undo-tree history
-  (setq undo-tree-history-directory-alist
-        `((".*" . ,temporary-file-directory)))
-  (setq undo-tree-auto-save-history t)
-  (global-undo-tree-mode))
+  (setq vundo-glyph-alist vundo-unicode-symbols))
 
 ;; show uncommitted changes in the gutter
 ;; https://github.com/dgutov/diff-hl
@@ -1091,7 +1086,7 @@
   (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
   (key-chord-define-global "qq" 'dirvish-dwim)
   (key-chord-define-global "qs" 'dirvish-side)
-  (key-chord-define-global "uu" 'undo-tree-visualize)
+  (key-chord-define-global "uu" 'vundo)
   (key-chord-define-global "xx" 'magit-status)
   (key-chord-define-global "xz" 'projectile-find-file-dwim)
   (key-chord-define-global "yy" 'consult-yank-from-kill-ring)

@@ -87,7 +87,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`toml-mode`](https://github.com/dryman/toml-mode.el): major mode for TOML files.
 * [`tramp`](https://www.gnu.org/software/tramp/): remote file editing, beyond cool.
 * [`typescript-mode`](https://github.com/emacs-typescript/typescript.el): major mode for Typescript files.
-* [`undo-tree`](https://www.dr-qubit.org/undo-tree.html): visualize and navigate the undo tree for a buffer, never lose an edit.
+* [`vundo`](https://github.com/casouri/vundo): visualize and navigate the undo history as a tree, never lose an edit.
 * [`vertico`](https://github.com/minad/vertico): performant and minimalistic vertical completion UI based on the default completion system.
 * [`visual-regexp`](https://github.com/emacsmirror/visual-regexp): live view of the matches of a regular expression.
 * [`volatile-highlights`](https://github.com/k-talo/volatile-highlights.el): visual feedback for some operations.
