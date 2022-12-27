@@ -797,7 +797,7 @@
               ("M-n" . corfu-doc-scroll-up)
               ("M-p" . corfu-doc-scroll-down))
   :custom
-  (corfu-doc-delay nil)
+  (corfu-doc-delay 0.1)
   (corfu-doc-max-width 70)
   (corfu-doc-max-height 20)
   ;; be extra-safe that documentation is not shown in echo area
