@@ -3,7 +3,8 @@
 
 (when guix-p
   ;; Disable package system if running under Guix
-  (setq package-enable-at-startup nil))
+  (setq package-enable-at-startup nil)
+  (setq package-archives nil))
 
 ;; increase garbage collection threshold for faster startup
 ;; default is 800 KiB, it's already $YEAR so we can do more
