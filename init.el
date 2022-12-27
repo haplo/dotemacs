@@ -1481,7 +1481,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
   :custom
   (org-directory (expand-file-name "~/Org"))
   ;; add all *.org files in the org-directory defined above
-  (setq org-agenda-files (list org-directory))
+  (org-agenda-files (list org-directory))
   (org-default-notes-file (concat org-directory "/notes.org"))
   (org-log-done t)
   ;; save time when a task is done
