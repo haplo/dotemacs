@@ -1038,14 +1038,12 @@
 (use-package smartparens
   :hook (prog-mode . smartparens-mode)
   :init
-  (smartparens-global-mode)
   (show-smartparens-global-mode +1)
   (require 'smartparens-config)
   :config
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
         sp-hybrid-kill-entire-symbol nil)
-  (sp-use-paredit-bindings)
 )
 
 ;;;;;;;;;;;
