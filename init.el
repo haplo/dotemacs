@@ -502,7 +502,7 @@
       (ansi-color-apply-on-region (point-min) (point-max)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; vertico, consult, marginalia, embark, orderless ;;;
+;;; Completion ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; performant and minimalistic vertical completion UI
