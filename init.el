@@ -191,19 +191,6 @@
 ;; http://osdir.com/ml/help-gnu-emacs-gnu/2009-05/msg00170.hotel
 (require 'iso-transl)
 
-;; hippie expand is dabbrev expand on steroids
-(setq hippie-expand-try-functions-list '(try-expand-dabbrev
-                                         try-expand-dabbrev-all-buffers
-                                         try-expand-dabbrev-from-kill
-                                         try-complete-file-name-partially
-                                         try-complete-file-name
-                                         try-expand-all-abbrevs
-                                         try-expand-list
-                                         try-expand-line
-                                         try-complete-lisp-symbol-partially
-                                         try-complete-lisp-symbol))
-
-
 ;; use directory name in buffer names of files with the same name
 (use-package uniquify
   :demand t
@@ -753,41 +740,119 @@
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
 
-;; https://company-mode.github.io/
-(use-package company
-  :bind (:map company-mode-map
-              ([tab] . 'company-indent-or-complete-common)
-              ("TAB" . 'company-indent-or-complete-common)
-         :map company-active-map
-              ("<tab>" . company-complete-common-or-cycle)
-              ("<backtab>" . (lambda() (interactive) (company-complete-common-or-cycle -1)))
-              ("C-n" . company-select-next-or-abort)
-              ("C-p" . company-select-previous-or-abort)
-              ("C-l" . company-other-backend)
-         )
-  :hook (prog-mode . company-mode)
+;; enhance completion at point with a small completion popup
+;; https://github.com/minad/corfu
+(use-package corfu
+  :ensure t
+  :demand t
+  :bind (:map corfu-map
+              ("SPC" . corfu-insert-separator)
+              ("C-g" . corfu-quit)
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous)
+              ("<escape>" . corfu-quit)
+              ("<return>" . corfu-insert)
+              ("M-d" . corfu-show-documentation)
+              ("M-l" . corfu-show-location))
   :config
-  (setq ;; bigger popup window
-        company-tooltip-limit 20
-        ;; wait until at least one character before autocompleting
-        company-minimum-prefix-length 1
-        ;; shorter delay before autocompletion popup
-        company-idle-delay 0.2
-        ;; removes annoying blinking
-        company-echo-delay 0
-        ;; show quick-access numbers
-        company-show-numbers t
-        ;; utf-8 all the way
-        selection-coding-system 'utf-8
-        ))
-
-;; https://github.com/tumashu/company-posframe
-(use-package company-posframe
-  :diminish
-  :config
-  (setq company-posframe-quickhelp-delay 0.1)
-  (company-posframe-mode t)
+  (global-corfu-mode)
+  :custom
+  ;; I like autocompletion popping up automatically
+  (corfu-auto t)
+  ;; show candidates as soon as 1 character is pressed
+  (corfu-auto-prefix 1)
+  ;; show candidates after this many seconds
+  (corfu-auto-delay 0.2)
+  (corfu-min-width 20)
+  ;; always have the same width
+  (corfu-max-width 80)
+  (corfu-count 20)
+  (corfu-scroll-margin 3)
+  (corfu-cycle nil)
+  (corfu-quit-at-boundary 'separator)
+  ;; don't quit if there is corfu-separator inserted
+  (corfu-quit-no-match 'separator)
+  (corfu-separator ?\s)
+  (corfu-preselect-first t)
+  ;; preview current candidate
+  (corfu-preview-current 'insert)
+  ;; don't show documentation in echo area, as corfu-doc is set up below
+  (corfu-echo-documentation nil)
   )
+
+(use-package corfu-doc
+  :after corfu
+  :hook (corfu-mode . corfu-doc-mode)
+  :bind (:map corfu-map
+              ;; manual toggle for the documentation popup
+              ([remap corfu-show-documentation] . corfu-doc-toggle)
+              ;; scroll in the documentation window
+              ("M-n" . corfu-doc-scroll-up)
+              ("M-p" . corfu-doc-scroll-down))
+  :custom
+  (corfu-doc-delay nil)
+  (corfu-doc-max-width 70)
+  (corfu-doc-max-height 20)
+  ;; be extra-safe that documentation is not shown in echo area
+  (corfu-echo-documentation nil))
+
+(use-package cape
+  :hook ((org-mode . my-cape-capf-setup-org))
+  :bind (("C-z p" . completion-at-point)
+         ("C-z t" . complete-tag)  ; etags
+         ("C-z d" . cape-dabbrev)  ; basically `dabbrev-completion'
+         ("C-z f" . cape-file)
+         ("C-z k" . cape-keyword)
+         ("C-z s" . cape-symbol)
+         ("C-z a" . cape-abbrev)
+         ("C-z i" . cape-ispell)
+         ("C-z l" . cape-line)
+         ("C-z w" . cape-dict)
+         ("C-z \\" . cape-tex)
+         ("C-z _" . cape-tex)
+         ("C-z ^" . cape-tex)
+         ("C-z &" . cape-sgml)
+         ("C-z r" . cape-rfc1345))
+  :init
+  ;; C-z is set to minimize by default
+  (global-set-key (kbd "C-z") nil)
+  :preface
+  ;; Org
+  (defun my-cape-capf-setup-org ()
+    (let (result)
+      (dolist (element (list
+                        (cape-super-capf #'cape-ispell #'cape-dabbrev)
+                        (cape-company-to-capf #'company-yasnippet))
+                       result)
+        (add-to-list 'completion-at-point-functions element))))
+  )
+
+;; icons for autocomplete results
+;; https://github.com/jdtsmith/kind-icon
+(use-package kind-icon
+  :demand t
+  :after corfu
+  :custom
+  ;; explicitly enable icons
+  (kind-icon-use-icons t)
+  ;; have background color be the same as corfu face background
+  (kind-icon-default-face 'corfu-default)
+  ;; use midpoint color between foreground and background colors
+  (kind-icon-blend-background nil)
+  (kind-icon-blend-frac 0.08)
+  ;; don't allow svg-lib to litter with its cache directory
+  (svg-lib-icons-dir (expand-file-name "svg-lib/cache/" my-savefile-dir))
+  :config
+  ;; enable for corfu
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+;; use dabbrev with corfu
+(use-package dabbrev
+  ;; swap M-/ and C-M-/, as M-/ will use corfu
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :custom
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; spell check ;;;
@@ -894,11 +959,7 @@
   (my-mode -1))
 (add-hook 'minibuffer-setup-hook #'turn-off-my-mode)
 
-;; use hippie-expand instead of dabbrev
-(define-key my-mode-map (kbd "M-/") 'hippie-expand)
-
 ;; I hate minimize
-(define-key my-mode-map (kbd "C-z") 'ignore)
 (define-key my-mode-map (kbd "C-x C-z") 'ignore)
 
 ;; replace buffer-menu with ibuffer
