@@ -945,7 +945,7 @@
 (define-key my-mode-map (kbd "C-h .") 'helpful-at-point)  ; default display-local-help
 
 ;; discover-my-major
-(define-key my-mode-map (kbd "C-h C-m") 'discover-my-major)
+(define-key my-mode-map (kbd "C-h M-m") 'discover-my-major)
 
 ;; Docker
 (define-key my-mode-map (kbd "s-D") 'docker)
