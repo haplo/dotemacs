@@ -746,6 +746,7 @@
 (use-package corfu
   :ensure t
   :demand t
+  :hook (minibuffer-setup . corfu-enable-in-minibuffer)
   :bind (:map corfu-map
               ("SPC" . corfu-insert-separator)
               ("C-g" . corfu-quit)
@@ -755,6 +756,11 @@
               ("<return>" . corfu-insert)
               ("M-d" . corfu-show-documentation)
               ("M-l" . corfu-show-location))
+  :preface
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (corfu-mode 1)))
   :config
   (global-corfu-mode)
   :custom
