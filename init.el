@@ -228,6 +228,11 @@
         ;; problems with remote files
         recentf-auto-cleanup 'never))
 
+(use-package elec-pair
+  :demand t
+  :config
+  (electric-pair-mode +1))
+
 ;; smarter kill-ring navigation
 (use-package browse-kill-ring
   :bind (("C-x C-k" . browse-kill-ring)))
@@ -338,8 +343,8 @@
          ("C-c C-k" . crux-kill-whole-line)
          ([(shift return)] . crux-smart-open-line)
          ([(control shift return)] . crux-smart-open-line-above)
-         ([(meta shift up)]  . move-text-up)
-         ([(meta shift down)]  . move-text-down)
+         ([(control shift up)]  . move-text-up)
+         ([(control shift down)]  . move-text-down)
          ([remap kill-whole-line] . crux-kill-whole-line)))
 
 ;; Move line or region up and down
@@ -1079,6 +1084,7 @@
 ;; trigger commands by pressing keys in quick succession
 ;; https://github.com/emacsorphanage/key-chord
 (use-package key-chord
+  :after (avy consult crux dirvish magit projectile vundo)
   :config
   (key-chord-define-global "jj" 'avy-goto-word-1)
   (key-chord-define-global "jl" 'avy-goto-line)
@@ -1090,27 +1096,28 @@
   (key-chord-define-global "xx" 'magit-status)
   (key-chord-define-global "xz" 'projectile-find-file-dwim)
   (key-chord-define-global "yy" 'consult-yank-from-kill-ring)
-  (key-chord-define-global "''" 'sp-rewrap-sexp)
   (key-chord-mode +1)
   )
 
-;;;;;;;;;;;;;;;;;;;
-;;; smartparens ;;;
-;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; structured editing ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; smart pairing for all programming modes
-;; https://smartparens.readthedocs.io/en/latest/
-(use-package smartparens
-  :hook (prog-mode . smartparens-mode)
+;; https://github.com/AmaiKinono/puni
+(use-package puni
+  :demand t
+  :hook (term-mode . puni-disable-puni-mode)
+  :bind (("M-<up>" . puni-splice)
+         ("M-S-<up>" . puni-raise)
+         ("M-<down>" . puni-split)
+         ("M-S-<down>" . puni-squeeze)
+         ("M-[" . puni-slurp-backward)
+         ("M-]" . puni-slurp-forward)
+         ("M-{" . puni-barf-backward)
+         ("M-}" . puni-barf-forward))
   :init
-  (show-smartparens-global-mode +1)
-  (require 'smartparens-config)
-  :config
-  (setq sp-base-key-bindings 'paredit
-        sp-autoskip-closing-pair 'always
-        sp-hybrid-kill-entire-symbol nil)
-  (sp-use-paredit-bindings)
-)
+  (puni-global-mode))
 
 ;;;;;;;;;;;
 ;;; LSP ;;;
@@ -1210,8 +1217,6 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
   :hook (js2-mode . (lambda () (run-hooks 'my-js-mode-overrides)))
   :config
   (defun my-js-mode-overrides ()
-    ;; electric-layout-mode doesn't play nice with smartparens
-    (setq-local electric-layout-rules '((?\; . after)))
     (setq mode-name "JS2")
     (js2-imenu-extras-mode +1)
     (subword-mode +1)
@@ -1310,7 +1315,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 ;; https://web-mode.org/
 (use-package web-mode
-  :after (smartparens flycheck)
+  :after (flycheck)
   :mode (
          "\\.html\\'"
          "\\.phtml\\'"
@@ -1327,21 +1332,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
          )
   :config
   (setq web-mode-code-indent-offset 2
-        web-mode-markup-indent-offset 2
-        ;; make web-mode play nice with smartparens
-        web-mode-enable-auto-pairing nil
-        )
-  (sp-with-modes '(web-mode)
-    (sp-local-pair "%" "%"
-                   :unless '(sp-in-string-p)
-                   :post-handlers '(((lambda (&rest _ignored)
-                                       (just-one-space)
-                                       (save-excursion (insert " ")))
-                                     "SPC" "=" "#")))
-    (sp-local-tag "%" "<% "  " %>")
-    (sp-local-tag "=" "<%= " " %>")
-    (sp-local-tag "#" "<%# " " %>")
-    )
+        web-mode-markup-indent-offset 2)
   ; TSX support
   (add-hook 'web-mode-hook
             (lambda ()
@@ -1357,9 +1348,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 (with-eval-after-load 'css-mode
   (setq css-indent-offset 2)
   (defun my-css-mode-defaults ()
-    (rainbow-mode +1)
-    (smartparens-mode +1)
-    )
+    (rainbow-mode +1))
   (setq my-css-mode-hook 'my-css-mode-defaults)
   (add-hook 'css-mode-hook (lambda ()
                              (run-hooks 'my-css-mode-hook))))
@@ -1411,7 +1400,6 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;;;;;;;;;;;;
 
 (defun my-lisp-coding-defaults ()
-  (smartparens-strict-mode +1)
   (rainbow-delimiters-mode +1))
 
 (setq my-lisp-coding-hook 'my-lisp-coding-defaults)

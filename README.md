@@ -76,12 +76,12 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`prettier-js`](https://github.com/prettier/prettier-emacs): autoformatter for Javascript code.
 * [`prisma-mode`](https://github.com/pimeys/emacs-prisma-mode): a major mode for editing Prisma ORM schemas.
 * [`projectile`](https://github.com/bbatsov/projectile): project management.
+* [`puni`](https://github.com/AmaiKinono/puni): minor mode to work with delimiters that come in pairs, e.g. parentheses, braces, tags, etc.
 * [`rainbow-delimiters`](https://github.com/Fanael/rainbow-delimiters): color delimiters such as parentheses or braces as they nest.
 * [`rainbow-mode`](https://elpa.gnu.org/packages/rainbow-mode.html): color strings that describe colors.
 * [`rjsx-mode`](https://github.com/felipeochoa/rjsx-mode/): minor mode for React JSX files.
 * [`rustic`](https://github.com/brotzeit/rustic): major mode for [Rust](https://www.rust-lang.org/) coding.
 * [`saveplace`](https://www.emacswiki.org/emacs/SavePlace): built-in to remember last position on each open file.
-* [`smartparens`](https://smartparens.readthedocs.io/): minor mode to work with delimiters that come in pairs, e.g. parentheses, braces, tags, etc.
 * [`super-save`](https://github.com/bbatsov/super-save): automatically save buffers on certain events.
 * [`tide`](https://github.com/ananthakumaran/tide): *TypeScript Interactive Development Environment*.
 * [`toml-mode`](https://github.com/dryman/toml-mode.el): major mode for TOML files.
