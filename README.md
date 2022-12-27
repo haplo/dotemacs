@@ -25,11 +25,13 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
 * [`browse-kill-ring`](https://github.com/browse-kill-ring/browse-kill-ring): Browse. The. Kill. Ring.
 * [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
-* [`company`](https://company-mode.github.io/): autocomplete.
-* [`company-posframe`](https://github.com/tumashu/company-posframe): display documentation for autocompletion candidates.
+* [`cape`](https://github.com/minad/cape): completion-at-point extensions, pairs with corfu.
+* [`corfu`](https://github.com/minad/corfu/): completion-at-point popup. Like company but lighter.
+* [`corfu-doc`](https://github.com/galeo/corfu-doc): display documentation for autocompletion candidates.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
 * [`consult`](https://github.com/minad/consult): practical commands based on the Emacs completion function `completing-read`.
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
+* [`csv-mode`](https://elpa.gnu.org/packages/csv-mode.html): major mode to edit CSV (Comma-Separated Values) files.
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
 * [`direnv`](https://github.com/wbolster/emacs-direnv): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
@@ -42,6 +44,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`editorconfig`](https://github.com/editorconfig/editorconfig-emacs): support for *.editorconfig* files.
 * [`eldoc`](https://elpa.gnu.org/packages/eldoc.html): display documentation about current function in echo area.
 * [`embark`](https://github.com/oantolin/embark/): choose a command to run based on what is near point, both during a minibuffer completion session and in normal buffers.
+* [`emojify`](https://github.com/iqbalansari/emacs-emojify): display emojis.
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
 * [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
 * [`eyebrowse`](https://depp.brause.cc/eyebrowse/): manage [window](https://www.emacswiki.org/emacs/Window) configurations.
@@ -49,13 +52,16 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`flyspell`](https://www.emacswiki.org/emacs/FlySpell): spell checking.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
 * [`geiser`](https://nongnu.org/geiser/): [Scheme](https://www.scheme.org/) hacking.
+* [`git-timemachine`](https://codeberg.org/pidu/git-timemachine): browse previous revisions of any git-controlled file.
 * [`go-mode`](https://github.com/dominikh/go-mode.el): major mode for [Go](https://go.dev/) files.
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.
+* [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers..
 * [`ibuffer-projectile`](https://github.com/purcell/ibuffer-projectile): group buffers by project in *ibuffer* view.
 * [`js2-mode`](https://github.com/mooz/js2-mode): major mode for Javascript files.
 * [`js2-refactor`](https://github.com/js-emacs/js2-refactor.el): refactor operations for Javascript code.
 * [`json-mode`](https://github.com/joshwnj/json-mode): major mode for JSON files.
 * [`key-chord`](https://github.com/emacsorphanage/key-chord): execute commands by pressing quicks quickly.
+* [`kind-icon`](https://github.com/jdtsmith/kind-icon): icons for completion-at-point candidates.
 * [`lsp-mode`](https://emacs-lsp.github.io/lsp-mode/): [Language Server Protocol](https://en.wikipedia.org/wiki/Language_Server_Protocol) support for Emacs.
 * [`lsp-ui`](https://github.com/emacs-lsp/lsp-ui): UI components for *lsp-mode*.
 * [`magit`](https://magit.vc/manual/forge/): the best Git interface there is.
@@ -86,6 +92,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`visual-regexp`](https://github.com/emacsmirror/visual-regexp): live view of the matches of a regular expression.
 * [`volatile-highlights`](https://github.com/k-talo/volatile-highlights.el): visual feedback for some operations.
 * [`web-mode`](https://web-mode.org/): major mode for web templates (HTML and much more).
+* [`wgrep`](https://github.com/mhayashi1120/Emacs-wgrep): edit a grep buffer and apply those changes to the file buffer.
 * [`which-key`](https://github.com/justbur/emacs-which-key): show all possible key combinations.
 * [`whitespace-cleanup-mode`](https://github.com/purcell/whitespace-cleanup-mode): minor mode to clean up a buffer's whitespace on save.
 * [`writegood-mode`](https://github.com/bnbeckwith/writegood-mode): minor mode to aid in finding common writing problems in English.

@@ -770,7 +770,7 @@
         (expand-file-name "forge-database.sqlite" my-savefile-dir))
   )
 
-;; git-timemachine
+;; browse previous revisions of any git-controlled file
 ;; https://codeberg.org/pidu/git-timemachine
 (use-package git-timemachine
   :bind (("s-m t" . git-timemachine)))
