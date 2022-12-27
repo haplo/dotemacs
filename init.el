@@ -580,6 +580,10 @@
    consult--source-project-buffer
    consult--source-project-recent-file
    :preview-key '[M-.])
+  (setq ;; use consult for xref navigation
+        xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref
+        )
   )
 
 ;; adds marginalia annotations to the minibuffer completions
