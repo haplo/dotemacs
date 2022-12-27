@@ -950,7 +950,7 @@
 ;; projectile
 (define-key my-mode-map (kbd "C-c p") 'projectile-command-map)
 (define-key my-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key my-mode-map [remap projectile-switch-to-buffer] 'counsel-projectile-switch-to-buffer)
+(define-key my-mode-map [remap projectile-switch-to-buffer] 'consult-project-buffer)
 
 ;; magit
 (define-key my-mode-map (kbd "s-m m") 'magit-status)
