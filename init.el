@@ -609,9 +609,7 @@
    ("M-r" . embark-act)))
 
 (use-package embark-consult
-  :ensure t
   :after (embark consult)
-  :demand t
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; completion style that divides the pattern into space-separated components
