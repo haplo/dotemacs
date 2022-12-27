@@ -435,6 +435,7 @@
                                        ("D" "~/Documents/"         "Documents")
                                        ("m" "~/Music/"             "Music")
                                        ("M" "~/Music to sort/"     "Music to sort")
+                                       ("o" "~/Org/"               "Org")
                                        ("p" "~/Pictures/"          "Photos")
                                        ("P" "~/Pictures to sort/"  "Photos to sort")
                                        ("s" "~/Sync/"  "Sync"))
