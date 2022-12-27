@@ -977,6 +977,7 @@
 (define-key my-mode-map (kbd "C-c C-s") 'consult-yasnippet)
 (define-key my-mode-map (kbd "C-c C-j") 'consult-org-agenda)
 (define-key my-mode-map (kbd "C-s") 'consult-line)
+(define-key my-mode-map (kbd "C-M-s") 'consult-line-multi)
 (define-key my-mode-map [remap goto-line] 'consult-goto-line)
 (define-key my-mode-map [remap insert-register] 'consult-register)
 
