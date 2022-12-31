@@ -18,6 +18,7 @@ which is now discontinued.
 
 This list might be outdated, you would do better by grepping [init.el](init.el) for `use-package` uses.
 
+* [`ace-window`](https://github.com/abo-abo/ace-window): quickly move/split/swap/copy windows.
 * [`all-the-icons`](https://github.com/domtronn/all-the-icons.el): pretty icons.
 * [`all-the-icons-ibuffer`](https://github.com/seagle0128/all-the-icons-ibuffer): pretty icons in *ibuffer*.
 * [`all-the-icons-completion`](https://github.com/iyefrat/all-the-icons-completion): pretty icons in completion minibuffer.

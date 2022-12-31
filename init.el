@@ -417,9 +417,24 @@
 (use-package wgrep
   :after (embark))
 
-;;;;;;;;;;;;;;;;;
-;;; eyebrowse ;;;
-;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Window and frame management ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; quickly move/split/swap/copy windows
+;; https://github.com/abo-abo/ace-window
+(use-package ace-window
+  :ensure t
+  :demand t
+  :bind (("M-s" . ace-window))
+  :config
+  (setq ;; keys for selecting windows
+        aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        ;; jump only in the current frame
+        aw-scope 'frame
+        ;; don't gray out contents when jumping
+        aw-background nil
+        ))
 
 ;; manage window configurations
 ;; https://depp.brause.cc/eyebrowse/
@@ -1022,11 +1037,6 @@
 ;;; keybindings ;;;
 ;;;;;;;;;;;;;;;;;;;
 
-;; use shift + arrow keys to switch between visible buffers
-(use-package windmove
-  :demand t
-  :config (windmove-default-keybindings))
-
 ;; define a new minor mode
 ;; https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings/358#358
 (defvar my-mode-map (make-sparse-keymap)
@@ -1065,7 +1075,7 @@
                                       (funcall 'split-window-horizontally
                                                (+ fill-column 4)))) ; was digit-argument
 (define-key my-mode-map (kbd "M-0") 'delete-window) ; was digit-argument
-(define-key my-mode-map (kbd "M-s") 'other-window) ; was center-line
+(define-key my-mode-map (kbd "M-s") 'ace-window) ; was center-line
 
 ;; quick access to calculator
 (define-key my-mode-map (kbd "C-x c") 'calc)
