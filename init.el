@@ -570,7 +570,6 @@
          ("C-c s" . my-consult-line-at-point)
          ("C-c M-s" . consult-line-multi)
          ("C-c C-s" . consult-yasnippet)
-         ("C-c C-j" . consult-org-agenda)
          ("C-c C-m" . consult-minor-mode-menu)
          ("C-h C-m" . consult-man)
          ("C-x l" . consult-locate)
@@ -1076,6 +1075,9 @@
 
 ;; Switch light/dark theme
 (define-key my-mode-map [f5] 'my-toggle-theme)
+
+;; Consult
+(define-key my-mode-map (kbd "C-c C-j") 'consult-org-agenda)  ; was org-goto in org mode
 
 ;;;;;;;;;;;;;;;;;
 ;;; keychords ;;;
