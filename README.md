@@ -75,6 +75,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`orderless`](https://github.com/oantolin/orderless): completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 * [`org`](https://orgmode.org/): the most powerful note taking and planning software ever created.
 * [`org-superstar`](https://github.com/integral-dw/org-superstar-mode): prettier headings in org-mode.
+* [`popper`](https://github.com/karthink/popper): tame the flood of ephemeral windows Emacs produces.
 * [`prettier-js`](https://github.com/prettier/prettier-emacs): autoformatter for Javascript code.
 * [`prisma-mode`](https://github.com/pimeys/emacs-prisma-mode): a major mode for editing Prisma ORM schemas.
 * [`projectile`](https://github.com/bbatsov/projectile): project management.

@@ -445,6 +445,28 @@
   (eyebrowse-mode t)
   (eyebrowse-setup-opinionated-keys))
 
+;; tame the flood of ephemeral windows Emacs produces
+;; https://github.com/karthink/popper
+(use-package popper
+  :ensure t
+  :demand t
+  :bind (("C-`" . popper-toggle-latest)
+         ("M-`" . popper-cycle)
+         ("C-M-`" . popper-toggle-type))
+  :init
+  (setq ;; how to group popups
+        popper-group-function #'popper-group-by-projectile
+        ;; which buffers should be considered popups
+        popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          helpful-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))
+
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;; dired / dirvish ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;
