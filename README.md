@@ -32,6 +32,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`consult`](https://github.com/minad/consult): practical commands based on the Emacs completion function `completing-read`.
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
 * [`csv-mode`](https://elpa.gnu.org/packages/csv-mode.html): major mode to edit CSV (Comma-Separated Values) files.
+* [`desktop-mode`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html): save and restore Emacs editor state.
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
 * [`direnv`](https://github.com/wbolster/emacs-direnv): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.

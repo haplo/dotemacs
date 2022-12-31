@@ -114,6 +114,15 @@
 ;; Cycle between candidates when there are not a lot of them
 (setq completion-cycle-threshold 3)
 
+(use-package desktop
+  :config
+  (let ((desktop-dir (expand-file-name "desktop" my-savefile-dir)))
+    (progn
+      (unless (file-directory-p desktop-dir)
+        (make-directory desktop-dir))
+      (setq desktop-dirname desktop-dir)))
+  (desktop-save-mode 1))
+
 ;; remember point location when reopening a file
 (use-package saveplace
   :init
