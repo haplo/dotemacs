@@ -466,7 +466,10 @@
           helpful-mode
           compilation-mode))
   (popper-mode +1)
-  (popper-echo-mode +1))
+  (popper-echo-mode +1)
+  :config
+  (setq popper-window-height 20)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;; dired / dirvish ;;;
