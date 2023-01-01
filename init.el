@@ -450,6 +450,7 @@
 (use-package popper
   :ensure t
   :demand t
+  :after (projectile)
   :bind (("C-`" . popper-toggle-latest)
          ("M-`" . popper-cycle)
          ("C-M-`" . popper-toggle-type))
