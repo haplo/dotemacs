@@ -121,6 +121,8 @@
       (unless (file-directory-p desktop-dir)
         (make-directory desktop-dir))
       (setq desktop-dirname desktop-dir)))
+  ;; leave org files open when clearing the desktop
+  (add-to-list 'desktop-clear-preserve-buffers "\\*.org$" t)
   (desktop-save-mode 1))
 
 ;; remember point location when reopening a file
