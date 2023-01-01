@@ -343,8 +343,7 @@
          ("C-c C-i" . crux-indent-defun)
          ("C-c e" . crux-eval-and-replace)
          ("C-c D" . crux-delete-file-and-buffer)
-         ("C-c d" . crux-duplicate-current-line-or-region)
-         ("C-c C-d" . crux-duplicate-and-comment-current-line-or-region)
+         ("C-c C-d" . crux-duplicate-current-line-or-region)
          ("C-c r" . crux-rename-buffer-and-file)
          ("C-c t" . crux-visit-term-buffer)
          ("C-c I" . crux-find-user-init-file)
@@ -685,6 +684,45 @@
         xref-show-definitions-function #'consult-xref
         )
   )
+
+;; insert directory paths into the minibuffer prompt
+;; https://github.com/karthink/consult-dir
+(use-package consult-dir
+  :ensure t
+  :demand t
+  :after (projectile)
+  :bind (("C-c d" . consult-dir)
+         :map minibuffer-local-completion-map
+         ("C-c d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file))
+  :preface
+  ;; Quick access to docker containers
+  ;; Taken from consult-dir's README: https://github.com/karthink/consult-dir#docker-hosts
+  (defun consult-dir--tramp-docker-hosts ()
+    "Get a list of hosts from docker."
+    (when (require 'docker-tramp nil t)
+      (let ((hosts)
+            (docker-tramp-use-names t))
+        (dolist (cand (docker-tramp--parse-running-containers))
+          (let ((user (unless (string-empty-p (car cand))
+                        (concat (car cand) "@")))
+                (host (car (cdr cand))))
+            (push (concat "/docker:" user host ":/") hosts)))
+        hosts)))
+  (defvar consult-dir--source-tramp-docker
+    `(:name     "Docker"
+                :narrow   ?d
+                :category file
+                :face     consult-file
+                :history  file-name-history
+                :items    ,#'consult-dir--tramp-docker-hosts)
+    "Docker candidate source for `consult-dir'.")
+  :config
+  (setq ;; integrate with projectile to find project directories
+        consult-dir-project-list-function #'consult-dir-projectile-dirs
+        ;; default command to execute on candidates
+        consult-dir-default-command 'find-file)
+  (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-docker t))
 
 ;; adds marginalia annotations to the minibuffer completions
 ;; https://github.com/minad/marginalia

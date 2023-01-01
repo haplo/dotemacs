@@ -31,6 +31,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`corfu-doc`](https://github.com/galeo/corfu-doc): display documentation for autocompletion candidates.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
 * [`consult`](https://github.com/minad/consult): practical commands based on the Emacs completion function `completing-read`.
+* [`consult-dir`](https://github.com/karthink/consult-dir): insert directory paths into the minibuffer prompt.
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
 * [`csv-mode`](https://elpa.gnu.org/packages/csv-mode.html): major mode to edit CSV (Comma-Separated Values) files.
 * [`desktop-mode`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html): save and restore Emacs editor state.
