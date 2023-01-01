@@ -252,14 +252,16 @@
 ;; https://github.com/bbatsov/super-save
 (use-package super-save
   :diminish
-  :config (super-save-mode +1)
-)
+  :config (super-save-mode +1))
 
 ;; TRAMP is awesome
 ;; https://www.gnu.org/software/tramp/
 (use-package tramp
   :config
-  (setq tramp-default-method "ssh"))
+  (setq ;; don't pollute .emacs.d directory
+        tramp-persistency-file-name (expand-file-name "tramp" my-savefile-dir)
+        ;; default to SSH
+        tramp-default-method "ssh"))
 
 (set-default 'imenu-auto-rescan t)
 
