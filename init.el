@@ -137,8 +137,8 @@
 
 (use-package smex
   :demand t
-  :config
-  (setq smex-save-to-file (expand-file-name "smex" my-savefile-dir)))
+  :init
+  (setq smex-save-file (expand-file-name "smex-items" my-savefile-dir)))
 
 ;; run garbage collection when frame loses focus, which should mean I'm not using
 ;; Emacs at that time so I won't care about any slowdown
