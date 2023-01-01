@@ -340,7 +340,7 @@
   :demand t
   :bind (("C-c o" . crux-open-with)
          ("C-a" . crux-move-beginning-of-line)
-         ("C-M-z" . crux-indent-defun)
+         ("C-c C-i" . crux-indent-defun)
          ("C-c e" . crux-eval-and-replace)
          ("C-c D" . crux-delete-file-and-buffer)
          ("C-c d" . crux-duplicate-current-line-or-region)
