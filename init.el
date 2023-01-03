@@ -268,9 +268,14 @@
 ;; enable set goal column (C-x C-n)
 (put 'set-goal-column 'disabled nil)
 
-;; enabled change region case commands
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+(use-package simple
+  ;; upcase-downcase word at point or region if set
+  :bind (("M-u" . upcase-dwim)
+         ("M-l" . downcase-dwim))
+  :config
+  ;; enabled change region case commands
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil))
 
 ;; bookmarks
 (use-package bookmark
