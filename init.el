@@ -914,7 +914,9 @@
 (use-package corfu
   :ensure t
   :demand t
-  :hook (minibuffer-setup . corfu-enable-in-minibuffer)
+  :hook ((minibuffer-setup . corfu-enable-in-minibuffer)
+         ;; display autocomplete popup automatically in programming modes
+         (prog-mode . corfu-set-local-auto))
   :bind (:map corfu-map
               ("SPC" . corfu-insert-separator)
               ("C-g" . corfu-quit)
@@ -926,6 +928,9 @@
               ("M-l" . corfu-show-location)
               ("M-m" . corfu-move-to-minibuffer))
   :preface
+  (defun corfu-set-local-auto ()
+    "Enable popup appearing automatically only for current buffer"
+    (setq-local corfu-auto t))
   (defun corfu-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if `completion-at-point' is bound."
     (when (where-is-internal #'completion-at-point (list (current-local-map)))
@@ -939,8 +944,8 @@
   (global-corfu-mode)
   (corfu-indexed-mode)
   :custom
-  ;; I like autocompletion popping up automatically
-  (corfu-auto t)
+  ;; autocompletion only pops up automatically in programming modes
+  (corfu-auto nil)
   ;; show candidates as soon as 1 character is pressed
   (corfu-auto-prefix 1)
   ;; show candidates after this many seconds
