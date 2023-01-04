@@ -1429,14 +1429,13 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
          "\\.erb\\'"
          "\\.html?\\'"
          )
+  ; TSX support
+  :hook (web-mode . (lambda ()
+                      (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                        (my-typescript-web-mode-setup))))
   :config
   (setq web-mode-code-indent-offset 2
         web-mode-markup-indent-offset 2)
-  ; TSX support
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (my-typescript-web-mode-setup))))
   (flycheck-add-mode 'typescript-tslint 'web-mode))
 
 ;;;;;;;;;;;
