@@ -1796,6 +1796,10 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 (column-number-mode t)
 (size-indication-mode t)
 
+;; display line numbers in programming modes
+(use-package display-line-numbers
+  :hook (prog-mode . display-line-numbers-mode))
+
 ;; more useful frame title, showing either a file or a buffer name
 (setq frame-title-format
       '("" invocation-name " - " (:eval (if (buffer-file-name)
