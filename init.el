@@ -606,7 +606,17 @@
   :bind (:map vertico-map
          ("C-M-n" . vertico-next-group)
          ("C-M-p" . vertico-previous-group))
+  :preface
+  (defun my-minibuffer-default-add-function ()
+        (with-selected-window (minibuffer-selected-window)
+          (delete-dups
+           (delq nil
+                 (list (thing-at-point 'symbol)
+                       (thing-at-point 'list)
+                       (ffap-guesser)
+                       (thing-at-point-url-at-point))))))
   :init
+  (setq minibuffer-default-add-function 'my-minibuffer-default-add-function)
   (vertico-mode)
   (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
   :config
