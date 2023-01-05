@@ -919,6 +919,34 @@
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
 
+;; FIXME: company is needed for autocompletion to work with tide
+;; https://company-mode.github.io/
+(use-package company
+  :bind (:map company-mode-map
+              ([tab] . 'company-indent-or-complete-common)
+              ("TAB" . 'company-indent-or-complete-common)
+         :map company-active-map
+              ("<tab>" . company-complete-common-or-cycle)
+              ("<backtab>" . (lambda() (interactive) (company-complete-common-or-cycle -1)))
+              ("C-n" . company-select-next-or-abort)
+              ("C-p" . company-select-previous-or-abort)
+              ("C-l" . company-other-backend)
+         )
+  :config
+  (setq ;; bigger popup window
+        company-tooltip-limit 20
+        ;; wait until at least one character before autocompleting
+        company-minimum-prefix-length 1
+        ;; shorter delay before autocompletion popup
+        company-idle-delay 0.2
+        ;; removes annoying blinking
+        company-echo-delay 0
+        ;; show quick-access numbers
+        company-show-numbers t
+        ;; utf-8 all the way
+        selection-coding-system 'utf-8
+        ))
+
 ;; enhance completion at point with a small completion popup
 ;; https://github.com/minad/corfu
 (use-package corfu
@@ -951,6 +979,7 @@
           completion-cycle-threshold completion-cycling)
       (apply #'consult-completion-in-region completion-in-region--data)))
   :config
+  (setq corfu-excluded-modes '(typescript-mode web-mode))
   (global-corfu-mode)
   (corfu-indexed-mode)
   :custom
@@ -1385,6 +1414,9 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (subword-mode +1)
+  ;; FIXME: tide doesn't work with corfu, needs company for autocomplete
+  (corfu-mode -1)
+  (company-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (let ((width 2))
     (setq-local typescript-indent-level width
