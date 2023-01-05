@@ -1161,7 +1161,7 @@
 (define-key my-mode-map (kbd "M-3") (lambda ()
                                       (interactive)
                                       (funcall 'split-window-horizontally
-                                               (+ fill-column 4)))) ; was digit-argument
+                                               (+ fill-column 11)))) ; was digit-argument
 (define-key my-mode-map (kbd "M-0") 'delete-window) ; was digit-argument
 (define-key my-mode-map (kbd "M-s") 'ace-window) ; was center-line
 
