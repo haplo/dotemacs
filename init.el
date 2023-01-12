@@ -1232,7 +1232,7 @@
   (key-chord-define-global "qs" 'dirvish-side)
   (key-chord-define-global "uu" 'vundo)
   (key-chord-define-global "xx" 'magit-status)
-  (key-chord-define-global "xz" 'projectile-find-file-dwim)
+  (key-chord-define-global "xz" 'projectile-find-file)
   (key-chord-define-global "yy" 'consult-yank-from-kill-ring)
   (key-chord-mode +1)
   )
