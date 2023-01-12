@@ -1401,14 +1401,8 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 ;;; Typescript ;;;
 ;;;;;;;;;;;;;;;;;;
 
-(defun use-tsserver-from-node-modules ()
-  "Have tide use tsserver from local node_modules if available."
-  (let ((tsserver (my-node-executable-find "tsserver")))
-    (when tsserver (setq-local tide-tsserver-executable tsserver))))
-
 (defun my-typescript-setup ()
   (interactive)
-  (use-tsserver-from-node-modules)
   (tide-setup)
   (flycheck-mode +1)
   (eldoc-mode +1)
@@ -1433,8 +1427,7 @@ in EXTRA-MODULES, and the directories searched by `executable-find'."
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
-  :hook ((typescript-mode . my-typescript-setup)
-         (web-mode . my-typescript-web-mode-setup))
+  :hook ((typescript-mode . my-typescript-setup))
 )
 
 (use-package tide
