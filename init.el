@@ -360,13 +360,13 @@
          ("C-c C-k" . crux-kill-whole-line)
          ([(shift return)] . crux-smart-open-line)
          ([(control shift return)] . crux-smart-open-line-above)
-         ([(control shift up)]  . move-text-up)
-         ([(control shift down)]  . move-text-down)
          ([remap kill-whole-line] . crux-kill-whole-line)))
 
 ;; Move line or region up and down
 ;; https://github.com/emacsfodder/move-text
-(use-package move-text)
+(use-package move-text
+  :bind (([(control shift up)]  . move-text-up)
+         ([(control shift down)]  . move-text-down)))
 
 ;; display undo history as a tree and allow moving around its branches
 ;; https://github.com/casouri/vundo
