@@ -1267,7 +1267,8 @@
          ("M-]" . puni-slurp-forward)
          ("M-{" . puni-barf-backward)
          ("M-}" . puni-barf-forward))
-  :hook ((minibuffer-setup . puni-disable-puni-mode))
+  :hook ((minibuffer-setup . puni-disable-puni-mode)
+         (org-mode . puni-disable-puni-mode))
   :preface
   (defun my-disable-puni-in-minibuffer ()
   "Disable `puni-mode' in minibuffer unless when eval-expression"
