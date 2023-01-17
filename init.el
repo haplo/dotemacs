@@ -623,6 +623,19 @@
   (setq vertico-count 20)
   )
 
+;; better directory navigation in vertico
+;; https://github.com/minad/vertico/blob/main/extensions/vertico-directory.el
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
 ;; practical commands based on core function completing-read
 ;; https://github.com/minad/consult
 (use-package consult
@@ -1254,6 +1267,12 @@
          ("M-]" . puni-slurp-forward)
          ("M-{" . puni-barf-backward)
          ("M-}" . puni-barf-forward))
+  :hook ((minibuffer-setup . puni-disable-puni-mode))
+  :preface
+  (defun my-disable-puni-in-minibuffer ()
+  "Disable `puni-mode' in minibuffer unless when eval-expression"
+  (unless (eq this-command 'eval-expression)
+      (puni-disable-puni-mode)))
   :init
   (puni-global-mode))
 
