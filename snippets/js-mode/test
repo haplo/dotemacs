@@ -1,0 +1,6 @@
+# key: jest test definition
+# name: test
+# --
+test('$1', async () => {
+  $2
+})

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: jest beforeAll
+# key: jba
+# --
+beforeAll(async () => {
+  $1
+})

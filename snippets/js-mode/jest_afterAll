@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: jest afterAll
+# key: jaa
+# --
+afterAll(async () => {
+  $1
+})
