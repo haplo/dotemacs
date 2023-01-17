@@ -1276,6 +1276,15 @@
   :init
   (puni-global-mode))
 
+;;;;;;;;;;;;;;;;;;;;;;
+;;; Autoformatting ;;;
+;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package apheleia
+  :init
+  (apheleia-global-mode +1))
+
+
 ;;;;;;;;;;;
 ;;; LSP ;;;
 ;;;;;;;;;;;

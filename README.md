@@ -23,6 +23,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`all-the-icons-ibuffer`](https://github.com/seagle0128/all-the-icons-ibuffer): pretty icons in *ibuffer*.
 * [`all-the-icons-completion`](https://github.com/iyefrat/all-the-icons-completion): pretty icons in completion minibuffer.
 * [`anzu`](https://github.com/emacsorphanage/anzu): highlight search and replace.
+* [`apheleia`](https://github.com/radian-software/apheleia): async autoformatter for many languages.
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
 * [`browse-kill-ring`](https://github.com/browse-kill-ring/browse-kill-ring): Browse. The. Kill. Ring.
 * [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
@@ -77,7 +78,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`org`](https://orgmode.org/): the most powerful note taking and planning software ever created.
 * [`org-superstar`](https://github.com/integral-dw/org-superstar-mode): prettier headings in org-mode.
 * [`popper`](https://github.com/karthink/popper): tame the flood of ephemeral windows Emacs produces.
-* [`prettier-js`](https://github.com/prettier/prettier-emacs): autoformatter for Javascript code.
 * [`prisma-mode`](https://github.com/pimeys/emacs-prisma-mode): a major mode for editing Prisma ORM schemas.
 * [`projectile`](https://github.com/bbatsov/projectile): project management.
 * [`puni`](https://github.com/AmaiKinono/puni): minor mode to work with delimiters that come in pairs, e.g. parentheses, braces, tags, etc.
