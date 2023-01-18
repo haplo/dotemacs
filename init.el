@@ -472,7 +472,9 @@
           "\\*Async Shell Command\\*"
           help-mode
           helpful-mode
-          compilation-mode))
+          compilation-mode
+          "\\*tide-documentation\\*"
+          ))
   (popper-mode +1)
   (popper-echo-mode +1)
   :config
@@ -1415,7 +1417,8 @@
 (use-package tide
   :after (company flycheck typescript-mode web-mode)
   :bind (:map typescript-mode-map
-              ("C-c C-f" . tide-format))
+              ("C-c C-f" . tide-format)
+              ("C-." . tide-documentation-at-point))
   :commands (tide-setup)
   :init
   (with-eval-after-load 'flycheck
