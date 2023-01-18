@@ -1282,7 +1282,13 @@
 
 (use-package apheleia
   :init
-  (apheleia-global-mode +1))
+  (apheleia-global-mode +1)
+  :config
+  (setf (alist-get 'isort apheleia-formatters)
+        '("isort" "--stdout" "-"))
+  (setf (alist-get 'python-mode apheleia-mode-alist)
+        '(isort black))
+  )
 
 
 ;;;;;;;;;;;
