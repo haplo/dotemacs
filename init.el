@@ -289,6 +289,16 @@
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
   :demand t
+  :preface
+  ;; By Chmouel Boudjnah https://mastodon.social/@chmouel@fosstodon.org/109715305722356540
+  (defun my-avy-copy-word (arg)
+    (interactive "p")
+    (save-excursion
+      (call-interactively  'avy-goto-symbol-1)
+      (let ((symbol (thing-at-point 'symbol)))
+        (when symbol
+          (kill-new symbol)
+          (message "\"%s\" has been copied" symbol)))))
   :config (setq avy-background t
                 avy-style 'at-full))
 
@@ -1240,7 +1250,7 @@
   :config
   (key-chord-define-global "jj" 'avy-goto-word-1)
   (key-chord-define-global "jl" 'avy-goto-line)
-  (key-chord-define-global "jk" 'avy-goto-char)
+  (key-chord-define-global "jk" 'my-avy-copy-word)
   (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
   (key-chord-define-global "qq" 'dirvish-dwim)
   (key-chord-define-global "qs" 'dirvish-side)
