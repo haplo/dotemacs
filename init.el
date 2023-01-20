@@ -1428,6 +1428,7 @@
   :after (company flycheck typescript-mode web-mode)
   :bind (:map typescript-mode-map
               ("C-c C-f" . tide-format)
+              ("C-c C-r" . tide-rename-symbol)
               ("C-." . tide-documentation-at-point))
   :commands (tide-setup)
   :init
