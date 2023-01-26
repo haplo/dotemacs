@@ -1466,7 +1466,8 @@
                         (my-typescript-web-mode-setup))))
   :config
   (setq web-mode-code-indent-offset 2
-        web-mode-markup-indent-offset 2)
+        web-mode-markup-indent-offset 2
+        web-mode-enable-auto-indentation nil)
   (flycheck-add-mode 'typescript-tslint 'web-mode))
 
 ;;;;;;;;;;;
