@@ -926,6 +926,8 @@
         projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir)
         ;; open a dirvish buffer when switching projects
         projectile-switch-project-action 'dirvish
+        ;; https://docs.projectile.mx/projectile/configuration.html#project-specific-compilation-buffers
+        projectile-per-project-compilation-buffer t
         )
   (projectile-mode t))
 
