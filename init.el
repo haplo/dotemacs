@@ -931,18 +931,6 @@
         )
   (projectile-mode t))
 
-;;;;;;;;;;;;;;
-;;; direnv ;;;
-;;;;;;;;;;;;;;
-
-;; use direnv to update Emacs environment
-;; https://github.com/wbolster/emacs-direnv
-;; https://direnv.net/
-(use-package direnv
-  :demand t
-  :config
-  (direnv-mode))
-
 ;;;;;;;;;;;;;;;;;;;;
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
@@ -1863,3 +1851,15 @@
 (use-package emojify
   :hook (after-init . global-emojify-mode)
   :bind ("C-c C-e" . 'emojify-insert-emoji))
+
+;;;;;;;;;;;;;;
+;;; direnv ;;;
+;;;;;;;;;;;;;;
+
+;; use direnv to update Emacs environment
+;; https://github.com/purcell/envrc
+;; https://direnv.net/
+(use-package envrc
+  :demand t
+  :config
+  (envrc-global-mode))
