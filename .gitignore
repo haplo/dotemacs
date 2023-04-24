@@ -1,6 +1,10 @@
-eln-cache
-elpa
-emojis
-savefile
-.lsp-session*
+/.emacs.desktop*
+/.lsp-session*
+/auto-save-list
+/eln-cache
+/elpa
+/emojis
+/savefile
 /custom.el
+/tramp
+/url
