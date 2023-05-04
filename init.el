@@ -1170,6 +1170,11 @@
 ;;; keybindings ;;;
 ;;;;;;;;;;;;;;;;;;;
 
+;; use shift + arrow keys to switch between visible buffers
+(use-package windmove
+  :demand t
+  :config (windmove-default-keybindings))
+
 ;; define a new minor mode
 ;; https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings/358#358
 (defvar my-mode-map (make-sparse-keymap)
