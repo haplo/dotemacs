@@ -634,6 +634,7 @@
   (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
   :config
   (setq vertico-count 20)
+  (setq vertico-cycle t)
   )
 
 ;; better directory navigation in vertico
