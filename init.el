@@ -1565,7 +1565,8 @@
                       (display-line-numbers-mode -1)
                       ))
   :bind (:map org-mode-map
-         ("C-c j" . consult-org-heading))
+              ("C-c j" . consult-org-heading)
+              ("C-c r" . org-refile))
   :custom
   (org-directory (expand-file-name "~/Org"))
   ;; add all *.org files in the org-directory defined above
