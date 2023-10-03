@@ -3,6 +3,8 @@
 This is my very own Emacs configuration.
 There are many like it, but this one's mine.
 
+This configuration is meant and has only been tested with Emacs 29.1.
+
 The stated goals:
 - Explicit about what I use.
   Magic is limited to using external packages.
