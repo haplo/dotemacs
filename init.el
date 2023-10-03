@@ -749,7 +749,7 @@
     (when (require 'docker-tramp nil t)
       (let ((hosts)
             (docker-tramp-use-names t))
-        (dolist (cand (docker-tramp--parse-running-containers))
+        (dolist (cand (tramp-docker--completion-function))
           (let ((user (unless (string-empty-p (car cand))
                         (concat (car cand) "@")))
                 (host (car (cdr cand))))
