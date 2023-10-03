@@ -65,7 +65,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`js2-mode`](https://github.com/mooz/js2-mode): major mode for Javascript files.
 * [`js2-refactor`](https://github.com/js-emacs/js2-refactor.el): refactor operations for Javascript code.
 * [`json-mode`](https://github.com/joshwnj/json-mode): major mode for JSON files.
-* [`key-chord`](https://github.com/emacsorphanage/key-chord): execute commands by pressing quicks quickly.
+* [`key-chord`](https://github.com/emacsorphanage/key-chord): execute commands by pressing keys quickly.
 * [`kind-icon`](https://github.com/jdtsmith/kind-icon): icons for completion-at-point candidates.
 * [`magit`](https://magit.vc/manual/forge/): the best Git interface there is.
 * [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
