@@ -1320,6 +1320,16 @@
   ;;    ("pylsp.plugins.pyls_isort.enabled" t t)))
   )
 
+;;;;;;;;;;;;;;;;;;;
+;;; Tree-sitter ;;;
+;;;;;;;;;;;;;;;;;;;
+
+(use-package treesit-auto
+  :demand t
+  :config
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode))
+
 ;;;;;;;;;;;;;;;;;;
 ;;; Javascript ;;;
 ;;;;;;;;;;;;;;;;;;
