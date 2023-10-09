@@ -40,7 +40,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`desktop-mode`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html): save and restore Emacs editor state.
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
-* [`direnv`](https://github.com/wbolster/emacs-direnv): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
 * [`dirvish`](https://github.com/alexluigit/dirvish): an improved batteries-included dired replacement.
 * [`discover-my-major`](https://framagit.org/steckerhalter/discover-my-major): show keybindings associated to the current major mode.
 * [`dockerfile-mode`](https://github.com/spotify/dockerfile-mode): major mode to edit Dockerfiles.
@@ -52,6 +51,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`eldoc`](https://elpa.gnu.org/packages/eldoc.html): display documentation about current function in echo area.
 * [`embark`](https://github.com/oantolin/embark/): choose a command to run based on what is near point, both during a minibuffer completion session and in normal buffers.
 * [`emojify`](https://github.com/iqbalansari/emacs-emojify): display emojis.
+* [`envrc`](https://github.com/purcell/envrc): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
 * [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
 * [`eyebrowse`](https://depp.brause.cc/eyebrowse/): manage [window](https://www.emacswiki.org/emacs/Window) configurations.
