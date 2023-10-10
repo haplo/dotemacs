@@ -1094,62 +1094,6 @@
   :config
   (setq flyspell-default-dictionary "american-w_accents"))
 
-;;;;;;;;;;;;;;;;;;;;
-;;; syntax check ;;;
-;;;;;;;;;;;;;;;;;;;;
-
-;; https://www.flycheck.org/en/latest/
-(use-package flycheck
-  :demand t
-  :hook ((after-init . global-flycheck-mode)
-         (lsp-mode . flycheck-mode))
-  :bind ("C-c n" . flycheck-next-error)
-  :config
-  (setq-default flycheck-highlighting-mode 'sexps)
-  (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
-    (vector #b00000000
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00011100
-            #b00111110
-            #b00111110
-            #b00111110
-            #b00011100
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00000000))
-  (flycheck-define-error-level 'error
-    :severity 2
-    :overlay-category 'flycheck-error-overlay
-    :fringe-bitmap 'flycheck-fringe-bitmap-ball
-    :fringe-face 'flycheck-fringe-error)
-  (flycheck-define-error-level 'warning
-    :severity 1
-    :overlay-category 'flycheck-warning-overlay
-    :fringe-bitmap 'flycheck-fringe-bitmap-ball
-    :fringe-face 'flycheck-fringe-warning)
-  (flycheck-define-error-level 'info
-    :severity 0
-    :overlay-category 'flycheck-info-overlay
-    :fringe-bitmap 'flycheck-fringe-bitmap-ball
-    :fringe-face 'flycheck-fringe-info)
-  ;; Use global flake8 configuration for Python code linting
-  (setq flycheck-flake8rc "~/.config/.flake8")
-  )
-
-(use-package flycheck-eglot
-  :ensure t
-  :pin "melpa"
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
-
 ;;;;;;;;;;;;;;;;;;;
 ;;; keybindings ;;;
 ;;;;;;;;;;;;;;;;;;;
@@ -1371,8 +1315,7 @@
   :config
   (setq web-mode-code-indent-offset 2
         web-mode-markup-indent-offset 2
-        web-mode-enable-auto-indentation nil)
-  (flycheck-add-mode 'typescript-tslint 'web-mode))
+        web-mode-enable-auto-indentation nil))
 
 ;;;;;;;;;;;
 ;;; CSS ;;;

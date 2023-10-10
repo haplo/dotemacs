@@ -1,7 +1,7 @@
 ;; Are we running under Guix?
 (setq guix-p (stringp (getenv "GUIX_PROFILE")))
 
-;; Disabled because flycheck-eglot is not on Guix yet
+;; It's nice to use packages only on Guix, but it's too restrictive sometimes
 ;; (when guix-p
 ;;   ;; disable package system if running under guix
 ;;   (setq package-enable-at-startup nil)
