@@ -934,34 +934,6 @@
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
 
-;; FIXME: company is needed for autocompletion to work with tide
-;; https://company-mode.github.io/
-(use-package company
-  :bind (:map company-mode-map
-              ([tab] . 'company-indent-or-complete-common)
-              ("TAB" . 'company-indent-or-complete-common)
-         :map company-active-map
-              ("<tab>" . company-complete-common-or-cycle)
-              ("<backtab>" . (lambda() (interactive) (company-complete-common-or-cycle -1)))
-              ("C-n" . company-select-next-or-abort)
-              ("C-p" . company-select-previous-or-abort)
-              ("C-l" . company-other-backend)
-         )
-  :config
-  (setq ;; bigger popup window
-        company-tooltip-limit 20
-        ;; wait until at least one character before autocompleting
-        company-minimum-prefix-length 1
-        ;; shorter delay before autocompletion popup
-        company-idle-delay 0.2
-        ;; removes annoying blinking
-        company-echo-delay 0
-        ;; show quick-access numbers
-        company-show-numbers t
-        ;; utf-8 all the way
-        selection-coding-system 'utf-8
-        ))
-
 ;; enhance completion at point with a small completion popup
 ;; https://github.com/minad/corfu
 (use-package corfu
@@ -1372,61 +1344,12 @@
   :mode "\\.jsx"
   )
 
-;;;;;;;;;;;;;;;;;;
-;;; Typescript ;;;
-;;;;;;;;;;;;;;;;;;
-
-(defun my-typescript-setup ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (subword-mode +1)
-  ;; FIXME: tide doesn't work with corfu, needs company for autocomplete
-  (corfu-mode -1)
-  (company-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (let ((width 2))
-    (setq-local typescript-indent-level width
-                typescript-expr-indent-offset width
-                indent-level width
-                tab-width width))
-  )
-
-(defun my-typescript-web-mode-setup ()
-  "Personal tide setup for .tsx files."
-  (interactive)
-  (when (string-equal "tsx" (file-name-extension buffer-file-name))
-    (my-typescript-setup)))
-
-(use-package typescript-mode
-  :mode "\\.ts\\'"
-  :hook ((typescript-mode . my-typescript-setup))
-)
-
-(use-package tide
-  :after (company flycheck typescript-mode web-mode)
-  :bind (:map typescript-mode-map
-              ("C-c C-f" . tide-format)
-              ("C-c C-r" . tide-rename-symbol)
-              ("C-." . tide-documentation-at-point))
-  :commands (tide-setup)
-  :init
-  (with-eval-after-load 'flycheck
-    ;; check .tsx files with typescript linter
-    (flycheck-add-mode 'typescript-tslint 'web-mode))
-  :config
-  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint)
-  )
-
 ;;;;;;;;;;;
 ;;; Web ;;;
 ;;;;;;;;;;;
 
 ;; https://web-mode.org/
 (use-package web-mode
-  :after (flycheck)
   :mode (
          "\\.html\\'"
          "\\.phtml\\'"
