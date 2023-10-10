@@ -1234,8 +1234,14 @@
 
 ;; https://joaotavora.github.io/eglot/
 (use-package eglot
-  :hook ((js2-mode . eglot)
-         (python-mode . eglot))
+  :hook ((go-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure)
+         (python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
+         (rust-mode . eglot-ensure)
+         (rust-ts-mode . eglot-ensure)
+         (typescript-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure))
   :config
   (setq ;; increase when need to debug LSP sessions
         eglot-events-buffer-size 0
