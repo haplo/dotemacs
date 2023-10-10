@@ -481,7 +481,6 @@
           help-mode
           helpful-mode
           compilation-mode
-          "\\*tide-documentation\\*"
           ))
   (popper-mode +1)
   (popper-echo-mode +1)
@@ -1063,8 +1062,7 @@
   (defun my-cape-capf-setup-org ()
     (let (result)
       (dolist (element (list
-                        (cape-super-capf #'cape-ispell #'cape-dabbrev)
-                        (cape-company-to-capf #'company-yasnippet))
+                        (cape-super-capf #'cape-ispell #'cape-dabbrev))
                        result)
         (add-to-list 'completion-at-point-functions element))))
   )
@@ -1096,6 +1094,14 @@
          ("C-M-/" . dabbrev-expand))
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+
+;; yasnippet support in cape
+;; https://github.com/elken/yasnippet-capf
+(use-package yasnippet-capf
+  :after cape
+  :pin melpa
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; spell check ;;;
