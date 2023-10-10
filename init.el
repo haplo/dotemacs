@@ -14,11 +14,6 @@
 ;; no startup screen
 (setq inhibit-startup-screen t)
 
-;; add MELPA repository if we need the package system (i.e. not running under Guix)
-(unless guix-p
-  (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-
 ;; Super handy macro for loading packages but not stopping the init
 ;; process if they aren't found.
 ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/index.html
