@@ -1242,6 +1242,11 @@
          (rust-ts-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure))
+  :bind (:map eglot-mode-map
+              ("s-l a" . eglot-code-actions)
+              ("s-l f" . eglot-format)
+              ("s-l i" . eglot-inlay-hints-mode)
+              ("s-l r" . eglot-rename))
   :config
   (setq ;; increase when need to debug LSP sessions
         eglot-events-buffer-size 0
