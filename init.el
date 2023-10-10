@@ -477,6 +477,7 @@
         '("\\*Messages\\*"
           "Output\\*$"
           "\\*Async Shell Command\\*"
+          "\\*eldoc"
           help-mode
           helpful-mode
           compilation-mode
