@@ -1,10 +1,16 @@
 ;; Are we running under Guix?
 (setq guix-p (stringp (getenv "GUIX_PROFILE")))
 
-(when guix-p
-  ;; Disable package system if running under Guix
-  (setq package-enable-at-startup nil)
-  (setq package-archives nil))
+;; Disabled because flycheck-eglot is not on Guix yet
+;; (when guix-p
+;;   ;; disable package system if running under guix
+;;   (setq package-enable-at-startup nil)
+;;   (setq package-archives nil))
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 
 ;; increase garbage collection threshold for faster startup
 ;; default is 800 KiB, it's already $YEAR so we can do more

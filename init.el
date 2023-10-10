@@ -21,8 +21,10 @@
 
 ;; Super handy macro for loading packages but not stopping the init
 ;; process if they aren't found.
-;; https://github.com/jwiegley/use-package
+;; https://www.gnu.org/software/emacs/manual/html_node/use-package/index.html
 (require 'use-package)
+;; Pin packages to MELPA stable unless explicitly changed with :pin
+(setq use-package-always-pin "melpa-stable")
 
 ;; Use .el if it is newer
 (when (boundp 'load-prefer-newer)
@@ -1166,6 +1168,13 @@
   ;; Use global flake8 configuration for Python code linting
   (setq flycheck-flake8rc "~/.config/.flake8")
   )
+
+(use-package flycheck-eglot
+  :ensure t
+  :pin "melpa"
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; keybindings ;;;

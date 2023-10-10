@@ -56,6 +56,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
 * [`eyebrowse`](https://depp.brause.cc/eyebrowse/): manage [window](https://www.emacswiki.org/emacs/Window) configurations.
 * [`flycheck`](https://www.flycheck.org/): syntax checking.
+* [`flycheck-eglot`](https://github.com/intramurz/flycheck-eglot): integration of eglot with flycheck.
 * [`flyspell`](https://www.emacswiki.org/emacs/FlySpell): spell checking.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
 * [`geiser`](https://nongnu.org/geiser/): [Scheme](https://www.scheme.org/) hacking.
