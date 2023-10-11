@@ -465,7 +465,7 @@
   :ensure t
   :demand t
   :after (projectile)
-  :bind (("C-`" . popper-toggle-latest)
+  :bind (("C-`" . popper-toggle)
          ("M-`" . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
