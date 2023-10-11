@@ -360,7 +360,6 @@
          ("C-c e" . crux-eval-and-replace)
          ("C-c D" . crux-delete-file-and-buffer)
          ("C-c C-d" . crux-duplicate-current-line-or-region)
-         ("C-c r" . crux-rename-buffer-and-file)
          ("C-c t" . crux-visit-term-buffer)
          ("C-c I" . crux-find-user-init-file)
          ("C-c S" . crux-find-shell-init-file)
@@ -1163,6 +1162,10 @@
 
 ;; Consult
 (define-key my-mode-map (kbd "C-c C-j") 'consult-org-agenda)  ; was org-goto in org mode
+
+;; rename current file
+(define-key my-mode-map (kbd "C-c r") 'rename-visited-file)
+
 
 ;;;;;;;;;;;;;;;;;
 ;;; keychords ;;;
