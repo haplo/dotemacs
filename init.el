@@ -476,7 +476,8 @@
         '("\\*Messages\\*"
           "Output\\*$"
           "\\*Async Shell Command\\*"
-          "\\*eldoc"
+          "\\*eldoc.*\\*"
+          "\\*Flymake diagnostics.*\\*"
           help-mode
           helpful-mode
           compilation-mode
