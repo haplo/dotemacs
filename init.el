@@ -1238,6 +1238,10 @@
 
 ;; https://joaotavora.github.io/eglot/
 (use-package eglot
+  :preface
+  (defun my-eglot-eldoc ()
+    (setq eldoc-documentation-strategy
+          'eldoc-documentation-compose-eagerly))
   :hook ((go-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure)
          (python-mode . eglot-ensure)
@@ -1245,7 +1249,8 @@
          (rust-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
-         (typescript-ts-mode . eglot-ensure))
+         (typescript-ts-mode . eglot-ensure)
+         (eglot-managed-mode . my-eglot-eldoc))
   :bind (:map eglot-mode-map
               ("s-l a" . eglot-code-actions)
               ("s-l f" . eglot-format)
@@ -1418,7 +1423,8 @@
 
 (use-package eldoc
   :commands (eldoc-mode)
-  :hook (emacs-lisp-mode . eldoc-mode))
+  :hook (emacs-lisp-mode . eldoc-mode)
+  :config (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
 (use-package rainbow-mode
   :diminish
