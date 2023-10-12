@@ -1380,13 +1380,13 @@
 
 (use-package rustic
   :ensure
+  :after (eglot)
   :mode "\\.rs\'"
-  :hook ((rust-mode . eglot-ensure))
-  :init
+  :config
   (setq rustic-lsp-client 'eglot)
   ;; rust-analyzer should be installed with rustup
   ;; https://rust-analyzer.github.io/manual.html#rustup
-  (setq rustic-analyzer-command '("rustup run stable rust-analyzer"))
+  (setq rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer"))
   )
 
 ;;;;;;;;;;
