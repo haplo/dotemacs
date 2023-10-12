@@ -197,6 +197,7 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+(set-language-environment "UTF-8")
 
 ;; required for non-English keys (like dead acute) to work
 ;; http://osdir.com/ml/help-gnu-emacs-gnu/2009-05/msg00170.hotel
