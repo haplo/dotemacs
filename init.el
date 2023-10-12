@@ -735,7 +735,7 @@
   :demand t
   :after (projectile)
   :bind (("C-c d" . consult-dir)
-         :map minibuffer-local-completion-map
+         :map vertico-map
          ("C-c d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file))
   :preface
