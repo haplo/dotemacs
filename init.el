@@ -1242,6 +1242,8 @@
   (defun my-eglot-eldoc ()
     (setq eldoc-documentation-strategy
           'eldoc-documentation-compose-eagerly))
+  (defun my-eglot-organize-imports () (interactive)
+         (eglot-code-actions nil nil "source.organizeImports" t))
   :hook ((go-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure)
          (python-mode . eglot-ensure)
@@ -1250,7 +1252,9 @@
          (rust-ts-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
-         (eglot-managed-mode . my-eglot-eldoc))
+         (eglot-managed-mode . my-eglot-eldoc)
+         (before-save . my-eglot-organize-imports)
+         (before-save . eglot-format-buffer))
   :bind (:map eglot-mode-map
               ("s-l a" . eglot-code-actions)
               ("s-l f" . eglot-format)
