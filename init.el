@@ -1257,9 +1257,12 @@
          (before-save . eglot-format-buffer))
   :bind (:map eglot-mode-map
               ("s-l a" . eglot-code-actions)
+              ("s-l d" . eglot-find-declaration)
               ("s-l f" . eglot-format)
-              ("s-l i" . eglot-inlay-hints-mode)
-              ("s-l r" . eglot-rename))
+              ("s-l h" . eglot-inlay-hints-mode)
+              ("s-l i" . eglot-find-implementation)
+              ("s-l r" . eglot-rename)
+              ("s-l t" . eglot-find-type-definition))
   :config
   (setq ;; increase when need to debug LSP sessions
         eglot-events-buffer-size 0
