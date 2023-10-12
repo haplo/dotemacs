@@ -741,17 +741,17 @@
   :preface
   ;; Quick access to docker containers
   ;; Taken from consult-dir's README: https://github.com/karthink/consult-dir#docker-hosts
-  (defun consult-dir--tramp-docker-hosts ()
-    "Get a list of hosts from docker."
-    (when (require 'docker-tramp nil t)
-      (let ((hosts)
-            (docker-tramp-use-names t))
-        (dolist (cand (tramp-docker--completion-function))
-          (let ((user (unless (string-empty-p (car cand))
-                        (concat (car cand) "@")))
-                (host (car (cdr cand))))
-            (push (concat "/docker:" user host ":/") hosts)))
-        hosts)))
+  (defun consult-dir--tramp-container-hosts ()
+    "Get a list of hosts from a container host."
+    (cl-loop for line in (cdr
+                          (ignore-errors
+                            (apply #'process-lines consult-dir--tramp-container-executable
+                                   (append consult-dir--tramp-container-args (list "ps")))))
+             for cand = (split-string line "[[:space:]]+" t)
+             collect (let ((user (unless (string-empty-p (car cand))
+                                   (concat (car cand) "@")))
+                           (hostname (car (last cand))))
+                       (format "/docker:%s%s:/" user hostname))))
   (defvar consult-dir--source-tramp-docker
     `(:name     "Docker"
                 :narrow   ?d
