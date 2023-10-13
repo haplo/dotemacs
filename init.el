@@ -79,6 +79,9 @@
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1)
+  :custom
+  (doom-modeline-icon (display-graphic-p))
+  (doom-modeline-buffer-encoding nil)
   :custom-face
   (mode-line ((t (:family "Hack" :height 130))))
   (mode-line-active ((t (:family "Hack" :height 130))))
