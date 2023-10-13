@@ -1270,6 +1270,7 @@
               ("s-l f" . eglot-format)
               ("s-l h" . eglot-inlay-hints-mode)
               ("s-l i" . eglot-find-implementation)
+              ("s-l o" . eglot-code-action-organize-imports)
               ("s-l r" . eglot-rename)
               ("s-l t" . eglot-find-type-definition))
   :config
