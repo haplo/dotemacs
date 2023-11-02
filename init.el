@@ -108,6 +108,9 @@
 ;; no lockfiles (.#<file>), they cause trouble with autoreloading code
 (setq create-lockfiles nil)
 
+;; no messages in echo area about saving files
+(setq save-silently t)
+
 ;; mondays are the first day of my week (for M-x calendar)
 (setq-default calendar-week-start-day 1)
 
