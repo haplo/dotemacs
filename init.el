@@ -1760,3 +1760,34 @@
   :demand t
   :config
   (envrc-global-mode))
+
+;;;;;;;;;;
+;;; AI ;;;
+;;;;;;;;;;
+
+(use-package chatgpt-shell
+  :pin melpa
+  :ensure t
+  :bind (("s-a c s" . chatgpt-shell)
+         ("s-a c r" . chatgpt-shell-send-and-review-region)
+         ("s-a c e" . chatgpt-shell-explain-code)
+         ("s-a c R" . chatgpt-shell-refactor-code)
+         )
+  :custom
+  ;; (chatgpt-shell-welcome-function nil)
+  ;; (chatgpt-shell-model-version (cl-position "gpt-4" chatgpt-shell-model-versions :test 'string=))
+  (chatgpt-shell-openai-key (lambda () (auth-source-pick-first-password :host "api.openai.com")))
+  (chatgpt-shell-history-path (expand-file-name "chatgpt-shell-history" my-savefile-dir))
+  )
+
+(use-package dall-e-shell
+  :pin melpa
+  :ensure t
+  :bind (("s-a d" . dall-e-shell)
+         )
+  :custom
+  ;; (dall-e-shell-welcome-function nil)
+  ;; (dall-e-shell-model-version (cl-position "gpt-4" chatgpt-shell-model-versions :test 'string=))
+  (dall-e-shell-openai-key (lambda () (auth-source-pick-first-password :host "api.openai.com")))
+  (dall-e-shell-history-path (expand-file-name "dall-e-shell-history" my-savefile-dir))
+  )
