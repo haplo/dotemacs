@@ -33,7 +33,7 @@
   (make-directory my-savefile-dir))
 
 ;; Stop customize from writing to my init file
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 ;; Theme
 ;; https://github.com/hlissner/emacs-doom-themes
