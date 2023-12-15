@@ -1524,8 +1524,6 @@
   (org-confirm-babel-evaluate nil)
   ;; custom org-agenda views
   (org-agenda-custom-commands '(("r" tags "refile")))
-  ;; hide org native markup (e.g. / / for italics, * * for bold, ~ ~ for code)
-  (org-hide-emphasis-markers t)
   ;; templates for org-capture
   (org-capture-templates
    `(("n" "Note" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Notes")
