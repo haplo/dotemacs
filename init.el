@@ -325,9 +325,6 @@
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 
-;; .zsh file is shell script too
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . shell-script-mode))
-
 ;; it's 2020 already
 (setq-default fill-column my-line-length)
 
@@ -494,6 +491,17 @@
   :config
   (setq popper-window-height 20)
   )
+
+;;;;;;;;;;;;;
+;;; Shell ;;;
+;;;;;;;;;;;;;
+
+;; .zsh file is shell script too
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . shell-script-mode))
+
+(use-package fish-mode
+  :ensure t
+  :mode ".fish")
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;; dired / dirvish ;;;
