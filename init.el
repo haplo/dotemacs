@@ -1251,16 +1251,13 @@
   (defun my-eglot-format-on-save () (interactive)
          (if (eglot-managed-p)
              (eglot-format-buffer)))
-  :hook ((go-mode . eglot-ensure)
-         (go-ts-mode . eglot-ensure)
-         (python-mode . eglot-ensure)
+  :hook ((go-ts-mode . eglot-ensure)
          (python-ts-mode . eglot-ensure)
-         (rust-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)
-         (typescript-mode . eglot-ensure)
+         (tsx-ts-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
          (eglot-managed-mode . my-eglot-eldoc)
-  ;;       (before-save . my-eglot-organize-imports)
+         (before-save . my-eglot-organize-imports)
          (before-save . my-eglot-format-on-save))
   :bind (:map eglot-mode-map
               ("s-l a" . eglot-code-actions)
@@ -1292,6 +1289,7 @@
 (use-package treesit-auto
   :config
   (setq treesit-auto-install 'prompt)
+  (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
 ;;;;;;;;;;;;;;;;;;
