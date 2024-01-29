@@ -28,8 +28,9 @@
 
 ;; native compilation settings
 (when (fboundp 'native-comp-available-p)
-  (setq ;; Silence compiler warnings as they can be pretty disruptive
-        native-comp-async-report-warnings-errors nil))
+  (setq
+   ;; Silence compiler warnings as they can be pretty disruptive
+   native-comp-async-report-warnings-errors nil))
 
 ;; don't resize frame as font, menu, tool bar... change
 (setq frame-inhibit-implied-resize t)
@@ -39,14 +40,14 @@
 
 ;; Turn off mouse interface early in startup to avoid momentary display
 (setq default-frame-alist
-        '(
-          (alpha 100 100)
-          (cursor-type              . box)
-          (font                     . "Hack 13")
-          (menu-bar-lines           . 0)
-          (tool-bar-lines           . 0)
-          (vertical-scroll-bars     . right)
-          (undecorated              . t)))
+      '(
+        (alpha 100 100)
+        (cursor-type              . box)
+        (font                     . "Hack 13")
+        (menu-bar-lines           . 0)
+        (tool-bar-lines           . 0)
+        (vertical-scroll-bars     . right)
+        (undecorated              . t)))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
