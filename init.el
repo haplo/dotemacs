@@ -1451,13 +1451,6 @@
 (use-package docker-compose-mode
   :mode "docker-compose.*\\.yml")
 
-;;;;;;;;;;;;
-;;; Guix ;;;
-;;;;;;;;;;;;
-
-(use-package guix
-  :bind (("s-g" . guix)))
-
 ;;;;;;;;;;;;;;;;;
 ;;; org-mode  ;;;
 ;;;;;;;;;;;;;;;;;
