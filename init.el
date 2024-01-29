@@ -300,6 +300,13 @@
         (when symbol
           (kill-new symbol)
           (message "\"%s\" has been copied" symbol)))))
+  (defun my-avy-embark (arg)
+    (interactive "p")
+    (save-excursion
+      (call-interactively  'avy-goto-symbol-1)
+      (let ((symbol (thing-at-point 'symbol)))
+        (when symbol
+          (embark-act symbol)))))
   :config (setq avy-background t
                 avy-style 'at-full))
 
@@ -1225,9 +1232,10 @@ targets."
   :after (avy consult crux dirvish magit projectile vundo)
   :config
   (key-chord-define-global "jj" 'avy-goto-word-1)
-  (key-chord-define-global "jl" 'avy-goto-line)
-  (key-chord-define-global "jk" 'my-avy-copy-word)
   (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
+  (key-chord-define-global "jk" 'my-avy-embark)
+  (key-chord-define-global "JK" 'my-avy-copy-word)
+  (key-chord-define-global "jl" 'avy-goto-line)
   (key-chord-define-global "qq" 'dirvish-dwim)
   (key-chord-define-global "qs" 'dirvish-side)
   (key-chord-define-global "uu" 'vundo)
