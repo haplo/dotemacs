@@ -1661,7 +1661,7 @@
         calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir)
         calibredb-library-alist '(("~Calibre"))))
 
-(use-package nov-mode
+(use-package nov
   :defer t
   :mode "\\.epub\'"
   :custom
