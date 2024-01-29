@@ -1227,7 +1227,7 @@
   (apheleia-global-mode +1)
   (setf (alist-get 'isort apheleia-formatters)
         '("isort" "--stdout" "-"))
-  (setf (alist-get 'python-mode apheleia-mode-alist)
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist)
         '(isort black))
   )
 
@@ -1372,12 +1372,12 @@
 ;;;;;;;;;;;;;;
 
 (use-package python
-  :hook (python-mode . my-python-config)
+  :hook (python-ts-mode . my-python-config)
   :preface
   (defun my-python-config ()
-    "My personal configuration for python-mode"
+    "My personal configuration for python-ts-mode"
     (subword-mode +1)
-    ; (python-docstring-mode +1)  ; not available in Guix yet
+    ;; (python-docstring-mode +1)  ; not available in Guix yet
     (eglot-ensure)
     ))
 
