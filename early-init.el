@@ -41,7 +41,7 @@
 ;; Turn off mouse interface early in startup to avoid momentary display
 (setq default-frame-alist
       '(
-        (alpha 100 100)
+        (alpha-background         . 97)
         (cursor-type              . box)
         (font                     . "Hack 13")
         (menu-bar-lines           . 0)
