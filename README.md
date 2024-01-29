@@ -3,15 +3,13 @@
 This is my very own Emacs configuration.
 There are many like it, but this one's mine.
 
-This configuration is meant and has only been tested with Emacs 29.1.
+This configuration is meant and has only been tested with Emacs 29.2.
 
-The stated goals:
-- Explicit about what I use.
-  Magic is limited to using external packages.
-  I know every line of the configuration and why are they there.
-- Primarily based on [Guix](https://guix.gnu.org/).
-  This means no need to use external package repositories, not ELPA nor MELPA.
-  I use [use-package](https://github.com/jwiegley/use-package) extensively, so the configuration should potentially work without Guix, but that case goes usually untested.
+I try to be explicit about what I use.
+Magic is limited to using external packages.
+I know every line of the configuration and why are they there.
+
+I use [use-package](https://github.com/jwiegley/use-package) extensively.
 
 I used to have an [Emacs configuration based on Prelude](https://github.com/haplo/prelude)
 which is now discontinued.
@@ -30,7 +28,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`browse-kill-ring`](https://github.com/browse-kill-ring/browse-kill-ring): Browse. The. Kill. Ring.
 * [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
 * [`cape`](https://github.com/minad/cape): completion-at-point extensions, pairs with corfu.
-* [`corfu`](https://github.com/minad/corfu/): completion-at-point popup. Like company but lighter.
+* [`corfu`](https://github.com/minad/corfu/): completion-at-point popup. Like [company](https://company-mode.github.io/) but lighter.
 * [`corfu-doc`](https://github.com/galeo/corfu-doc): display documentation for autocompletion candidates.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
 * [`consult`](https://github.com/minad/consult): practical commands based on the Emacs completion function `completing-read`.
@@ -55,7 +53,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
 * [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
 * [`eyebrowse`](https://depp.brause.cc/eyebrowse/): manage [window](https://www.emacswiki.org/emacs/Window) configurations.
-* [flymake](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
+* [`flymake`](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
 * [`flyspell`](https://www.emacswiki.org/emacs/FlySpell): spell checking.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
 * [`geiser`](https://nongnu.org/geiser/): [Scheme](https://www.scheme.org/) hacking.
