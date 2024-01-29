@@ -707,7 +707,7 @@
          (caar consult--narrow-keys)))))
   :custom
   (consult-narrow-key ",")
-  (consult-find-command "fd --color=never --full-path ARG OPTS")
+  (consult-find-command "fd --hidden --color=never --full-path ARG OPTS")
   (consult--regexp-compiler consult--orderless-regexp-compiler)
   :config
   (consult-customize
