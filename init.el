@@ -20,6 +20,8 @@
 (require 'use-package)
 ;; Pin packages to MELPA stable unless explicitly changed with :pin
 (setq use-package-always-pin "melpa-stable")
+(setq use-package-always-demand t)
+(setq use-package-always-ensure t)
 
 ;; Use .el if it is newer
 (when (boundp 'load-prefer-newer)
@@ -38,7 +40,6 @@
 ;; Theme
 ;; https://github.com/hlissner/emacs-doom-themes
 (use-package doom-themes
-  :ensure t
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
@@ -68,7 +69,6 @@
 ;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons
   :if (display-graphic-p)
-  :demand t
   :config
   (unless (find-font (font-spec :name "all-the-icons"))
     (all-the-icons-install-fonts t))
@@ -77,7 +77,6 @@
 ;; Cooler modeline
 ;; https://seagle0128.github.io/doom-modeline/
 (use-package doom-modeline
-  :ensure t
   :init (doom-modeline-mode 1)
   :custom
   (doom-modeline-icon (display-graphic-p))
@@ -88,9 +87,7 @@
   (mode-line-inactive ((t (:family "Hack" :height 130))))
   )
 
-(use-package diminish
-  :ensure t
-  :demand t)
+(use-package diminish)
 
 ;; On Linux Emacs doesn't use the shell env if it's not started from the shell
 ;; https://github.com/purcell/exec-path-from-shell
@@ -141,7 +138,6 @@
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package smex
-  :demand t
   :init
   (setq smex-save-file (expand-file-name "smex-items" my-savefile-dir)))
 
@@ -211,7 +207,7 @@
 
 ;; use directory name in buffer names of files with the same name
 (use-package uniquify
-  :demand t
+  :ensure nil  ;; Emacs built-in
   :config
   (setq uniquify-buffer-name-style 'forward
         uniquify-separator "/"
@@ -222,7 +218,6 @@
 
 ;; savehist keeps track of some history
 (use-package savehist
-  :demand t
   :config
   (setq savehist-additional-variables
         ;; search entries
@@ -234,7 +229,6 @@
 
 ;; save recent files
 (use-package recentf
-  :demand t
   :config
   (setq recentf-save-file (expand-file-name "recentf" my-savefile-dir)
         recentf-max-saved-items 500
@@ -244,9 +238,8 @@
         recentf-auto-cleanup 'never))
 
 (use-package elec-pair
-  :demand t
-  :config
-  (electric-pair-mode +1))
+  ;; enabled for specific modes with electric-pair-local-mode
+  )
 
 ;; smarter kill-ring navigation
 (use-package browse-kill-ring
@@ -273,6 +266,7 @@
 (put 'set-goal-column 'disabled nil)
 
 (use-package simple
+  :ensure nil  ;; Emacs built-in
   ;; upcase-downcase word at point or region if set
   :bind (("M-u" . upcase-dwim)
          ("M-l" . downcase-dwim))
@@ -283,16 +277,17 @@
 
 ;; bookmarks
 (use-package bookmark
+  :ensure nil  ;; Emacs built-in
   :config
   (setq bookmark-default-file (expand-file-name "bookmarks" my-savefile-dir)
         bookmark-save-flag 1))
 
-(use-package align-regex
+(use-package align
+  :ensure nil  ;; Emacs built-in
   :bind (("C-x \\" . align-regexp)))
 
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
-  :demand t
   :preface
   ;; By Chmouel Boudjnah https://mastodon.social/@chmouel@fosstodon.org/109715305722356540
   (defun my-avy-copy-word (arg)
@@ -310,7 +305,6 @@
 ;; https://github.com/emacsorphanage/anzu
 (use-package anzu
   :diminish
-  :demand t
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
   :config (global-anzu-mode))
@@ -331,14 +325,11 @@
 ;; progressively expand region around cursor
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
-  :ensure t
-  :demand t
   :bind (("C-=" . er/expand-region)))
 
 ;; automatically clean up whitespace on save only on initially clean buffers
 ;; disable by setting whitespace-cleanup-mode to nil in dir or local variables
 (use-package whitespace-cleanup-mode
-  :demand t
   :bind (("C-c M-w" . whitespace-cleanup))
   :config (global-whitespace-cleanup-mode))
 
@@ -357,7 +348,6 @@
 ;; crux is a collection of general editing utilities, see below for keybindings
 ;; https://github.com/bbatsov/crux
 (use-package crux
-  :demand t
   :bind (("C-c o" . crux-open-with)
          ("C-a" . crux-move-beginning-of-line)
          ("C-c C-i" . crux-indent-defun)
@@ -381,6 +371,7 @@
 ;; display undo history as a tree and allow moving around its branches
 ;; https://github.com/casouri/vundo
 (use-package vundo
+  :pin gnu
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
 
@@ -408,7 +399,6 @@
 ;; show all remaining key combinations when doing multi-key commands
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
-  :demand t
   :init
   (setq which-key-idle-delay 0.5)
   :hook
@@ -442,8 +432,6 @@
 ;; quickly move/split/swap/copy windows
 ;; https://github.com/abo-abo/ace-window
 (use-package ace-window
-  :ensure t
-  :demand t
   :bind (("M-s" . ace-window))
   :config
   (setq ;; keys for selecting windows
@@ -457,8 +445,7 @@
 ;; manage window configurations
 ;; https://depp.brause.cc/eyebrowse/
 (use-package eyebrowse
-  :ensure t
-  :demand t
+  :pin melpa
   :config
   (eyebrowse-mode t)
   (eyebrowse-setup-opinionated-keys))
@@ -466,8 +453,6 @@
 ;; tame the flood of ephemeral windows Emacs produces
 ;; https://github.com/karthink/popper
 (use-package popper
-  :ensure t
-  :demand t
   :after (projectile)
   :bind (("C-`" . popper-toggle)
          ("M-`" . popper-cycle)
@@ -500,7 +485,6 @@
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . shell-script-mode))
 
 (use-package fish-mode
-  :ensure t
   :mode ".fish")
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -508,8 +492,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package dirvish
-  :ensure t
-  :demand t
   :bind
   (("C-x C-j" . dired-jump)
    :map dired-mode-map
@@ -590,7 +572,6 @@
                        (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package all-the-icons-ibuffer
-  :demand t
   :after (all-the-icons ibuffer)
   :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
 
@@ -626,8 +607,6 @@
 ;; performant and minimalistic vertical completion UI
 ;; https://github.com/minad/vertico
 (use-package vertico
-  :ensure t
-  :demand t
   :bind (:map vertico-map
          ("C-M-n" . vertico-next-group)
          ("C-M-p" . vertico-previous-group))
@@ -653,7 +632,7 @@
 ;; https://github.com/minad/vertico/blob/main/extensions/vertico-directory.el
 (use-package vertico-directory
   :after vertico
-  :ensure nil
+  :ensure nil  ;; bundled with vertico
   ;; More convenient directory navigation commands
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
@@ -665,8 +644,6 @@
 ;; practical commands based on core function completing-read
 ;; https://github.com/minad/consult
 (use-package consult
-  :ensure t
-  :demand t
   :after (projectile)
   :bind (("C-c f" . consult-find)
          ("C-c j" . consult-outline)
@@ -746,8 +723,6 @@
 ;; insert directory paths into the minibuffer prompt
 ;; https://github.com/karthink/consult-dir
 (use-package consult-dir
-  :ensure t
-  :demand t
   :after (projectile)
   :bind (("C-c d" . consult-dir)
          :map vertico-map
@@ -785,8 +760,6 @@
 ;; adds marginalia annotations to the minibuffer completions
 ;; https://github.com/minad/marginalia
 (use-package marginalia
-  :ensure t
-  :demand t
   :after (:any consult vertico)
   :config
   (marginalia-mode))
@@ -794,7 +767,6 @@
 ;; pretty icons in completion minibuffer
 ;; https://github.com/iyefrat/all-the-icons-completion
 (use-package all-the-icons-completion
-  :demand t
   :after (marginalia all-the-icons)
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :init
@@ -804,8 +776,6 @@
 ;; minibuffer completion session and in normal buffers
 ;; https://github.com/oantolin/embark/
 (use-package embark
-  :ensure t
-  :demand t
   :bind
   (("M-r" . embark-act)
    ("C-h B" . embark-bindings)
@@ -820,8 +790,6 @@
 ;; and matches candidates that match all of the components in any order
 ;; https://github.com/oantolin/orderless
 (use-package orderless
-  :ensure t
-  :demand t
   :bind (:map minibuffer-local-map
               ("C-l" . my-match-components-literally))
   :preface
@@ -881,9 +849,8 @@
 
 ;; https://magit.vc/
 (use-package magit
+  :pin melpa
   :if (executable-find "git")
-  :ensure t
-  :demand t
   :bind (("s-m m" . magit-status)
          ("s-m s-m" . magit-status)
          ("s-m j" . magit-dispatch)
@@ -910,6 +877,7 @@
 
 ;; https://magit.vc/manual/forge/
 (use-package forge
+  :pin melpa
   :after magit
   :config
   (setq forge-database-file
@@ -927,13 +895,11 @@
 ;;;;;;;;;;;;;;;;
 
 (use-package project
-  :demand t
   :config
   (setq project-list-file (expand-file-name "projects" my-savefile-dir)))
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
-  :demand t
   :bind-keymap (("s-p" . projectile-command-map))
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
@@ -952,8 +918,6 @@
 ;; enhance completion at point with a small completion popup
 ;; https://github.com/minad/corfu
 (use-package corfu
-  :ensure t
-  :demand t
   :hook ((minibuffer-setup . corfu-enable-in-minibuffer)
          ;; display autocomplete popup automatically in programming modes
          (prog-mode . corfu-set-local-auto))
@@ -1057,7 +1021,7 @@
 ;; icons for autocomplete results
 ;; https://github.com/jdtsmith/kind-icon
 (use-package kind-icon
-  :demand t
+  :pin gnu
   :after corfu
   :hook (my-toggle-theme . (lambda () (interactive) (kind-icon-reset-cache)))
   :custom
@@ -1115,7 +1079,6 @@
 
 ;; use shift + arrow keys to switch between visible buffers
 (use-package windmove
-  :demand t
   :config (windmove-default-keybindings))
 
 ;; define a new minor mode
@@ -1302,7 +1265,6 @@
 ;;;;;;;;;;;;;;;;;;;
 
 (use-package treesit-auto
-  :demand t
   :config
   (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
@@ -1399,7 +1361,6 @@
 ;;;;;;;;;;;;
 
 (use-package rustic
-  :ensure
   :after (eglot)
   :mode "\\.rs\'"
   :config
@@ -1455,6 +1416,7 @@
   :config (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
 (use-package rainbow-mode
+  :pin gnu
   :diminish
   :hook (emacs-lisp-mode))
 
@@ -1495,7 +1457,6 @@
 ;;;;;;;;;;;;;;;;;
 
 (use-package org
-  :ensure nil
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . (lambda ()
                       (org-indent-mode)
@@ -1612,6 +1573,7 @@
 ;;;;;;;;;;;
 
 (use-package csv-mode
+  :pin gnu
   :mode "\\.csv\'"
   ;; always enter CSV mode in align mode, easier to read
   :hook (csv-mode . csv-align-mode))
@@ -1639,6 +1601,7 @@
 ;;;;;;;;;;;;
 
 (use-package toml-mode
+  :pin melpa
   :mode ("\\.toml\'"))
 
 ;;;;;;;;;;;;;;;;;;
@@ -1763,7 +1726,6 @@
 ;; https://github.com/purcell/envrc
 ;; https://direnv.net/
 (use-package envrc
-  :demand t
   :config
   (envrc-global-mode))
 
