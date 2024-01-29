@@ -1544,6 +1544,12 @@
    ;;   (sql-mode . t)
    ))
 
+(use-package orgit
+  :pin melpa)
+
+(use-package orgit-forge
+  :pin melpa)
+
 ;; syntax highlighting for exported source code blocks, needs listings and color latex
 ;; packages (texlive-latex-recommended package in Debian/Ubuntu)
 (require 'ox-latex)
