@@ -145,9 +145,9 @@
 ;; run garbage collection when frame loses focus, which should mean I'm not using
 ;; Emacs at that time so I won't care about any slowdown
 (add-function :after after-focus-change-function
-  (defun my-garbage-collect-maybe ()
-    (unless (frame-focus-state)
-      (garbage-collect))))
+              (defun my-garbage-collect-maybe ()
+                (unless (frame-focus-state)
+                  (garbage-collect))))
 
 ;;;;;;;;;;;;;;
 ;;; editor ;;;
@@ -256,10 +256,11 @@
 ;; https://www.gnu.org/software/tramp/
 (use-package tramp
   :config
-  (setq ;; don't pollute .emacs.d directory
-        tramp-persistency-file-name (expand-file-name "tramp" my-savefile-dir)
-        ;; default to SSH
-        tramp-default-method "ssh"))
+  (setq
+   ;; don't pollute .emacs.d directory
+   tramp-persistency-file-name (expand-file-name "tramp" my-savefile-dir)
+   ;; default to SSH
+   tramp-default-method "ssh"))
 
 (set-default 'imenu-auto-rescan t)
 
@@ -419,7 +420,7 @@
          ("C-h C" . helpful-command)
          ;; default display-local-help
          ("C-h ." . helpful-at-point)
-))
+         ))
 
 ;; edit a grep buffer and apply those changes to the file buffer like sed interactively
 ;; https://github.com/mhayashi1120/Emacs-wgrep
@@ -435,13 +436,14 @@
 (use-package ace-window
   :bind (("M-s" . ace-window))
   :config
-  (setq ;; keys for selecting windows
-        aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-        ;; jump only in the current frame
-        aw-scope 'frame
-        ;; don't gray out contents when jumping
-        aw-background nil
-        ))
+  (setq
+   ;; keys for selecting windows
+   aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+   ;; jump only in the current frame
+   aw-scope 'frame
+   ;; don't gray out contents when jumping
+   aw-background nil
+   ))
 
 ;; manage window configurations
 ;; https://depp.brause.cc/eyebrowse/
@@ -459,19 +461,20 @@
          ("M-`" . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
-  (setq ;; how to group popups
-        popper-group-function #'popper-group-by-projectile
-        ;; which buffers should be considered popups
-        popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          "\\*eldoc.*\\*"
-          "\\*Flymake diagnostics.*\\*"
-          help-mode
-          helpful-mode
-          compilation-mode
-          ))
+  (setq
+   ;; how to group popups
+   popper-group-function #'popper-group-by-projectile
+   ;; which buffers should be considered popups
+   popper-reference-buffers
+   '("\\*Messages\\*"
+     "Output\\*$"
+     "\\*Async Shell Command\\*"
+     "\\*eldoc.*\\*"
+     "\\*Flymake diagnostics.*\\*"
+     help-mode
+     helpful-mode
+     compilation-mode
+     ))
   (popper-mode +1)
   (popper-echo-mode +1)
   :config
@@ -609,17 +612,17 @@
 ;; https://github.com/minad/vertico
 (use-package vertico
   :bind (:map vertico-map
-         ("C-M-n" . vertico-next-group)
-         ("C-M-p" . vertico-previous-group))
+              ("C-M-n" . vertico-next-group)
+              ("C-M-p" . vertico-previous-group))
   :preface
   (defun my-minibuffer-default-add-function ()
-        (with-selected-window (minibuffer-selected-window)
-          (delete-dups
-           (delq nil
-                 (list (thing-at-point 'symbol)
-                       (thing-at-point 'list)
-                       (ffap-guesser)
-                       (thing-at-point-url-at-point))))))
+    (with-selected-window (minibuffer-selected-window)
+      (delete-dups
+       (delq nil
+             (list (thing-at-point 'symbol)
+                   (thing-at-point 'list)
+                   (ffap-guesser)
+                   (thing-at-point-url-at-point))))))
   :init
   (setq minibuffer-default-add-function 'my-minibuffer-default-add-function)
   (vertico-mode)
@@ -715,11 +718,11 @@
    consult--source-project-buffer
    consult--source-project-recent-file
    :preview-key '"M-.")
-  (setq ;; use consult for xref navigation
-        xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref
-        )
-  )
+  (setq
+   ;; use consult for xref navigation
+   xref-show-xrefs-function #'consult-xref
+   xref-show-definitions-function #'consult-xref
+   ))
 
 ;; insert directory paths into the minibuffer prompt
 ;; https://github.com/karthink/consult-dir
@@ -752,10 +755,11 @@
                 :items    ,#'consult-dir--tramp-docker-hosts)
     "Docker candidate source for `consult-dir'.")
   :config
-  (setq ;; integrate with projectile to find project directories
-        consult-dir-project-list-function #'consult-dir-projectile-dirs
-        ;; default command to execute on candidates
-        consult-dir-default-command 'find-file)
+  (setq
+   ;; integrate with projectile to find project directories
+   consult-dir-project-list-function #'consult-dir-projectile-dirs
+   ;; default command to execute on candidates
+   consult-dir-default-command 'find-file)
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-docker t))
 
 ;; adds marginalia annotations to the minibuffer completions
@@ -863,13 +867,13 @@
    magit-wip-after-apply-mode' t
    magit-wip-after-save-mode' t
    magit-wip-before-change-mode' t
-   ; path to my root code dir, so I can do C-x g from anywhere
+   ;; path to my root code dir, so I can do C-x g from anywhere
    magit-repository-directories '(("~/Code" . 2))
-   ; create a local tracking branch when visiting a remote branch
+   ;; create a local tracking branch when visiting a remote branch
    magit-visit-ref-create t
-   ; don't ask for confirmation when pushing branches
+   ;; don't ask for confirmation when pushing branches
    magit-push-always-verify nil
-   ; put history.el in the custom savefile dir
+   ;; put history.el in the custom savefile dir
    transient-history-file (expand-file-name "transient-history.el" my-savefile-dir)
    )
   ;; enable magit-clean
@@ -1249,11 +1253,12 @@
               ("s-l r" . eglot-rename)
               ("s-l t" . eglot-find-type-definition))
   :config
-  (setq ;; increase when need to debug LSP sessions
-        eglot-events-buffer-size 0
-        ;; use same eglot session when navigating outside project through Xref
-        eglot-extend-to-xref t
-        )
+  (setq
+   ;; increase when need to debug LSP sessions
+   eglot-events-buffer-size 0
+   ;; use same eglot session when navigating outside project through Xref
+   eglot-extend-to-xref t
+   )
   ;; (lsp-register-custom-settings
   ;;  '(("pylsp.plugins.pyls_mypy.enabled" t t)
   ;;    ("pylsp.plugins.pyls_mypy.live_mode" nil t)
