@@ -88,6 +88,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`rustic`](https://github.com/brotzeit/rustic): major mode for [Rust](https://www.rust-lang.org/) coding.
 * [`saveplace`](https://www.emacswiki.org/emacs/SavePlace): built-in to remember last position on each open file.
 * [`super-save`](https://github.com/bbatsov/super-save): automatically save buffers on certain events.
+* [`systemd`](https://github.com/holomorph/systemd-mode): major mode for editing systemd files.
 * [`toml-mode`](https://github.com/dryman/toml-mode.el): major mode for TOML files.
 * [`tramp`](https://www.gnu.org/software/tramp/): remote file editing, beyond cool.
 * [`treesit-auto`](https://github.com/renzmann/treesit-auto): automatically install and use tree-sitter grammars.

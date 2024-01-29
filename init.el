@@ -1733,3 +1733,10 @@
 (use-package envrc
   :config
   (envrc-global-mode))
+
+;;;;;;;;;;;;;;;
+;;; Systemd ;;;
+;;;;;;;;;;;;;;;
+
+(use-package systemd
+  :pin nongnu)
