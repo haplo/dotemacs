@@ -1028,7 +1028,7 @@
   (defun my-cape-capf-setup-org ()
     (let (result)
       (dolist (element (list
-                        (cape-super-capf #'cape-ispell #'cape-dabbrev))
+                        (cape-capf-super #'cape-ispell #'cape-dabbrev))
                        result)
         (add-to-list 'completion-at-point-functions element))))
   )
