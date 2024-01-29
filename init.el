@@ -822,10 +822,12 @@
 (use-package embark
   :after (perspective)
   :bind
-  (("M-r" . embark-act)
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)
    ("C-h B" . embark-bindings)
    :map minibuffer-local-map
-   ("M-r" . embark-act)))
+   ("C-." . embark-act))
+  )
 
 (use-package embark-consult
   :after (embark consult)
