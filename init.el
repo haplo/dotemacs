@@ -447,23 +447,32 @@
 
 ;; manage window configurations
 ;; https://depp.brause.cc/eyebrowse/
-(use-package eyebrowse
-  :pin melpa
-  :config
-  (eyebrowse-mode t)
-  (eyebrowse-setup-opinionated-keys))
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-list-buffers)
+  ("C-x k" . persp-kill-buffer*)
+  :hook
+  (kill-emacs . persp-state-save)
+  :custom
+  (persp-mode-prefix-key (kbd "C-z"))
+  (persp-state-default-file (expand-file-name "perspective" my-savefile-dir))
+  :init
+  (persp-mode)
+  ;; :config
+  ;; (if persp-state-default-file (persp-state-load persp-state-default-file))
+  )
 
 ;; tame the flood of ephemeral windows Emacs produces
 ;; https://github.com/karthink/popper
 (use-package popper
-  :after (projectile)
+  :after (perspective projectile)
   :bind (("C-`" . popper-toggle)
          ("M-`" . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
   (setq
    ;; how to group popups
-   popper-group-function #'popper-group-by-projectile
+   popper-group-function #'popper-group-by-perspective
    ;; which buffers should be considered popups
    popper-reference-buffers
    '("\\*Messages\\*"
@@ -648,7 +657,7 @@
 ;; practical commands based on core function completing-read
 ;; https://github.com/minad/consult
 (use-package consult
-  :after (projectile)
+  :after (perspective projectile)
   :bind (("C-c f" . consult-find)
          ("C-c j" . consult-outline)
          ("C-c i" . consult-imenu)
@@ -737,6 +746,8 @@
    consult--source-project-buffer
    consult--source-project-recent-file
    :preview-key '"M-.")
+  (consult-customize consult--source-buffer :hidden t :default nil)
+  (add-to-list 'consult-buffer-sources persp-consult-source)
   (setq
    ;; use consult for xref navigation
    xref-show-xrefs-function #'consult-xref
@@ -809,6 +820,7 @@
 ;; minibuffer completion session and in normal buffers
 ;; https://github.com/oantolin/embark/
 (use-package embark
+  :after (perspective)
   :bind
   (("M-r" . embark-act)
    ("C-h B" . embark-bindings)
@@ -1013,24 +1025,21 @@
 
 (use-package cape
   :hook ((org-mode . my-cape-capf-setup-org))
-  :bind (("C-z p" . completion-at-point)
-         ("C-z t" . complete-tag)  ; etags
-         ("C-z d" . cape-dabbrev)  ; basically `dabbrev-completion'
-         ("C-z f" . cape-file)
-         ("C-z k" . cape-keyword)
-         ("C-z s" . cape-symbol)
-         ("C-z a" . cape-abbrev)
-         ("C-z i" . cape-ispell)
-         ("C-z l" . cape-line)
-         ("C-z w" . cape-dict)
-         ("C-z \\" . cape-tex)
-         ("C-z _" . cape-tex)
-         ("C-z ^" . cape-tex)
-         ("C-z &" . cape-sgml)
-         ("C-z r" . cape-rfc1345))
-  :init
-  ;; C-z is set to minimize by default
-  (global-set-key (kbd "C-z") nil)
+  :bind (("C-c p p" . completion-at-point)
+         ("C-c p t" . complete-tag)  ; etags
+         ("C-c p d" . cape-dabbrev)  ; basically `dabbrev-completion'
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p i" . cape-ispell)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p \\" . cape-tex)
+         ("C-c p _" . cape-tex)
+         ("C-c p ^" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345))
   :preface
   ;; Org
   (defun my-cape-capf-setup-org ()

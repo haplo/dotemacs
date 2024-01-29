@@ -51,7 +51,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`envrc`](https://github.com/purcell/envrc): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
 * [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
-* [`eyebrowse`](https://depp.brause.cc/eyebrowse/): manage [window](https://www.emacswiki.org/emacs/Window) configurations.
 * [`flymake`](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
 * [`flyspell`](https://www.emacswiki.org/emacs/FlySpell): spell checking.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
@@ -77,6 +76,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`org-superstar`](https://github.com/integral-dw/org-superstar-mode): prettier headings in org-mode.
 * [`orgit`](https://github.com/magit/orgit/): link to Magit buffers from Org-mode.
 * [`orgit-forge`](https://github.com/magit/orgit-forge/): link to Forge buffers from Org-mode.
+* [`perspective`](https://github.com/nex3/perspective-el): per-project named workspaces with window layouts and buffer lists.
 * [`popper`](https://github.com/karthink/popper): tame the flood of ephemeral windows Emacs produces.
 * [`projectile`](https://github.com/bbatsov/projectile): project management.
 * [`puni`](https://github.com/AmaiKinono/puni): minor mode to work with delimiters that come in pairs, e.g. parentheses, braces, tags, etc.
