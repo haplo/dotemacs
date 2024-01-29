@@ -187,8 +187,8 @@
 (setq echo-keystrokes 0.1)
 
 ;; integrate copy/paste with X
-(setq x-select-enable-clipboard t
-      x-select-enable-primary t
+(setq select-enable-clipboard t
+      select-enable-primary t
       save-interprogram-paste-before-kill t
       )
 
