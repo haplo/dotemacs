@@ -1412,8 +1412,9 @@ targets."
 ;;; CSS ;;;
 ;;;;;;;;;;;
 
-;; css-mode comes built-in with Emacs
-(with-eval-after-load 'css-mode
+(use-package css-mode
+  :ensure nil  ;; Emacs built-in
+  :config
   (setq css-indent-offset 2)
   (defun my-css-mode-defaults ()
     (rainbow-mode +1))
