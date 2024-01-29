@@ -1387,16 +1387,9 @@
               ("M-." . godef-jump)
               ("C-M-RET" . godef-jump-other-window)))
 
-;;;;;;;;;;;;
-;;; Lisp ;;;
-;;;;;;;;;;;;
-
-(defun my-lisp-coding-defaults ()
-  (rainbow-delimiters-mode +1))
-
-(setq my-lisp-coding-hook 'my-lisp-coding-defaults)
-
-;;; Emacs Lisp
+;;;;;;;;;;;;;;;;;;
+;;; Emacs Lisp ;;;
+;;;;;;;;;;;;;;;;;;
 
 (defun start-or-visit-ielm ()
   "Switch to default `ielm' buffer. Start `ielm' if it's not already running."
@@ -1426,7 +1419,9 @@
   :diminish
   :hook (emacs-lisp-mode))
 
-;;; Scheme
+;;;;;;;;;;;;;;;;;;;
+;;; Scheme Lisp ;;;
+;;;;;;;;;;;;;;;;;;;
 
 (use-package geiser
   :hook (scheme-mode . my-lisp-coding-defaults)
