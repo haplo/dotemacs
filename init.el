@@ -1306,6 +1306,14 @@
   :mode "\\.jsx"
   )
 
+;;;;;;;;;;;;;;;;;;
+;;; Typescript ;;;
+;;;;;;;;;;;;;;;;;;
+
+(use-package typescript-ts-mode
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode)))
+
 ;;;;;;;;;;;
 ;;; Web ;;;
 ;;;;;;;;;;;
@@ -1326,10 +1334,6 @@
          "\\.erb\\'"
          "\\.html?\\'"
          )
-  ; TSX support
-  :hook (web-mode . (lambda ()
-                      (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                        (my-typescript-web-mode-setup))))
   :config
   (setq web-mode-code-indent-offset 2
         web-mode-markup-indent-offset 2
