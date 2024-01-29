@@ -955,7 +955,12 @@
               ("<return>" . corfu-insert)
               ("M-d" . corfu-show-documentation)
               ("M-l" . corfu-show-location)
-              ("M-m" . corfu-move-to-minibuffer))
+              ("M-m" . corfu-move-to-minibuffer)
+              ;; manual toggle for the documentation popup
+              ([remap corfu-show-documentation] . corfu-popupinfo-toggle)
+              ;; scroll in the documentation window
+              ("M-n" . corfu-popupinfo-scroll-up)
+              ("M-p" . corfu-popupinfo-scroll-down))
   :preface
   (defun corfu-set-local-auto ()
     "Enable popup appearing automatically only for current buffer"
@@ -973,6 +978,7 @@
   (setq corfu-excluded-modes '(typescript-mode web-mode))
   (global-corfu-mode)
   (corfu-indexed-mode)
+  (corfu-popupinfo-mode)
   :custom
   ;; autocompletion only pops up automatically in programming modes
   (corfu-auto nil)
@@ -996,22 +1002,6 @@
   ;; don't show documentation in echo area, as corfu-doc is set up below
   (corfu-echo-documentation nil)
   )
-
-(use-package corfu-doc
-  :after corfu
-  :hook (corfu-mode . corfu-doc-mode)
-  :bind (:map corfu-map
-              ;; manual toggle for the documentation popup
-              ([remap corfu-show-documentation] . corfu-doc-toggle)
-              ;; scroll in the documentation window
-              ("M-n" . corfu-doc-scroll-up)
-              ("M-p" . corfu-doc-scroll-down))
-  :custom
-  (corfu-doc-delay 0.1)
-  (corfu-doc-max-width 70)
-  (corfu-doc-max-height 20)
-  ;; be extra-safe that documentation is not shown in echo area
-  (corfu-echo-documentation nil))
 
 (use-package cape
   :hook ((org-mode . my-cape-capf-setup-org))
