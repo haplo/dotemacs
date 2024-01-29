@@ -757,7 +757,7 @@
 ;; insert directory paths into the minibuffer prompt
 ;; https://github.com/karthink/consult-dir
 (use-package consult-dir
-  :after (projectile)
+  :after (consult projectile)
   :bind (("C-x C-d" . consult-dir)
          :map vertico-map
          ("C-c d" . consult-dir)
