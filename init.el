@@ -1302,7 +1302,7 @@ targets."
   (defun my-eglot-eldoc ()
     (setq eldoc-documentation-strategy
           'eldoc-documentation-compose-eagerly))
-  (defun my-eglot-organize-imports-on-save () (interactive)
+  (defun my-eglot-organize-imports () (interactive)
          (if (and (eglot-managed-p)
                   (eglot--server-capable :OrganizeImports))
              (eglot-code-actions nil nil "source.organizeImports" t)))
