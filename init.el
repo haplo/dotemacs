@@ -830,11 +830,17 @@
   :after (perspective which-key)
   :bind
   (("C-." . embark-act)
+   ("C-M-." . embark-act-noquit)
    ("C-;" . embark-dwim)
    ("C-h B" . embark-bindings)
    :map minibuffer-local-map
    ("C-." . embark-act))
   :preface
+  (defun embark-act-noquit ()
+    "Run action but don't quit the minibuffer afterwards."
+    (interactive)
+    (let ((embark-quit-after-action nil))
+      (embark-act)))
   (defun embark-which-key-indicator ()
     "An embark indicator that displays keymaps using which-key.
 The which-key help message will show the type and value of the
