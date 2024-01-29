@@ -654,21 +654,40 @@
          ("C-c i" . consult-imenu)
          ("C-c g" . consult-ripgrep)
          ("C-c G" . my-consult-ripgrep-at-point)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
          ("C-s" . consult-line)
          ("C-c s" . my-consult-line-at-point)
          ("C-c M-s" . consult-line-multi)
+         ("C-c M-x" . consult-mode-command)
          ("C-c C-s" . consult-yasnippet)
          ("C-c C-m" . consult-minor-mode-menu)
          ("C-h C-m" . consult-man)
          ("C-x l" . consult-locate)
          ("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop)
+
+         ;; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ;; originally mark-word, I use expand-region
+         ("M-@" . consult-register-store)
+         ("C-M-#" . consult-register)
+         ([remap copy-to-register] . consult-register-store)
+         ([remap insert-register] . consult-register-load)
+
          ([remap goto-line] . consult-goto-line)
-         ([remap insert-register] . consult-register)
+         ([remap Info-search] . consult-info)
          ([remap projectile-switch-to-buffer] . consult-project-buffer)
+         ([remap repeat-complex-command] . consult-complex-command)
          :map consult-narrow-map
          ([C-right] .  consult-narrow-right)
-         ([C-left] .  consult-narrow-left))
+         ([C-left] .  consult-narrow-left)
+         :map minibuffer-local-map
+         ;; originally next-matching-history-element
+         ("M-s" . consult-history)
+         ;; originally previous-matching-history-element
+         ("M-r" . consult-history)
+         )
   :preface
   (defun get-project-root ()
     (if (fboundp 'projectile-project-root)
@@ -728,9 +747,10 @@
 ;; https://github.com/karthink/consult-dir
 (use-package consult-dir
   :after (projectile)
-  :bind (("C-c d" . consult-dir)
+  :bind (("C-x C-d" . consult-dir)
          :map vertico-map
          ("C-c d" . consult-dir)
+         ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file))
   :preface
   ;; Quick access to docker containers
