@@ -1721,7 +1721,14 @@
 ;; https://github.com/iqbalansari/emacs-emojify
 (use-package emojify
   :hook (after-init . global-emojify-mode)
-  :bind ("C-c C-e" . 'emojify-insert-emoji))
+  :bind ("C-c C-e" . 'emojify-insert-emoji)
+  :config
+  ;; disable emojify in more major modes
+  (add-to-list 'emojify-inhibit-major-modes 'conf-mode)
+  (add-to-list 'emojify-inhibit-major-modes 'magit-mode)
+  (add-to-list 'emojify-inhibit-major-modes 'prog-mode)
+  (add-to-list 'emojify-inhibit-major-modes 'restclient-mode)
+  )
 
 ;;;;;;;;;;;;;;
 ;;; direnv ;;;
