@@ -36,6 +36,7 @@
 
 ;; Stop customize from writing to my init file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
 
 ;; Theme
 ;; https://github.com/hlissner/emacs-doom-themes
