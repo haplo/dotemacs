@@ -755,6 +755,14 @@
   :preface
   ;; Quick access to docker containers
   ;; Taken from consult-dir's README: https://github.com/karthink/consult-dir#docker-hosts
+  (defcustom consult-dir--tramp-container-executable "podman"
+    "Default executable to use for querying container hosts."
+    :group 'consult-dir
+    :type 'string)
+  (defcustom consult-dir--tramp-container-args nil
+    "Optional list of arguments to pass when querying container hosts."
+    :group 'consult-dir
+    :type '(repeat string))
   (defun consult-dir--tramp-container-hosts ()
     "Get a list of hosts from a container host."
     (cl-loop for line in (cdr
@@ -772,7 +780,7 @@
                 :category file
                 :face     consult-file
                 :history  file-name-history
-                :items    ,#'consult-dir--tramp-docker-hosts)
+                :items    ,#'consult-dir--tramp-container-hosts)
     "Docker candidate source for `consult-dir'.")
   :config
   (setq
