@@ -1179,35 +1179,34 @@
 
 ;; smart pairing for all programming modes
 ;; https://github.com/AmaiKinono/puni
-(use-package puni
-  :demand t
-  :hook (term-mode . puni-disable-puni-mode)
-  :bind (("M-<up>" . puni-splice)
-         ("M-S-<up>" . puni-raise)
-         ("M-<down>" . puni-split)
-         ("M-S-<down>" . puni-squeeze)
-         ("M-[" . puni-slurp-backward)
-         ("M-]" . puni-slurp-forward)
-         ("M-{" . puni-barf-backward)
-         ("M-}" . puni-barf-forward))
-  :hook ((minibuffer-setup . puni-disable-puni-mode)
-         (org-mode . puni-disable-puni-mode))
-  :preface
-  (defun my-disable-puni-in-minibuffer ()
-  "Disable `puni-mode' in minibuffer unless when eval-expression"
-  (unless (eq this-command 'eval-expression)
-      (puni-disable-puni-mode)))
-  :init
-  (puni-global-mode))
+;; (use-package puni
+;;   :pin melpa
+;;   :hook (term-mode . puni-disable-puni-mode)
+;;   :bind (("M-<up>" . puni-splice)
+;;          ("M-S-<up>" . puni-raise)
+;;          ("M-<down>" . puni-split)
+;;          ("M-S-<down>" . puni-squeeze)
+;;          ("M-[" . puni-slurp-backward)
+;;          ("M-]" . puni-slurp-forward)
+;;          ("M-{" . puni-barf-backward)
+;;          ("M-}" . puni-barf-forward))
+;;   :hook ((minibuffer-setup . puni-disable-puni-mode)
+;;          (org-mode . puni-disable-puni-mode))
+;;   :preface
+;;   (defun my-disable-puni-in-minibuffer ()
+;;   "Disable `puni-mode' in minibuffer unless when eval-expression"
+;;   (unless (eq this-command 'eval-expression)
+;;       (puni-disable-puni-mode)))
+;;   :config
+;;   (puni-global-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;; Autoformatting ;;;
 ;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package apheleia
-  :init
-  (apheleia-global-mode +1)
   :config
+  (apheleia-global-mode +1)
   (setf (alist-get 'isort apheleia-formatters)
         '("isort" "--stdout" "-"))
   (setf (alist-get 'python-mode apheleia-mode-alist)
