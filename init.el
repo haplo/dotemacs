@@ -1549,7 +1549,6 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((python . t)
-   (ipython . t)
    ;;   emacs-ob-rust not in Guix yet
    ;;   (rust . t)
    (shell . t)
