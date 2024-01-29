@@ -79,7 +79,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`orgit`](https://github.com/magit/orgit/): link to Magit buffers from Org-mode.
 * [`orgit-forge`](https://github.com/magit/orgit-forge/): link to Forge buffers from Org-mode.
 * [`popper`](https://github.com/karthink/popper): tame the flood of ephemeral windows Emacs produces.
-* [`prisma-mode`](https://github.com/pimeys/emacs-prisma-mode): a major mode for editing Prisma ORM schemas.
 * [`projectile`](https://github.com/bbatsov/projectile): project management.
 * [`puni`](https://github.com/AmaiKinono/puni): minor mode to work with delimiters that come in pairs, e.g. parentheses, braces, tags, etc.
 * [`rainbow-delimiters`](https://github.com/Fanael/rainbow-delimiters): color delimiters such as parentheses or braces as they nest.

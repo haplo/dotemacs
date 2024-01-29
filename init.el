@@ -1609,13 +1609,6 @@
   :pin melpa
   :mode ("\\.toml\'"))
 
-;;;;;;;;;;;;;;;;;;
-;;; Prisma ORM ;;;
-;;;;;;;;;;;;;;;;;;
-
-(use-package prisma-mode
-  :mode "\\.prisma\'")
-
 ;;;;;;;;;;;;;;;;
 ;;; Snippets ;;;
 ;;;;;;;;;;;;;;;;
