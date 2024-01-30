@@ -34,7 +34,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`consult-dir`](https://github.com/karthink/consult-dir): insert directory paths into the minibuffer prompt.
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
 * [`csv-mode`](https://elpa.gnu.org/packages/csv-mode.html): major mode to edit CSV (Comma-Separated Values) files.
-* [`desktop-mode`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html): save and restore Emacs editor state.
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
 * [`dirvish`](https://github.com/alexluigit/dirvish): an improved batteries-included dired replacement.

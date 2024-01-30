@@ -115,17 +115,6 @@
 ;; Cycle between candidates when there are not a lot of them
 (setq completion-cycle-threshold 3)
 
-(use-package desktop
-  :config
-  (let ((desktop-dir (expand-file-name "desktop" my-savefile-dir)))
-    (progn
-      (unless (file-directory-p desktop-dir)
-        (make-directory desktop-dir))
-      (setq desktop-dirname desktop-dir)))
-  ;; leave org files open when clearing the desktop
-  (add-to-list 'desktop-clear-preserve-buffers "\\*.org$" t)
-  (desktop-save-mode 1))
-
 ;; remember point location when reopening a file
 (use-package saveplace
   :init
@@ -465,8 +454,6 @@
   (persp-state-default-file (expand-file-name "perspective" my-savefile-dir))
   :init
   (persp-mode)
-  ;; :config
-  ;; (if persp-state-default-file (persp-state-load persp-state-default-file))
   )
 
 ;; tame the flood of ephemeral windows Emacs produces
