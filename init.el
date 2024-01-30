@@ -1398,6 +1398,13 @@ targets."
          "\\.erb\\'"
          "\\.html?\\'"
          )
+  :hook (web-mode . my-web-mode-set-engine-django)
+  :preface
+  ;; detect if Django project and set web-mode engine to django
+  (defun my-web-mode-set-engine-django ()
+    (if (projectile-project-p)
+        (if (file-exists-p (concat (projectile-project-root) "manage.py"))
+            (web-mode-set-engine "django"))))
   :config
   (setq web-mode-code-indent-offset 2
         web-mode-markup-indent-offset 2
