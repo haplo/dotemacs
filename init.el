@@ -652,7 +652,7 @@
 ;; https://github.com/minad/consult
 (use-package consult
   :after (perspective projectile)
-  :bind (("C-c f" . consult-find)
+  :bind (("C-c f" . consult-fd)
          ("C-c j" . consult-outline)
          ("C-c i" . consult-imenu)
          ("C-c g" . consult-ripgrep)
