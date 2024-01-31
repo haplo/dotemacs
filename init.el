@@ -1553,9 +1553,10 @@ targets."
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . (lambda ()
-                      (org-indent-mode)
+                      (org-indent-mode +1)
                       (variable-pitch-mode -1)
                       (display-line-numbers-mode -1)
+                      (visual-line-mode +1)
                       ))
   :bind (:map org-mode-map
               ("C-c j" . consult-org-heading)
