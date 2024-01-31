@@ -453,6 +453,7 @@
   :custom
   (persp-mode-prefix-key (kbd "C-z"))
   (persp-state-default-file (expand-file-name "perspective" my-savefile-dir))
+  (persp-modestring-short t)
   :init
   (persp-mode)
   )
