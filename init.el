@@ -737,6 +737,11 @@
          (caar consult--narrow-keys)))))
   :custom
   (consult-narrow-key ",")
+  ;; search hidden files and dirs, e.g. ~/.config
+  (consult-fd-args '((if
+                         (executable-find "fdfind" 'remote)
+                         "fdfind" "fd")
+                     "--full-path --color=never --hidden"))
   (consult-find-command "fd --hidden --color=never --full-path ARG OPTS")
   (consult--regexp-compiler consult--orderless-regexp-compiler)
   :config
