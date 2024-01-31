@@ -321,6 +321,10 @@
 ;; it's 2020 already
 (setq-default fill-column my-line-length)
 
+;; fill paragraph if line is too long, unfill otherwise
+(use-package unfill
+  :bind (("M-q" . unfill-toggle)))
+
 ;; progressively expand region around cursor
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region

@@ -90,6 +90,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`toml-mode`](https://github.com/dryman/toml-mode.el): major mode for TOML files.
 * [`tramp`](https://www.gnu.org/software/tramp/): remote file editing, beyond cool.
 * [`treesit-auto`](https://github.com/renzmann/treesit-auto): automatically install and use [tree-sitter grammars](https://tree-sitter.github.io/tree-sitter/).
+* [`unfill`](https://github.com/purcell/unfill): the inverse of Emacs' `fill-paragraph` and `fill-region`.
 * [`vundo`](https://github.com/casouri/vundo): visualize and navigate the undo history as a tree, never lose an edit.
 * [`vertico`](https://github.com/minad/vertico): performant and minimalistic vertical completion UI based on the default completion system.
 * [`visual-regexp`](https://github.com/emacsmirror/visual-regexp): live view of the matches of a regular expression.
