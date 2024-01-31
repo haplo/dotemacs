@@ -954,12 +954,17 @@ targets."
 (use-package magit
   :pin melpa
   :if (executable-find "git")
+  :hook (git-commit-setup . my-git-commit-setup)
   :bind (("s-m m" . magit-status)
          ("s-m s-m" . magit-status)
          ("s-m j" . magit-dispatch)
          ("s-m k" . magit-file-dispatch)
          ("s-m l" . magit-log-buffer-file)
          ("s-m b" . magit-blame))
+  :preface
+  (defun my-git-commit-setup ()
+    (setq-local fill-column 72)
+    (git-commit-turn-on-auto-fill))
   :custom
   (magit-wip-after-apply-mode' t)
   (magit-wip-after-save-mode' t)
