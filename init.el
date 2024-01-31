@@ -1165,8 +1165,8 @@ targets."
     (setq ispell-program-name "hunspell"))
    (t
     (setq ispell-program-name nil)))
-  :config
-  (setq flyspell-default-dictionary "american-w_accents"))
+  :custom
+  (flyspell-default-dictionary "american"))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; keybindings ;;;
