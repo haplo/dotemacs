@@ -279,6 +279,7 @@
 
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
+  :after (embark)
   :preface
   ;; By Chmouel Boudjnah https://mastodon.social/@chmouel@fosstodon.org/109715305722356540
   (defun my-avy-copy-word (arg)
