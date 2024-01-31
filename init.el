@@ -966,6 +966,7 @@ targets."
     (setq-local fill-column 72)
     (git-commit-turn-on-auto-fill))
   :custom
+  (git-commit-summary-max-length 60)
   (magit-wip-after-apply-mode' t)
   (magit-wip-after-save-mode' t)
   (magit-wip-before-change-mode' t)
