@@ -960,20 +960,19 @@ targets."
          ("s-m k" . magit-file-dispatch)
          ("s-m l" . magit-log-buffer-file)
          ("s-m b" . magit-blame))
+  :custom
+  (magit-wip-after-apply-mode' t)
+  (magit-wip-after-save-mode' t)
+  (magit-wip-before-change-mode' t)
+  ;; path to my root code dir, so I can do C-x g from anywhere
+  (magit-repository-directories '(("~/Code" . 2)))
+  ;; create a local tracking branch when visiting a remote branch
+  (magit-visit-ref-create t)
+  ;; don't ask for confirmation when pushing branches
+  (magit-push-always-verify nil)
+  ;; put history.el in the custom savefile dir
+  (transient-history-file (expand-file-name "transient-history.el" my-savefile-dir))
   :config
-  (setq
-   magit-wip-after-apply-mode' t
-   magit-wip-after-save-mode' t
-   magit-wip-before-change-mode' t
-   ;; path to my root code dir, so I can do C-x g from anywhere
-   magit-repository-directories '(("~/Code" . 2))
-   ;; create a local tracking branch when visiting a remote branch
-   magit-visit-ref-create t
-   ;; don't ask for confirmation when pushing branches
-   magit-push-always-verify nil
-   ;; put history.el in the custom savefile dir
-   transient-history-file (expand-file-name "transient-history.el" my-savefile-dir)
-   )
   ;; enable magit-clean
   (put 'magit-clean 'disabled nil)
   )
