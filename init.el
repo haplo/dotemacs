@@ -671,7 +671,6 @@
          ("C-c s" . my-consult-line-at-point)
          ("C-c M-s" . consult-line-multi)
          ("C-c M-x" . consult-mode-command)
-         ("C-c C-s" . consult-yasnippet)
          ("C-c C-m" . consult-minor-mode-menu)
          ("C-h C-m" . consult-man)
          ("C-x l" . consult-locate)
@@ -815,6 +814,11 @@
    ;; default command to execute on candidates
    consult-dir-default-command 'find-file)
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-docker t))
+
+(use-package consult-yasnippet
+  :pin melpa
+  :after (consult)
+  :bind (("C-c C-s" . consult-yasnippet)))
 
 ;; adds marginalia annotations to the minibuffer completions
 ;; https://github.com/minad/marginalia
