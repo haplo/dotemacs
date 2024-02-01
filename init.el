@@ -1712,7 +1712,6 @@ targets."
 ;;; Snippets ;;;
 ;;;;;;;;;;;;;;;;
 
-;; load yasnippet
 (use-package yasnippet
   :diminish yas-minor-mode
   ;; term-mode does not play well with yasnippet
@@ -1720,6 +1719,8 @@ targets."
   :config
   (add-to-list 'yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
   (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
 
 ;;;;;;;;;;;;;;;
 ;;; Writing ;;;
