@@ -1318,17 +1318,6 @@ targets."
 
 ;; https://joaotavora.github.io/eglot/
 (use-package eglot
-  :preface
-  (defun my-eglot-eldoc ()
-    (setq eldoc-documentation-strategy
-          'eldoc-documentation-compose-eagerly))
-  (defun my-eglot-organize-imports () (interactive)
-         (if (and (eglot-managed-p)
-                  (eglot--server-capable :OrganizeImports))
-             (eglot-code-actions nil nil "source.organizeImports" t)))
-  (defun my-eglot-format-on-save () (interactive)
-         (if (eglot-managed-p)
-             (eglot-format-buffer)))
   :hook ((go-ts-mode . eglot-ensure)
          (python-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)
@@ -1346,6 +1335,17 @@ targets."
               ("s-l o" . eglot-code-action-organize-imports)
               ("s-l r" . eglot-rename)
               ("s-l t" . eglot-find-type-definition))
+  :preface
+  (defun my-eglot-eldoc ()
+    (setq eldoc-documentation-strategy
+          'eldoc-documentation-compose-eagerly))
+  (defun my-eglot-organize-imports () (interactive)
+         (if (and (eglot-managed-p)
+                  (eglot--server-capable :OrganizeImports))
+             (eglot-code-actions nil nil "source.organizeImports" t)))
+  (defun my-eglot-format-on-save () (interactive)
+         (if (eglot-managed-p)
+             (eglot-format-buffer)))
   :custom
   ;; increase when need to debug LSP sessions
   (eglot-events-buffer-size 0)
