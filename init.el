@@ -1346,13 +1346,11 @@ targets."
               ("s-l o" . eglot-code-action-organize-imports)
               ("s-l r" . eglot-rename)
               ("s-l t" . eglot-find-type-definition))
-  :config
-  (setq
-   ;; increase when need to debug LSP sessions
-   eglot-events-buffer-size 0
-   ;; use same eglot session when navigating outside project through Xref
-   eglot-extend-to-xref t
-   )
+  :custom
+  ;; increase when need to debug LSP sessions
+  (eglot-events-buffer-size 0)
+  ;; use same eglot session when navigating outside project through Xref
+  (eglot-extend-to-xref t)
   ;; (lsp-register-custom-settings
   ;;  '(("pylsp.plugins.pyls_mypy.enabled" t t)
   ;;    ("pylsp.plugins.pyls_mypy.live_mode" nil t)
