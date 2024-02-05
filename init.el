@@ -453,7 +453,15 @@
   ("C-x C-b" . persp-list-buffers)
   ("C-x k" . persp-kill-buffer*)
   :hook
-  (kill-emacs . persp-state-save)
+  (;; save perspectives on Emacs exit
+   (kill-emacs . my-persp-state-save-with-backup))
+  :preface
+  (defun my-persp-state-save-with-backup ()
+    (interactive)
+    (let ((persp-state-backup-file (concat persp-state-default-file ".bak")))
+      (when (f-file-p persp-state-default-file)
+        (copy-file persp-state-default-file persp-state-backup-file t))
+      (persp-state-save)))
   :custom
   (persp-mode-prefix-key (kbd "C-z"))
   (persp-state-default-file (expand-file-name "perspective" my-savefile-dir))
