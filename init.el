@@ -1881,13 +1881,8 @@ targets."
   (require 'llm-ollama)
   (setopt ellama-provider
           (make-llm-ollama
-           ;; this model should be pulled to use it
-           ;; value should be the same as you print in terminal during pull
            :chat-model "wizard-vicuna-uncensored:13b-q5_K_M"
            :embedding-model "wizard-vicuna-uncensored:13b-q5_K_M"))
-  ;; Predefined llm providers for interactive switching.
-  ;; You shouldn't add ollama providers here - it can be selected interactively
-  ;; without it. It is just example.
   (setopt ellama-providers
           '(("mistral-instruct" . (make-llm-ollama
                                    :chat-model "mistral:7b-instruct"
