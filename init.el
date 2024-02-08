@@ -1839,6 +1839,8 @@ targets."
 ;;; Systemd ;;;
 ;;;;;;;;;;;;;;;
 
+;; Major mode for editing systemd units
+;; https://github.com/holomorph/systemd-mode
 (use-package systemd
   :pin nongnu)
 
@@ -1846,6 +1848,8 @@ targets."
 ;;; Screencast ;;;
 ;;;;;;;;;;;;;;;;;;
 
+;; Show current command and its binding
+;; https://github.com/tarsius/keycast/
 (use-package keycast
   :config
   ;; integrate with doom-modeline
