@@ -1858,3 +1858,37 @@ targets."
       (remove-hook 'pre-command-hook 'keycast--update)))
   (add-to-list 'global-mode-string '("" keycast-mode-line))
   )
+
+;;;;;;;;;;
+;;; AI ;;;
+;;;;;;;;;;
+
+;; A tool for interacting with large language models from Emacs Python
+;; https://github.com/s-kostyaev/ellama
+(use-package ellama
+  :pin melpa
+  :ensure t
+  :custom
+  (ellama-language "English")
+  (ellama-user-nick  "Fidel")
+  (ellama-long-lines-length my-line-length)
+  (ellama-sessions-directory (expand-file-name "ellama-sessions" my-savefile-dir))
+  :init
+  (require 'llm-ollama)
+  (setopt ellama-provider
+          (make-llm-ollama
+           ;; this model should be pulled to use it
+           ;; value should be the same as you print in terminal during pull
+           :chat-model "wizard-vicuna-uncensored:13b-q5_K_M"
+           :embedding-model "wizard-vicuna-uncensored:13b-q5_K_M"))
+  ;; Predefined llm providers for interactive switching.
+  ;; You shouldn't add ollama providers here - it can be selected interactively
+  ;; without it. It is just example.
+  (setopt ellama-providers
+          '(("mistral-instruct" . (make-llm-ollama
+                                   :chat-model "mistral:7b-instruct"
+                                   :embedding-model "mistral:7b-instruct"))
+            ("mixtral" . (make-llm-ollama
+                          :chat-model "mixtral:8x7b-instruct-v0.1-q5_K_Mk"
+                          :embedding-model "mixtral:8x7b-instruct-v0.1-q5_K_M"))))
+  )

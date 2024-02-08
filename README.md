@@ -45,6 +45,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`editorconfig`](https://github.com/editorconfig/editorconfig-emacs): support for *.editorconfig* files.
 * [`eglot`](https://joaotavora.github.io/eglot/): LSP client built-in since Emacs 29.
 * [`eldoc`](https://elpa.gnu.org/packages/eldoc.html): display documentation about current function in echo area.
+* [`ellama`](https://github.com/s-kostyaev/ellama): interact with large language models from Emacs.
 * [`embark`](https://github.com/oantolin/embark/): choose a command to run based on what is near point, both during a minibuffer completion session and in normal buffers.
 * [`emojify`](https://github.com/iqbalansari/emacs-emojify): display emojis.
 * [`envrc`](https://github.com/purcell/envrc): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
