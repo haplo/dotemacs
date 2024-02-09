@@ -1702,8 +1702,8 @@ targets."
 ;;; TOML ;;;
 ;;;;;;;;;;;;
 
-(use-package toml-mode
-  :pin melpa
+(use-package toml-ts-mode
+  :ensure nil  ;; Emacs built-in
   :mode ("\\.toml\'"))
 
 ;;;;;;;;;;;;;;;;
