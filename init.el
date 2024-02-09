@@ -749,6 +749,7 @@
                (car (nth (1+ idx) consult--narrow-keys))))
          (caar consult--narrow-keys)))))
   :custom
+  (consult-async-min-input 2)
   (consult-narrow-key ",")
   ;; search hidden files and dirs, e.g. ~/.config
   (consult-fd-args '((if
