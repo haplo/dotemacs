@@ -58,7 +58,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`git-timemachine`](https://codeberg.org/pidu/git-timemachine): browse previous revisions of any git-controlled file.
 * [`go-mode`](https://github.com/dominikh/go-mode.el): major mode for [Go](https://go.dev/) files.
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.
-* [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers..
+* [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers.
 * [`ibuffer-projectile`](https://github.com/purcell/ibuffer-projectile): group buffers by project in *ibuffer* view.
 * [`js2-mode`](https://github.com/mooz/js2-mode): major mode for Javascript files.
 * [`js2-refactor`](https://github.com/js-emacs/js2-refactor.el): refactor operations for Javascript code.
