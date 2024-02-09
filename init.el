@@ -402,8 +402,11 @@
 ;; show all remaining key combinations when doing multi-key commands
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
+  :custom
+  (which-key-idle-delay 0.5)
+  (which-key-max-description-length 80)
   :init
-  (setq which-key-idle-delay 0.5)
+  (which-key-setup-side-window-right-bottom)
   :hook
   (after-init . which-key-mode))
 
