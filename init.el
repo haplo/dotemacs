@@ -1240,9 +1240,6 @@ targets."
 (define-key my-mode-map (kbd "C-c b") 'org-switchb)
 (define-key my-mode-map (kbd "C-c C-x C-j") 'org-clock-goto)
 
-;; discover-my-major
-(define-key my-mode-map (kbd "C-h M-m") 'discover-my-major)
-
 ;; Switch light/dark theme
 (define-key my-mode-map [f5] 'my-toggle-theme)
 

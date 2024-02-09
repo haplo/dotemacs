@@ -37,7 +37,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
 * [`dirvish`](https://github.com/alexluigit/dirvish): an improved batteries-included dired replacement.
-* [`discover-my-major`](https://framagit.org/steckerhalter/discover-my-major): show keybindings associated to the current major mode.
 * [`dockerfile-mode`](https://github.com/spotify/dockerfile-mode): major mode to edit Dockerfiles.
 * [`doom-modeline`](https://seagle0128.github.io/doom-modeline/): a very nice modeline.
 * [`doom-themes`](https://github.com/hlissner/emacs-doom-themes): collection of themes for [Doom Emacs](https://github.com/doomemacs/doomemacs), they place nicely with `doom-modeline`.
