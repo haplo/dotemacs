@@ -227,10 +227,6 @@
         ;; problems with remote files
         recentf-auto-cleanup 'never))
 
-(use-package elec-pair
-  ;; enabled for specific modes with electric-pair-local-mode
-  )
-
 ;; smarter kill-ring navigation
 (use-package browse-kill-ring
   :bind (("C-x C-k" . browse-kill-ring)))
@@ -1312,6 +1308,16 @@ targets."
         '(isort black))
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; General programming ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; automatically add closing symbol (parentheses, brackets, quotes...)
+;; https://www.emacswiki.org/emacs/ElectricPair
+(use-package elec-pair
+  :ensure nil  ;; Emacs built-in
+  :hook (prog-mode . electric-pair-mode)
+  )
 
 ;;;;;;;;;;;
 ;;; LSP ;;;
