@@ -1319,6 +1319,11 @@ targets."
   :hook (prog-mode . electric-pair-mode)
   )
 
+;; color parentheses and other delimiters by nesting level
+;; https://github.com/Fanael/rainbow-delimiters
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 ;;;;;;;;;;;
 ;;; LSP ;;;
 ;;;;;;;;;;;
@@ -1803,10 +1808,6 @@ targets."
 
 ;; highlight the current line
 (global-hl-line-mode +1)
-
-;; color parentheses and other delimiters by pair
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; highlight parts changing because of some operations
 (use-package volatile-highlights
