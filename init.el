@@ -1324,6 +1324,13 @@ targets."
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; Set background color to strings that match color
+;; https://elpa.gnu.org/packages/rainbow-mode.html
+(use-package rainbow-mode
+  :pin gnu
+  :diminish
+  :hook ((prog-mode)))
+
 ;;;;;;;;;;;
 ;;; LSP ;;;
 ;;;;;;;;;;;
@@ -1530,11 +1537,6 @@ targets."
   :commands (eldoc-mode)
   :hook (emacs-lisp-mode . eldoc-mode)
   :config (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
-
-(use-package rainbow-mode
-  :pin gnu
-  :diminish
-  :hook (emacs-lisp-mode))
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; Scheme Lisp ;;;
