@@ -981,9 +981,6 @@ targets."
     (git-commit-turn-on-auto-fill))
   :custom
   (git-commit-summary-max-length 60)
-  (magit-wip-after-apply-mode' t)
-  (magit-wip-after-save-mode' t)
-  (magit-wip-before-change-mode' t)
   ;; path to my root code dir, so I can do C-x g from anywhere
   (magit-repository-directories '(("~/Code" . 2)))
   ;; create a local tracking branch when visiting a remote branch
@@ -992,9 +989,14 @@ targets."
   (magit-push-always-verify nil)
   ;; put history.el in the custom savefile dir
   (transient-history-file (expand-file-name "transient-history.el" my-savefile-dir))
+  ;; do not ask confirmation for actions easily reverted when wip-mode is enabled
+  (magit-no-confirm '(set-and-push safe-with-wip))
   :config
   ;; enable magit-clean
   (put 'magit-clean 'disabled nil)
+  ;; save work-in-progress before potentially dangerous operations
+  ;; https://magit.vc/manual/magit.html#Wip-Modes
+  (magit-wip-mode +1)
   )
 
 ;; https://magit.vc/manual/forge/
@@ -1793,6 +1795,7 @@ targets."
 
 ;; display line numbers in programming modes
 (use-package display-line-numbers
+  :ensure nil  ;; Emacs built-in
   :hook (prog-mode . display-line-numbers-mode))
 
 ;; more useful frame title, showing either a file or a buffer name
