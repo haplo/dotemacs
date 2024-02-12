@@ -504,10 +504,14 @@
 ;;;;;;;;;;;;;
 
 ;; .zsh file is shell script too
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . shell-script-mode))
+(use-package sh-script
+  :ensure nil  ;; Emacs built-in
+  :mode ("\\.zsh" . shell-script-mode))
 
+;; major mode for fish shell script (https://fishshell.com/)
+;; https://github.com/wwwjfy/emacs-fish
 (use-package fish-mode
-  :mode ".fish")
+  :mode "\\.fish")
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;; dired / dirvish ;;;
