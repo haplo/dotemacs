@@ -969,12 +969,12 @@ targets."
   :pin melpa
   :if (executable-find "git")
   :hook (git-commit-setup . my-git-commit-setup)
-  :bind (("s-m m" . magit-status)
-         ("s-m s-m" . magit-status)
-         ("s-m j" . magit-dispatch)
-         ("s-m k" . magit-file-dispatch)
-         ("s-m l" . magit-log-buffer-file)
-         ("s-m b" . magit-blame))
+  :bind (("C-c v m" . magit-status)
+         ("C-c v v" . magit-status)
+         ("C-c v d" . magit-dispatch)
+         ("C-c v f" . magit-file-dispatch)
+         ("C-c v l" . magit-log-buffer-file)
+         ("C-c v b" . magit-blame))
   :preface
   (defun my-git-commit-setup ()
     (setq-local fill-column 72)
@@ -997,6 +997,10 @@ targets."
   ;; save work-in-progress before potentially dangerous operations
   ;; https://magit.vc/manual/magit.html#Wip-Modes
   (magit-wip-mode +1)
+  ;; do not display diff in commits by default, show with C-c C-d when necessary
+  ;; https://magit.vc/manual/magit.html#Committing-Performance
+  (remove-hook 'server-switch-hook 'magit-commit-diff)
+  (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
   )
 
 ;; https://magit.vc/manual/forge/
