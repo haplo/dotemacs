@@ -1811,7 +1811,9 @@ targets."
 (mouse-avoidance-mode 'animate)
 
 ;; highlight the current line
-(global-hl-line-mode +1)
+(use-package hl-line
+  :ensure nil  ;; Emacs built-in
+  )
 
 ;; highlight parts changing because of some operations
 (use-package volatile-highlights
