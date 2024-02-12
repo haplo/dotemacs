@@ -980,6 +980,8 @@ targets."
     (setq-local fill-column 72)
     (git-commit-turn-on-auto-fill))
   :custom
+  ;; I set up my own keybindings
+  (magit-define-global-key-bindings nil)
   (git-commit-summary-max-length 60)
   ;; path to my root code dir, so I can do C-x g from anywhere
   (magit-repository-directories '(("~/Code" . 2)))
