@@ -4,9 +4,11 @@
 ;;; init ;;;
 ;;;;;;;;;;;;
 
-;; supress native compilation warnings
-(setq comp-deferred-compilation-deny-list '())
-(setq native-comp-async-report-warnings-errors nil)
+;; make native compilation silent and prune its cache.
+(when (native-comp-available-p)
+  (setq comp-deferred-compilation-deny-list '())
+  (setq native-comp-async-report-warnings-errors 'silent)
+  (setq native-compile-prune-cache t))
 
 ;; no message in scratch buffer
 (setq initial-scratch-message "")
