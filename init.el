@@ -982,6 +982,7 @@ targets."
   :custom
   ;; I set up my own keybindings
   (magit-define-global-key-bindings nil)
+  ;; Visual warning if commit first line gets too long
   (git-commit-summary-max-length 60)
   ;; path to my root code dir, so I can do C-x g from anywhere
   (magit-repository-directories '(("~/Code" . 2)))
