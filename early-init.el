@@ -46,7 +46,7 @@
         (font                     . "Hack 13")
         (menu-bar-lines           . 0)
         (tool-bar-lines           . 0)
-        (vertical-scroll-bars     . right)
+        (vertical-scroll-bars     . nil)
         (undecorated              . t)))
 
 (menu-bar-mode -1)
