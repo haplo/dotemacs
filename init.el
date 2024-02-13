@@ -124,9 +124,12 @@
   :config
   (setq save-place-file (expand-file-name "saveplace" my-savefile-dir)))
 
-;; ediff - don't start another frame
+;; Emacs built-in diff interface
+;; https://www.gnu.org/software/emacs/manual/html_node/ediff/index.html
 (use-package ediff
+  :ensure nil  ;; Emacs built-in
   :config
+  ;; don't open another frame, reuse current one
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;; run garbage collection when frame loses focus, which should mean I'm not using
