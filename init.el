@@ -553,37 +553,36 @@
                         git-msg
                         ;; file-time
                         file-size))
+  (dirvish-quick-access-entries '(("h" "~/"                   "Home")
+                                  ("c" "~/Code/"              "Code")
+                                  ("d" "~/Downloads/"         "Downloads")
+                                  ("D" "~/Documents/"         "Documents")
+                                  ("m" "~/Music/"             "Music")
+                                  ("M" "~/Music to sort/"     "Music to sort")
+                                  ("o" "~/Org/"               "Org")
+                                  ("p" "~/Pictures/"          "Photos")
+                                  ("P" "~/Pictures to sort/"  "Photos to sort")
+                                  ("s" "~/Sync/"  "Sync")))
+  (dirvish-cache-dir (expand-file-name "dirvish" my-savefile-dir))
+  ;; slightly larger dirvish-side
+  (dirvish-side-width my-line-length)
+  ;; dirvish-side
+  (dirvish-side-follow-mode t)
+  ;; by default jump inside home
+  (dirvish-fd-default-dir "~")
+  ;; revert dired (and dirvish) buffers on revisiting their directory
+  (dired-auto-revert-buffer t)
+  ;; always delete and copy recursively
+  (dired-recursive-deletes 'always)
+  (dired-recursive-copies 'always)
+  ;; if there is a dired buffer displayed in the next window, use its
+  ;; current subdir, instead of the current subdir of this dired buffer
+  (dired-dwim-target t)
+  ;; drag&drop support
+  (dired-mouse-drag-files t)
+  (mouse-drag-and-drop-region-cross-program t)
   :config
   (dirvish-peek-mode)
-  (setq dirvish-quick-access-entries '(("h" "~/"                   "Home")
-                                       ("c" "~/Code/"              "Code")
-                                       ("d" "~/Downloads/"         "Downloads")
-                                       ("D" "~/Documents/"         "Documents")
-                                       ("m" "~/Music/"             "Music")
-                                       ("M" "~/Music to sort/"     "Music to sort")
-                                       ("o" "~/Org/"               "Org")
-                                       ("p" "~/Pictures/"          "Photos")
-                                       ("P" "~/Pictures to sort/"  "Photos to sort")
-                                       ("s" "~/Sync/"  "Sync"))
-        dirvish-cache-dir (expand-file-name "dirvish" my-savefile-dir)
-        ;; slightly larger dirvish-side
-        dirvish-side-width 50
-        ;; dirvish-side
-        dirvish-side-follow-mode t
-        ;; by default jump inside home
-        dirvish-fd-default-dir "~"
-        ;; revert dired (and dirvish) buffers on revisiting their directory
-        dired-auto-revert-buffer t
-        ;; always delete and copy recursively
-        dired-recursive-deletes 'always
-        dired-recursive-copies 'always
-        ;; if there is a dired buffer displayed in the next window, use its
-        ;; current subdir, instead of the current subdir of this dired buffer
-        dired-dwim-target t
-        ;; TODO: enable in Emacs 29, drag & drop support
-        ;; dired-mouse-drag-files t
-        ;; mouse-drag-and-drop-region-cross-program t
-        )
   )
 
 ;;;;;;;;;;;;;;;
