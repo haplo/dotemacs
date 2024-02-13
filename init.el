@@ -119,6 +119,7 @@
 
 ;; remember point location when reopening a file
 (use-package saveplace
+  :ensure nil  ;; Emacs built-in
   :init
   (save-place-mode)
   :config
