@@ -1396,6 +1396,24 @@ targets."
   ;;    ("pylsp.plugins.pyls_isort.enabled" t t)))
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Code diagnostics ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package flymake
+  :ensure nil  ;; Emacs built-in
+  :hook ((prog-mode . flymake-mode))
+  :bind (:map flymake-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error)
+              ("C-c ! c" . flymake-start)
+              ("C-c ! n" . flymake-goto-next-error)
+              ("C-c ! p" . flymake-goto-prev-error)
+              ("C-c ! l" . flymake-show-buffer-diagnostics)
+              ("C-c ! L" . flymake-switch-to-log-buffer)
+              ("C-c ! P" . flymake-show-project-diagnostics)
+              ))
+
 ;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter ;;;
 ;;;;;;;;;;;;;;;;;;;
