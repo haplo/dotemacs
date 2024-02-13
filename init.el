@@ -477,27 +477,29 @@
   :after (perspective projectile)
   :bind (("C-`" . popper-toggle)
          ("M-`" . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
+         ("M-~" . popper-cycle-backwards)
+         ("C-M-`" . popper-kill-latest-popup))
   :init
-  (setq
-   ;; how to group popups
-   popper-group-function #'popper-group-by-perspective
-   ;; which buffers should be considered popups
-   popper-reference-buffers
+  (popper-mode +1)
+  (popper-echo-mode +1)
+  :custom
+  ;; enable actions in echo area (k to kill buffer)
+  (popper-echo-dispatch-actions t)
+  ;; how to group popups
+  (popper-group-function #'popper-group-by-perspective)
+  ;; which buffers should be considered popups
+  (popper-reference-buffers
    '("\\*Messages\\*"
      "Output\\*$"
      "\\*Async Shell Command\\*"
      "\\*eldoc.*\\*"
+     "\\*Embark Collect.*\\*"
+     "\\*Embark Export.*\\*"
      "\\*Flymake diagnostics.*\\*"
      help-mode
      helpful-mode
      compilation-mode
-     ))
-  (popper-mode +1)
-  (popper-echo-mode +1)
-  :config
-  (setq popper-window-height 20)
-  )
+     )))
 
 ;;;;;;;;;;;;;
 ;;; Shell ;;;
