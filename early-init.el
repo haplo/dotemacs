@@ -36,7 +36,7 @@
 (setq frame-inhibit-implied-resize t)
 
 ;; Default font, https://sourcefoundry.org/hack/
-(set-face-attribute 'default t :font "Hack 13")
+(set-face-attribute 'default t :font "Hack 12")
 
 ;; Set up default frame properties early on to avoid UI flicker
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Window-Frame-Parameters.html
@@ -44,7 +44,7 @@
       '(
         (alpha-background         . 97)
         (cursor-type              . box)
-        (font                     . "Hack 13")
+        (font                     . "Hack 12")
         (menu-bar-lines           . 0)
         (tool-bar-lines           . 0)
         (vertical-scroll-bars     . nil)
