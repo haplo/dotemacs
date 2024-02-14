@@ -92,7 +92,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`unfill`](https://github.com/purcell/unfill): the inverse of Emacs' `fill-paragraph` and `fill-region`.
 * [`vundo`](https://github.com/casouri/vundo): visualize and navigate the undo history as a tree, never lose an edit.
 * [`vertico`](https://github.com/minad/vertico): performant and minimalistic vertical completion UI based on the default completion system.
-* [`visual-regexp`](https://github.com/emacsmirror/visual-regexp): live view of the matches of a regular expression.
 * [`volatile-highlights`](https://github.com/k-talo/volatile-highlights.el): visual feedback for some operations.
 * [`web-mode`](https://web-mode.org/): major mode for web templates (HTML and much more).
 * [`wgrep`](https://github.com/mhayashi1120/Emacs-wgrep): edit a grep buffer and apply those changes to the file buffer.
