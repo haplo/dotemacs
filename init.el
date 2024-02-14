@@ -347,7 +347,6 @@
          ("C-a" . crux-move-beginning-of-line)
          ("C-c C-i" . crux-indent-defun)
          ("C-c e" . crux-eval-and-replace)
-         ("C-c D" . crux-delete-file-and-buffer)
          ("C-c C-d" . crux-duplicate-current-line-or-region)
          ("C-c t" . crux-visit-term-buffer)
          ("C-c I" . crux-find-user-init-file)
@@ -1561,7 +1560,7 @@ targets."
 
 ;; Docker
 (use-package docker
-  :bind (("s-D" . docker)))
+  :bind (("C-c D" . docker)))
 
 (use-package dockerfile-mode)
 
