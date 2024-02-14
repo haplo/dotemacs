@@ -1214,11 +1214,11 @@ targets."
 (define-key my-mode-map (kbd "C-c C") 'calc)
 
 ;; Global org-mode keybindings
-(define-key my-mode-map (kbd "C-c c") 'org-capture)
-(define-key my-mode-map (kbd "C-c l") 'org-store-link)
-(define-key my-mode-map (kbd "C-c a") 'org-agenda)
-(define-key my-mode-map (kbd "C-c b") 'org-switchb)
-(define-key my-mode-map (kbd "C-c C-x C-j") 'org-clock-goto)
+(define-key my-mode-map (kbd "C-c o a") 'org-agenda)
+(define-key my-mode-map (kbd "C-c o b") 'org-switchb)
+(define-key my-mode-map (kbd "C-c o c") 'org-capture)
+(define-key my-mode-map (kbd "C-c o g") 'org-clock-goto)
+(define-key my-mode-map (kbd "C-c o l") 'org-store-link)
 
 ;; Switch light/dark theme
 (define-key my-mode-map [f5] 'my-toggle-theme)
