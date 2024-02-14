@@ -1017,7 +1017,7 @@ targets."
 ;; browse previous revisions of any git-controlled file
 ;; https://codeberg.org/pidu/git-timemachine
 (use-package git-timemachine
-  :bind (("s-m t" . git-timemachine)))
+  :bind (("C-c v t" . git-timemachine)))
 
 
 ;;;;;;;;;;;;;;;;
