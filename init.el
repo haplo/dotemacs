@@ -483,15 +483,22 @@
   ;; which buffers should be considered popups
   (popper-reference-buffers
    '("\\*Messages\\*"
+     "^\\*Warnings\\*"
      "Output\\*$"
      "\\*Async Shell Command\\*"
      "\\*eldoc.*\\*"
+     "^\\*eshell.*\\*$" eshell-mode
+     "^\\*ielm.*\\*$"
+     "^\\*shell.*\\*$"  shell-mode
+     "^\\*term.*\\*$"   term-mode
+     "^\\*vterm.*\\*$"  vterm-mode
      "\\*Embark Collect.*\\*"
      "\\*Embark Export.*\\*"
      "\\*Flymake diagnostics.*\\*"
-     help-mode
-     helpful-mode
+     "\\*Shell Command Output\\*"
      compilation-mode
+     comint-mode
+     help-mode
      )))
 
 ;;;;;;;;;;;;;
