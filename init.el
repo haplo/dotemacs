@@ -1211,9 +1211,7 @@ targets."
 (define-key my-mode-map (kbd "M-s") 'ace-window) ; was center-line
 
 ;; quick access to calculator
-(define-key my-mode-map (kbd "C-x c") 'calc)
-(define-key my-mode-map (kbd "C-x C-c") 'calc) ; was save-buffers-kill-terminal
-(define-key my-mode-map (kbd "C-x C") 'full-calc)
+(define-key my-mode-map (kbd "C-c C") 'calc)
 
 ;; Global org-mode keybindings
 (define-key my-mode-map (kbd "C-c c") 'org-capture)
