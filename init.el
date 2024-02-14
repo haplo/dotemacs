@@ -343,7 +343,7 @@
 ;; crux is a collection of general editing utilities, see below for keybindings
 ;; https://github.com/bbatsov/crux
 (use-package crux
-  :bind (("C-c o" . crux-open-with)
+  :bind (("C-c O" . crux-open-with)
          ("C-a" . crux-move-beginning-of-line)
          ("C-c C-i" . crux-indent-defun)
          ("C-c e" . crux-eval-and-replace)
