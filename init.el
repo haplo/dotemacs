@@ -1030,7 +1030,7 @@ targets."
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
-  :bind-keymap (("s-p" . projectile-command-map))
+  :bind-keymap (("C-c p" . projectile-command-map))
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
         projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir)
