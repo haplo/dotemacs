@@ -1108,33 +1108,6 @@ targets."
   (corfu-echo-documentation nil)
   )
 
-(use-package cape
-  :hook ((org-mode . my-cape-capf-setup-org))
-  :bind (("C-c p p" . completion-at-point)
-         ("C-c p t" . complete-tag)  ; etags
-         ("C-c p d" . cape-dabbrev)  ; basically `dabbrev-completion'
-         ("C-c p f" . cape-file)
-         ("C-c p k" . cape-keyword)
-         ("C-c p s" . cape-symbol)
-         ("C-c p a" . cape-abbrev)
-         ("C-c p i" . cape-ispell)
-         ("C-c p l" . cape-line)
-         ("C-c p w" . cape-dict)
-         ("C-c p \\" . cape-tex)
-         ("C-c p _" . cape-tex)
-         ("C-c p ^" . cape-tex)
-         ("C-c p &" . cape-sgml)
-         ("C-c p r" . cape-rfc1345))
-  :preface
-  ;; Org
-  (defun my-cape-capf-setup-org ()
-    (let (result)
-      (dolist (element (list
-                        (cape-capf-super #'cape-ispell #'cape-dabbrev))
-                       result)
-        (add-to-list 'completion-at-point-functions element))))
-  )
-
 ;; icons for autocomplete results
 ;; https://github.com/jdtsmith/kind-icon
 (use-package kind-icon

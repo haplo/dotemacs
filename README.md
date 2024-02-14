@@ -27,7 +27,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
 * [`browse-kill-ring`](https://github.com/browse-kill-ring/browse-kill-ring): Browse. The. Kill. Ring.
 * [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
-* [`cape`](https://github.com/minad/cape): completion-at-point extensions, pairs with corfu.
 * [`corfu`](https://github.com/minad/corfu/): completion-at-point popup. Like [company](https://company-mode.github.io/) but lighter.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
 * [`consult`](https://github.com/minad/consult): practical commands based on the Emacs completion function `completing-read`.
