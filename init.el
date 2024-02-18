@@ -1142,14 +1142,6 @@ targets."
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
-;; yasnippet support in cape
-;; https://github.com/elken/yasnippet-capf
-(use-package yasnippet-capf
-  :after cape
-  :pin melpa
-  :config
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-
 ;;;;;;;;;;;;;;;;;;;
 ;;; spell check ;;;
 ;;;;;;;;;;;;;;;;;;;
