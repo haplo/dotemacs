@@ -1011,6 +1011,12 @@ targets."
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
   )
 
+;; https://github.com/dandavison/magit-delta
+(use-package magit-delta
+  :pin melpa
+  :if (executable-find "delta")
+  :hook (magit-mode . magit-delta-mode))
+
 ;; https://magit.vc/manual/forge/
 (use-package forge
   :pin melpa

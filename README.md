@@ -64,7 +64,8 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`key-chord`](https://github.com/emacsorphanage/key-chord): execute commands by pressing keys quickly.
 * [`keycast`](https://github.com/tarsius/keycast/): show current command and its binding.
 * [`kind-icon`](https://github.com/jdtsmith/kind-icon): icons for completion-at-point candidates.
-* [`magit`](https://magit.vc/manual/forge/): the best Git interface there is.
+* [`magit`](https://magit.vc/): the best Git interface there is.
+* [`magit-delta`](https://github.com/dandavison/magit-delta): integrate [delta diff](https://github.com/dandavison/delta) with [Magit](https://magit.vc/).
 * [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
 * [`markdown-mode`](https://jblevins.org/projects/markdown-mode/): major mode to edit Markdown files.
 * [`move-text`](https://github.com/emacsfodder/move-text): move lines or regions up and down.
