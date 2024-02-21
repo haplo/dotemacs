@@ -275,6 +275,11 @@
   :ensure nil  ;; Emacs built-in
   :bind (("C-x \\" . align-regexp)))
 
+(use-package ffap
+  :ensure nil  ;; Emacs built-in
+  :bind (("C-x C-." . find-file-at-point)
+         ("C-x C->" . ffap-next)))
+
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
   :after (embark)
