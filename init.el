@@ -643,6 +643,8 @@
               ("C-M-n" . vertico-next-group)
               ("C-M-p" . vertico-previous-group))
   :preface
+  ;; M-n in vertico minibuffer copies the thing under point from the buffer
+  ;; https://github.com/minad/vertico/issues/22#issuecomment-826663342
   (defun my-minibuffer-default-add-function ()
     (with-selected-window (minibuffer-selected-window)
       (delete-dups
