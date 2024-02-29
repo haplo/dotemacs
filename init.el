@@ -1022,7 +1022,12 @@ targets."
 (use-package magit-delta
   :pin melpa
   :if (executable-find "delta")
-  :hook (magit-mode . magit-delta-mode))
+  :after magit
+  :hook ((magit-mode . magit-delta-mode))
+  :config
+  (add-to-list 'magit-delta-delta-args "--no-gitconfig")
+  (add-to-list 'magit-delta-delta-args "--dark")
+  )
 
 ;; https://magit.vc/manual/forge/
 (use-package forge
