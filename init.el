@@ -694,6 +694,7 @@
          ("C-c M-x" . consult-mode-command)
          ("C-c C-m" . consult-minor-mode-menu)
          ("C-h C-m" . consult-man)
+         ("C-c ! j" . consult-flymake)
          ("C-x l" . consult-locate)
          ("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop)
@@ -1404,6 +1405,7 @@ targets."
               ("C-c ! l" . flymake-show-buffer-diagnostics)
               ("C-c ! L" . flymake-switch-to-log-buffer)
               ("C-c ! P" . flymake-show-project-diagnostics)
+              ;; see consult for consult-flymake binding
               ))
 
 ;;;;;;;;;;;;;;;;;;;
