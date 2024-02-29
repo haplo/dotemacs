@@ -1038,6 +1038,13 @@ targets."
 (use-package git-timemachine
   :bind (("C-c v t" . git-timemachine)))
 
+(use-package consult-git-log-grep
+  :pin melpa
+  :after magit
+  :if (executable-find "git")
+  :bind (("C-c L" . consult-git-log-grep))
+  :custom
+  (consult-git-log-grep-open-function #'magit-show-commit))
 
 ;;;;;;;;;;;;;;;;
 ;;; projects ;;;
