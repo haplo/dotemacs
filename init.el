@@ -636,6 +636,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package dirvish
+  :functions dirvish-define-preview dirvish-peek-mode
   :bind
   (("C-x C-j" . dired-jump)
    :map dired-mode-map
@@ -699,6 +700,14 @@
   (mouse-drag-and-drop-region-cross-program t)
   :config
   (dirvish-peek-mode)
+  ;; preview directories with eza, when available
+  (dirvish-define-preview eza (file)
+    "Use `eza' to generate directory preview."
+    :require ("eza")
+    (when (file-directory-p file)
+      `(shell . ("eza" "-al" "--color=always" "--icons"
+                 "--group-directories-first" ,file))))
+  (add-to-list 'dirvish-preview-dispatchers 'eza)
   )
 
 ;;;;;;;;;;;;;;;
