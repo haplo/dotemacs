@@ -281,7 +281,7 @@
   :after (embark)
   :preface
   ;; By Chmouel Boudjnah https://mastodon.social/@chmouel@fosstodon.org/109715305722356540
-  (defun my-avy-copy-word (arg)
+  (defun my-avy-copy-word (_arg)
     (interactive "p")
     (save-excursion
       (call-interactively  'avy-goto-symbol-1)
@@ -289,7 +289,7 @@
         (when symbol
           (kill-new symbol)
           (message "\"%s\" has been copied" symbol)))))
-  (defun my-avy-embark (arg)
+  (defun my-avy-embark (_arg)
     (interactive "p")
     (save-excursion
       (call-interactively  'avy-goto-symbol-1)
