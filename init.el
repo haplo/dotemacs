@@ -31,7 +31,9 @@
 (load custom-file)
 
 (use-package auto-compile
-  :ensure t
+  :custom
+  (auto-compile-display-buffer nil)
+  (auto-compile-mode-line-counter t)
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
