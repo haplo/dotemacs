@@ -466,17 +466,6 @@
          (side . bottom)
          (slot . 0)
          (window-parameters . ((mode-line-format . none))))
-        ;; bottom buffer (NOT side window)
-        (,(make-display-buffer-matcher-function
-           '(compilation-mode
-             comint-mode
-             eshell-mode
-             shell-mode))
-         (display-buffer-at-bottom)
-         (dedicated . t)
-         (window . root)
-         (window-height . 20)
-         (body-function . select-window))
         (,(rx (| "\\*Messages\\*"
                  "Output\\*$"
                  "\\*Async Shell Command\\*"
@@ -520,6 +509,17 @@
          (side . right)
          (slot . 0)
          (window-width . ,my-side-window-size))
+        ;; bottom buffer (NOT side window)
+        (,(make-display-buffer-matcher-function
+           '(compilation-mode
+             comint-mode
+             eshell-mode
+             shell-mode))
+         (display-buffer-at-bottom)
+         (dedicated . t)
+         (window . root)
+         (window-height . 20)
+         (body-function . select-window))
         ))
 
 ;; Try reusing windows
