@@ -19,7 +19,7 @@
 (setq use-package-always-demand t)
 (setq use-package-always-ensure t)
 
-(defvar my-line-length 90)
+(defvar my-line-length 80)
 
 (defvar my-savefile-dir (expand-file-name "savefile" user-emacs-directory)
   "Where to put all automatically generated save/history-files.")
@@ -313,7 +313,6 @@
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 
-;; it's 2020 already
 (setq-default fill-column my-line-length)
 
 ;; fill paragraph if line is too long, unfill otherwise
