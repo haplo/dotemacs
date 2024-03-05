@@ -428,6 +428,116 @@
 ;;; Window and frame management ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defvar my-side-window-size 77 "Size of my side bars.")
+
+;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
+(defun make-display-buffer-matcher-function (major-modes)
+  "Match buffers by MAJOR-MODES for DISPLAY-BUFFER-ALIST."
+  (lambda (buffer-name _action)
+    (with-current-buffer buffer-name (apply #'derived-mode-p major-modes))))
+
+;; This is my window configuration
+;;
+;; Emacs manual:
+;;   https://www.gnu.org/software/emacs/manual/html_node/elisp/Displaying-Buffers.html
+;;
+;; Great article by Mastering Emacs:
+;;   https://www.masteringemacs.org/article/demystifying-emacs-window-manager
+;;
+;; It's currently tailored for work in my 4K monitor. The main idea is to have
+;; a 4-column layout:
+;; 1. Left side window dedicated to Dirvish, Magit, Org buffers...
+;; 2. A file I'm working on.
+;; 3. Another file (optional, if I split column 2 vertically).
+;; 4. Right side window dedicated to help, documentation, flymake, grep, imenu...
+;;
+;; Besides the 4 columns I set a bottom buffer for things like running shells or
+;; compilations.
+;;
+;; Special input happens in a bottom sidebar, like Magit transient menu, or Org
+;; capture.
+(setq display-buffer-alist
+      `(;; bottom side window
+        (;; `org-capture' key selection and `org-add-log-note'
+         "\\*Org \\(Select\\|Note\\)\\*"
+         (display-buffer-in-side-window)
+         (dedicated . t)
+         (side . bottom)
+         (slot . 0)
+         (window-parameters . ((mode-line-format . none))))
+        ;; bottom buffer (NOT side window)
+        (,(make-display-buffer-matcher-function
+           '(compilation-mode
+             comint-mode
+             eshell-mode
+             shell-mode))
+         (display-buffer-at-bottom)
+         (dedicated . t)
+         (window . root)
+         (window-height . 20)
+         (body-function . select-window))
+        (,(rx (| "\\*Messages\\*"
+                 "Output\\*$"
+                 "\\*Async Shell Command\\*"
+                 ))
+         (display-buffer-reuse-mode-window display-buffer-at-bottom)
+         (dedicated . t)
+         (window . root)
+         (window-height . 20))
+        ;; left side window
+        ("\\*Org Agenda\\*"
+         (display-buffer-in-side-window)
+         (dedicated . t)
+         (window . root)
+         (side . left)
+         (window-width . ,my-side-window-size))
+        (,(make-display-buffer-matcher-function '(magit-mode org-mode))
+         (display-buffer-reuse-mode-window display-buffer-in-side-window)
+         (mode magit-mode)
+         (dedicated . t)
+         (window . root)
+         (side . left)
+         (window-width . ,my-side-window-size))
+        ;; right side window
+        (,(rx (| "\\*eldoc.*\\*"
+                 "\\*Embark Collect:.*\\*"
+                 "\\*Embark Export:.*\\*"
+                 ))
+         (display-buffer-in-side-window)
+         (dedicated . t)
+         (side . right)
+         (slot . 0)
+         (window-width . ,my-side-window-size))
+        (,(make-display-buffer-matcher-function
+           '(embark-collect-mode
+             flymake-diagnostics-buffer-mode
+             grep-mode
+             help-mode
+             helpful-mode))
+         (display-buffer-in-side-window)
+         (dedicated . t)
+         (side . right)
+         (slot . 0)
+         (window-width . ,my-side-window-size))
+        ))
+
+;; Try reusing windows
+(setq display-buffer-base-action
+      '((display-buffer-reuse-window
+         display-buffer-reuse-mode-window
+         display-buffer-use-some-window)))
+
+;; Manually switching buffer must still respect window config constraints. For example
+;; switching to a buffer that already has a dedicated window will switch to that window
+;; instead of opening another copy of the buffer in the current window.
+(setq switch-to-buffer-obey-display-actions t)
+
+;; Pop new window if trying to switch buffer in a dedicated window
+(setq switch-to-buffer-in-dedicated-window 'pop)
+
+;; maximum number of side windows per side (left, top, right, bottom)
+(setq window-sides-slots '(1 0 1 2))
+
 ;; quickly move/split/swap/copy windows
 ;; https://github.com/abo-abo/ace-window
 (use-package ace-window
@@ -478,6 +588,8 @@
   (popper-mode +1)
   (popper-echo-mode +1)
   :custom
+  ;; have popper respect display-buffer-alist rules
+  (popper-display-control nil)
   ;; enable actions in echo area (k to kill buffer)
   (popper-echo-dispatch-actions t)
   ;; how to group popups
@@ -488,6 +600,7 @@
      "^\\*Warnings\\*"
      "Output\\*$"
      "\\*Async Shell Command\\*"
+     "\\*Compile-Log\\*"
      "\\*eldoc.*\\*"
      "^\\*eshell.*\\*$" eshell-mode
      "^\\*ielm.*\\*$"
@@ -501,6 +614,7 @@
      compilation-mode
      comint-mode
      help-mode
+     helpful-mode
      )))
 
 ;;;;;;;;;;;;;
@@ -566,8 +680,8 @@
                                   ("P" "~/Pictures to sort/"  "Photos to sort")
                                   ("s" "~/Sync/"  "Sync")))
   (dirvish-cache-dir (expand-file-name "dirvish" my-savefile-dir))
-  ;; slightly larger dirvish-side
-  (dirvish-side-width my-line-length)
+  ;; make dirvish-side same size as other side windows
+  (dirvish-side-width my-side-window-size)
   ;; dirvish-side
   (dirvish-side-follow-mode t)
   ;; by default jump inside home
@@ -1230,10 +1344,7 @@ targets."
 ;; quicker window splitting
 (define-key my-mode-map (kbd "M-1") 'delete-other-windows) ; was digit-argument
 (define-key my-mode-map (kbd "M-2") 'split-window-vertically) ; was digit-argument
-(define-key my-mode-map (kbd "M-3") (lambda ()
-                                      (interactive)
-                                      (funcall 'split-window-horizontally
-                                               (+ fill-column 11)))) ; was digit-argument
+(define-key my-mode-map (kbd "M-3") 'split-window-horizontally ) ; was digit-argument
 (define-key my-mode-map (kbd "M-0") 'delete-window) ; was digit-argument
 (define-key my-mode-map (kbd "M-s") 'ace-window) ; was center-line
 
@@ -1255,7 +1366,6 @@ targets."
 
 ;; rename current file
 (define-key my-mode-map (kbd "C-c r") 'rename-visited-file)
-
 
 ;;;;;;;;;;;;;;;;;
 ;;; keychords ;;;
