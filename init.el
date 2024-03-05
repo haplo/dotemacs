@@ -737,7 +737,7 @@
     (setq input (orderless-compile input))
     (cons
      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-     (lambda (str) (orderless--highlight input str))))
+     (lambda (str) (orderless--highlight input t str))))
   (defun consult-narrow-left ()
     (interactive)
     (when consult--narrow-keys
