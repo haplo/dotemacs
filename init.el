@@ -1694,13 +1694,16 @@ targets."
 
 ;; syntax highlighting for exported source code blocks, needs listings and color latex
 ;; packages (texlive-latex-recommended package in Debian/Ubuntu)
-(require 'ox-latex)
-(setq org-latex-listings 'minted)
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-(setq org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(use-package ox-latex
+  :ensure nil  ;; Emacs built-in
+  :config
+  (setq org-latex-src-block-backend 'minted)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+
 
 ;; color links in Latex PDF output
 (add-to-list 'org-latex-packages-alist "\\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}")
