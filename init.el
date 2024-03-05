@@ -1207,7 +1207,7 @@ targets."
   :lighter " my-mode"
   :keymap 'my-mode-map)
 
-(define-globalized-minor-mode global-my-mode my-mode my-mode)
+(define-globalized-minor-mode global-my-mode my-mode my-mode :group my-mode)
 
 ;; https://github.com/jwiegley/use-package/blob/master/bind-key.el
 ;; The keymaps in `emulation-mode-map-alists' take precedence over
