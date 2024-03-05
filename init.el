@@ -734,7 +734,7 @@
     (interactive)
     (consult-ripgrep (get-project-root) (thing-at-point 'symbol)))
   (defun consult--orderless-regexp-compiler (input type &rest _config)
-    (setq input (orderless-pattern-compiler input))
+    (setq input (orderless-compile input))
     (cons
      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
      (lambda (str) (orderless--highlight input str))))
