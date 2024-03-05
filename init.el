@@ -1904,6 +1904,7 @@ targets."
   ;; https://github.com/tarsius/keycast/issues/7#issuecomment-881469067
   (define-minor-mode keycast-mode
     "Show current command and its key binding in the mode line (fix for doom-mode-line)."
+    :group 'keycast
     :global t
     (if keycast-mode
         (add-hook 'pre-command-hook 'keycast--update t)
