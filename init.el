@@ -1220,6 +1220,9 @@ targets."
   (my-mode -1))
 (add-hook 'minibuffer-setup-hook #'turn-off-my-mode)
 
+;; Display/hide sidebars
+(define-key my-mode-map [f2] 'window-toggle-side-windows)
+
 ;; I hate minimize
 (global-unset-key (kbd "C-x C-z"))
 
@@ -1900,7 +1903,7 @@ targets."
   ;; integrate with doom-modeline
   ;; https://github.com/tarsius/keycast/issues/7#issuecomment-881469067
   (define-minor-mode keycast-mode
-    "Show current command and its key binding in the mode line (fix for use with doom-mode-line)."
+    "Show current command and its key binding in the mode line (fix for doom-mode-line)."
     :global t
     (if keycast-mode
         (add-hook 'pre-command-hook 'keycast--update t)
