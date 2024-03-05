@@ -30,6 +30,12 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
+(use-package auto-compile
+  :ensure t
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+
 ;; Theme
 ;; https://github.com/hlissner/emacs-doom-themes
 (use-package doom-themes
