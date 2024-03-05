@@ -1,6 +1,16 @@
 ;; Are we running under Guix?
 (setq guix-p (stringp (getenv "GUIX_PROFILE")))
 
+;; Use .el files over .elc if they are newer
+(when (boundp 'load-prefer-newer)
+  (setq load-prefer-newer t))
+
+;; make native compilation silent and prune its cache.
+(when (native-comp-available-p)
+  (setq comp-deferred-compilation-deny-list '())
+  (setq native-comp-async-report-warnings-errors 'silent)
+  (setq native-compile-prune-cache t))
+
 ;; It's nice to use packages only on Guix, but it's too restrictive sometimes
 ;; (when guix-p
 ;;   ;; disable package system if running under guix

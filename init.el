@@ -4,12 +4,6 @@
 ;;; init ;;;
 ;;;;;;;;;;;;
 
-;; make native compilation silent and prune its cache.
-(when (native-comp-available-p)
-  (setq comp-deferred-compilation-deny-list '())
-  (setq native-comp-async-report-warnings-errors 'silent)
-  (setq native-compile-prune-cache t))
-
 ;; no message in scratch buffer
 (setq initial-scratch-message "")
 
@@ -24,10 +18,6 @@
 (setq use-package-always-pin "melpa-stable")
 (setq use-package-always-demand t)
 (setq use-package-always-ensure t)
-
-;; Use .el if it is newer
-(when (boundp 'load-prefer-newer)
-  (setq load-prefer-newer t))
 
 (defvar my-line-length 90)
 
