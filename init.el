@@ -1035,7 +1035,7 @@ targets."
           embark-highlight-indicator
           embark-isearch-highlight-indicator))
   (defun embark-hide-which-key-indicator (fn &rest args)
-    "Hide the which-key indicator immediately when using the completing-read prompter."
+    "Hide the which-key indicator immediately when using completing-read."
     (which-key--hide-popup-ignore-command)
     (let ((embark-indicators
            (remq #'embark-which-key-indicator embark-indicators)))
