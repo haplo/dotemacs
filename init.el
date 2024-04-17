@@ -2053,6 +2053,7 @@ targets."
   :pin melpa
   :ensure t
   :custom
+  (ellama-keymap-prefix "C-c a")
   (ellama-language "English")
   (ellama-user-nick  "Fidel")
   (ellama-long-lines-length my-line-length)
