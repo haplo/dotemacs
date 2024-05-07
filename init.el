@@ -28,7 +28,8 @@
 
 ;; Stop customize from writing to my init file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 (use-package auto-compile
   :custom
