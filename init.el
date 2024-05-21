@@ -791,6 +791,7 @@
   :custom
   (vertico-count 20)
   (vertico-cycle t)
+  (vertico-sort-function 'vertico-sort-history-alpha)
   )
 
 ;; better directory navigation in vertico
