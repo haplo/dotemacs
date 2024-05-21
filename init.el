@@ -788,9 +788,9 @@
   (setq minibuffer-default-add-function 'my-minibuffer-default-add-function)
   (vertico-mode)
   (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
-  :config
-  (setq vertico-count 20)
-  (setq vertico-cycle t)
+  :custom
+  (vertico-count 20)
+  (vertico-cycle t)
   )
 
 ;; better directory navigation in vertico
