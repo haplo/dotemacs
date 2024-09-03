@@ -1435,19 +1435,6 @@ targets."
   :config
   (puni-global-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;
-;;; Autoformatting ;;;
-;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package apheleia
-  :config
-  (apheleia-global-mode +1)
-  (setf (alist-get 'isort apheleia-formatters)
-        '("isort" "--stdout" "-"))
-  (setf (alist-get 'python-ts-mode apheleia-mode-alist)
-        '(isort black))
-  )
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; General programming ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1483,8 +1470,8 @@ targets."
          (tsx-ts-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
          (eglot-managed-mode . my-eglot-eldoc)
-         (before-save . my-eglot-organize-imports)
-         (before-save . my-eglot-format-on-save))
+         (after-save . my-eglot-organize-imports)
+         (after-save . my-eglot-format-on-save))
   :bind (:map eglot-mode-map
               ("C-c c a" . eglot-code-actions)
               ("C-c c d" . eglot-find-declaration)
