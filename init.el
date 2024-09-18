@@ -375,7 +375,8 @@
 ;; show uncommitted changes in the gutter
 ;; https://github.com/dgutov/diff-hl
 (use-package diff-hl
-  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
+  :hook ((dired-mode . diff-hl-dired-mode)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
   :config (global-diff-hl-mode +1)
   ;; disable on slow TRAMP connections with diff-hl-disable-on-remote to t
   )
@@ -447,7 +448,7 @@
 ;;
 ;; It's currently tailored for work in my 4K monitor. The main idea is to have
 ;; a 4-column layout:
-;; 1. Left side window dedicated to Dirvish, Magit, Org buffers...
+;; 1. Left side window dedicated to Magit, Org buffers...
 ;; 2. A file I'm working on.
 ;; 3. Another file (optional, if I split column 2 vertically).
 ;; 4. Right side window dedicated to help, documentation, flymake, grep, imenu...
@@ -642,84 +643,30 @@
 (use-package fish-mode
   :mode "\\.fish")
 
-;;;;;;;;;;;;;;;;;;;;;;;
-;;; dired / dirvish ;;;
-;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;; dired ;;;
+;;;;;;;;;;;;;
 
-(use-package dirvish
-  :functions dirvish-define-preview dirvish-peek-mode
-  :bind
-  (("C-x C-j" . dired-jump)
-   :map dired-mode-map
-   ("^"   . 'dired-up-directory)
-   :map dirvish-mode-map  ; Dirvish inherits `dired-mode-map'
-   ("a"   . 'dirvish-quick-access)
-   ("f"   . 'dirvish-file-info-menu)
-   ("y"   . 'dirvish-yank-menu)
-   ("N"   . 'dirvish-narrow)
-   ("h"   . 'dirvish-history-jump) ; remapped `describe-mode'
-   ("s"   . 'dirvish-quicksort)    ; remapped `dired-sort-toggle-or-edit'
-   ("v"   . 'dirvish-vc-menu)      ; remapped `dired-view-file'
-   ("TAB" . 'dirvish-subtree-toggle)
-   ("M-f" . 'dirvish-history-go-forward)
-   ("M-b" . 'dirvish-history-go-backward)
-   ("M-l" . 'dirvish-ls-switches-menu)
-   ("M-m" . 'dirvish-mark-menu)
-   ("M-t" . 'dirvish-layout-toggle)
-   ("M-s" . 'dirvish-setup-menu)
-   ("M-e" . 'dirvish-emerge-menu)
-   ("M-j" . 'dirvish-fd-jump)
-   )
-  :init
-  (dirvish-override-dired-mode)
+(use-package dired
+  :ensure nil
+  :after all-the-icons-dired
+  :bind (("C-x C-j" . dired-jump)
+         :map dired-mode-map
+         ("^"   . dired-up-directory))
+  :hook (dired-mode . all-the-icons-dired-mode)
   :custom
-  (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
-  (dirvish-attributes '(vc-state
-                        subtree-state
-                        all-the-icons
-                        collapse
-                        git-msg
-                        ;; file-time
-                        file-size))
-  (dirvish-quick-access-entries '(("h" "~/"                   "Home")
-                                  ("c" "~/Code/"              "Code")
-                                  ("d" "~/Downloads/"         "Downloads")
-                                  ("D" "~/Documents/"         "Documents")
-                                  ("m" "~/Music/"             "Music")
-                                  ("M" "~/Music to sort/"     "Music to sort")
-                                  ("o" "~/Org/"               "Org")
-                                  ("p" "~/Pictures/"          "Photos")
-                                  ("P" "~/Pictures to sort/"  "Photos to sort")
-                                  ("s" "~/Sync/"  "Sync")))
-  (dirvish-cache-dir (expand-file-name "dirvish" my-savefile-dir))
-  ;; make dirvish-side same size as other side windows
-  (dirvish-side-width my-side-window-size)
-  ;; dirvish-side
-  (dirvish-side-follow-mode t)
-  ;; by default jump inside home
-  (dirvish-fd-default-dir "~")
-  ;; revert dired (and dirvish) buffers on revisiting their directory
   (dired-auto-revert-buffer t)
+  (dired-listing-switches "-agho --group-directories-first")
   ;; always delete and copy recursively
   (dired-recursive-deletes 'always)
   (dired-recursive-copies 'always)
   ;; if there is a dired buffer displayed in the next window, use its
   ;; current subdir, instead of the current subdir of this dired buffer
   (dired-dwim-target t)
-  ;; drag&drop support
-  (dired-mouse-drag-files t)
-  (mouse-drag-and-drop-region-cross-program t)
-  :config
-  (dirvish-peek-mode)
-  ;; preview directories with eza, when available
-  (dirvish-define-preview eza (file)
-    "Use `eza' to generate directory preview."
-    :require ("eza")
-    (when (file-directory-p file)
-      `(shell . ("eza" "-al" "--color=always" "--icons"
-                 "--group-directories-first" ,file))))
-  (add-to-list 'dirvish-preview-dispatchers 'eza)
   )
+
+(use-package all-the-icons-dired
+  :after all-the-icons)
 
 ;;;;;;;;;;;;;;;
 ;;; ibuffer ;;;
@@ -1198,8 +1145,8 @@ targets."
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
         projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir)
-        ;; open a dirvish buffer when switching projects
-        projectile-switch-project-action 'dirvish
+        ;; open a dired buffer when switching projects
+        projectile-switch-project-action 'dired-jump
         ;; https://docs.projectile.mx/projectile/configuration.html#project-specific-compilation-buffers
         projectile-per-project-compilation-buffer t
         )
@@ -1395,15 +1342,14 @@ targets."
 ;; trigger commands by pressing keys in quick succession
 ;; https://github.com/emacsorphanage/key-chord
 (use-package key-chord
-  :after (avy consult crux dirvish magit projectile vundo)
+  :after (avy consult crux dired magit projectile vundo)
   :config
   (key-chord-define-global "jj" 'avy-goto-word-1)
   (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
   (key-chord-define-global "jk" 'my-avy-embark)
   (key-chord-define-global "JK" 'my-avy-copy-word)
   (key-chord-define-global "jl" 'avy-goto-line)
-  (key-chord-define-global "qq" 'dirvish-dwim)
-  (key-chord-define-global "qs" 'dirvish-side)
+  (key-chord-define-global "qq" 'dired-jump)
   (key-chord-define-global "uu" 'vundo)
   (key-chord-define-global "xx" 'magit-status)
   (key-chord-define-global "XX" 'magit-dispatch)
