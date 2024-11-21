@@ -1996,13 +1996,15 @@ targets."
   (require 'llm-ollama)
   (setopt ellama-provider
           (make-llm-ollama
-           :chat-model "wizard-vicuna-uncensored:13b-q5_K_M"
-           :embedding-model "wizard-vicuna-uncensored:13b-q5_K_M"))
+           :chat-model "qwen2.5:14b-instruct-q5_K_M"
+           :embedding-model "nomic-embed-text"))
+  (setopt ellama-coding-provider
+          (make-llm-ollama
+           :chat-model "qwen2.5-coder:14b-instruct-q5_K_M"
+           :embedding-model "nomic-embed-text"))
   (setopt ellama-providers
-          '(("mistral-instruct" . (make-llm-ollama
-                                   :chat-model "mistral:7b-instruct"
-                                   :embedding-model "mistral:7b-instruct"))
-            ("mixtral" . (make-llm-ollama
-                          :chat-model "mixtral:8x7b-instruct-v0.1-q5_K_Mk"
-                          :embedding-model "mixtral:8x7b-instruct-v0.1-q5_K_M"))))
+          '(            ("llama3.2-vision" . (make-llm-ollama
+                                    :chat-model "llama3.2-vision:11b-instruct-q8_0"
+                                    :embedding-model "llama3.2-vision:11b-instruct-q8_0"))
+                        ))
   )
