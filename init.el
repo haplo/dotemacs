@@ -1444,6 +1444,8 @@ targets."
          (if (eglot-managed-p)
              (eglot-format-buffer)))
   :custom
+  ;; shut down LSP server after last managed buffer is killed
+  (eglot-autoshutdown t)
   ;; increase when need to debug LSP sessions
   (eglot-events-buffer-size 0)
   ;; use same eglot session when navigating outside project through Xref
