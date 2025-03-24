@@ -39,6 +39,13 @@
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
+;; Start an Emacs server if one is not already running
+;; this allows use of emacsclient
+(use-package "server"
+  :demand t
+  :unless (server-running-p)
+  :init (server-start))
+
 ;; Theme
 ;; https://github.com/hlissner/emacs-doom-themes
 (use-package doom-themes
