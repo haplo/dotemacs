@@ -2005,11 +2005,11 @@ targets."
   (require 'llm-ollama)
   (setopt ellama-provider
           (make-llm-ollama
-           :chat-model "qwen2.5:14b-instruct-q5_K_M"
+           :chat-model "gemma3:27b"
            :embedding-model "nomic-embed-text"))
   (setopt ellama-coding-provider
           (make-llm-ollama
-           :chat-model "qwen2.5-coder:14b-instruct-q5_K_M"
+           :chat-model "qwen2.5-coder:32b-instruct-q4_K_M"
            :embedding-model "nomic-embed-text"))
   (setopt ellama-providers
           '(            ("llama3.2-vision" . (make-llm-ollama
