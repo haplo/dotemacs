@@ -1995,8 +1995,8 @@ targets."
 (use-package ellama
   :pin melpa
   :ensure t
+  :bind ("C-c a" . ellama-transient-main-menu)
   :custom
-  (ellama-keymap-prefix "C-c a")
   (ellama-language "English")
   (ellama-user-nick  "Fidel")
   (ellama-long-lines-length my-line-length)
