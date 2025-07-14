@@ -41,10 +41,9 @@
 
 ;; Start an Emacs server if one is not already running
 ;; this allows use of emacsclient
-(use-package "server"
+(use-package server
   :demand t
-  :unless (server-running-p)
-  :init (server-start))
+  :config (unless (server-running-p) (server-start)))
 
 ;; Theme
 ;; https://github.com/hlissner/emacs-doom-themes
