@@ -438,11 +438,21 @@
 
 (defvar my-side-window-size 77 "Size of my side bars.")
 
+(defvar my-frame-width-limit-for-sidebars
+  (* my-side-window-size 3)
+  "Use side windows when frame width is above this limit.")
+
 ;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 (defun make-display-buffer-matcher-function (major-modes)
   "Match buffers by MAJOR-MODES for DISPLAY-BUFFER-ALIST."
   (lambda (buffer-name _action)
     (with-current-buffer buffer-name (apply #'derived-mode-p major-modes))))
+
+;; Conditionally open a buffer in a side window only if frame is large enough
+(defun maybe-display-in-side-window (buffer action)
+  "Open BUFFER in a side window only if the current frame is wide enough."
+  (when (> (frame-width) my-frame-width-limit-for-sidebars)
+    (display-buffer-in-side-window buffer action)))
 
 ;; This is my window configuration
 ;;
@@ -483,13 +493,13 @@
          (window-height . 20))
         ;; left side window
         ("\\*Org Agenda\\*"
-         (display-buffer-in-side-window)
+         (maybe-display-in-side-window)
          (dedicated . t)
          (window . root)
          (side . left)
          (window-width . ,my-side-window-size))
         (,(make-display-buffer-matcher-function '(magit-mode))
-         (display-buffer-reuse-mode-window display-buffer-in-side-window)
+         (display-buffer-reuse-mode-window maybe-display-in-side-window)
          (mode magit-mode)
          (dedicated . t)
          (side . left)
@@ -507,7 +517,7 @@
                  "\\*Embark Collect:.*\\*"
                  "\\*Embark Export:.*\\*"
                  ))
-         (display-buffer-in-side-window)
+         (maybe-display-in-side-window)
          (dedicated . t)
          (side . right)
          (slot . 0)
@@ -518,7 +528,7 @@
              grep-mode
              help-mode
              helpful-mode))
-         (display-buffer-in-side-window)
+         (maybe-display-in-side-window)
          (dedicated . t)
          (side . right)
          (slot . 0)
