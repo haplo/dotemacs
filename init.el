@@ -506,10 +506,11 @@
          (window . root)
          (window-width . ,my-side-window-size))
         (,(make-display-buffer-matcher-function '(org-mode))
-         (display-buffer-reuse-mode-window display-buffer-in-direction)
+         (display-buffer-reuse-mode-window maybe-display-in-side-window)
          (mode org-mode)
          (dedicated . t)
          (direction . left)
+         (side . left)
          (window . root)
          (window-width . ,my-side-window-size))
         ;; right side window
