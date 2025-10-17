@@ -549,8 +549,8 @@
 ;; Try reusing windows
 (setq display-buffer-base-action
       '((display-buffer-reuse-window
-         display-buffer-reuse-mode-window
-         display-buffer-use-some-window)))
+         display-buffer-reuse-mode-window)
+        (reusable-frames . 'nil)))  ; nil means consider only the selected frame
 
 ;; Manually switching buffer must still respect window config constraints. For example
 ;; switching to a buffer that already has a dedicated window will switch to that window
