@@ -11,6 +11,11 @@
   (setq native-comp-async-report-warnings-errors 'silent)
   (setq native-compile-prune-cache t))
 
+;; Fix TRAMP compatibility with fish shell
+;; TRAMP and other Emacs internals need a POSIX shell
+(setenv "SHELL" "/bin/bash")
+(setq shell-file-name "/bin/bash")
+
 ;; It's nice to use packages only on Guix, but it's too restrictive sometimes
 ;; (when guix-p
 ;;   ;; disable package system if running under guix

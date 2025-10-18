@@ -252,7 +252,18 @@
    ;; don't pollute .emacs.d directory
    tramp-persistency-file-name (expand-file-name "tramp" my-savefile-dir)
    ;; default to SSH
-   tramp-default-method "ssh"))
+   tramp-default-method "ssh")
+  ;; manage yadm using Magit (also see yadm defun in magit section)
+  ;; https://philjackson.github.io/yadm/emacs/magit/2021/07/25/using-yadm-via-magit/
+  (add-to-list 'tramp-methods
+               '("yadm"
+                 (tramp-login-program "yadm")
+                 (tramp-login-args (("enter")))
+                 (tramp-login-env (("SHELL") ("/bin/sh")))
+                 (tramp-remote-shell "/bin/sh")
+                 (tramp-remote-shell-args ("-c"))
+                 ))
+  )
 
 (set-default 'imenu-auto-rescan t)
 
@@ -1113,6 +1124,9 @@ targets."
   ;; https://magit.vc/manual/magit.html#Committing-Performance
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
+  (defun yadm ()
+    (interactive)
+    (magit-status "/yadm::"))
   )
 
 ;; https://github.com/dandavison/magit-delta
