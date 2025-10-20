@@ -3,7 +3,7 @@
 This is my very own Emacs configuration.
 There are many like it, but this one's mine.
 
-This configuration is meant and has only been tested with Emacs 29.2.
+This configuration is meant and has only been tested with Emacs 30.2.
 
 I try to be explicit about what I use.
 Magic is limited to using external packages.
