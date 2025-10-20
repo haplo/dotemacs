@@ -16,17 +16,6 @@
 (setenv "SHELL" "/bin/bash")
 (setq shell-file-name "/bin/bash")
 
-;; It's nice to use packages only on Guix, but it's too restrictive sometimes
-;; (when guix-p
-;;   ;; disable package system if running under guix
-;;   (setq package-enable-at-startup nil)
-;;   (setq package-archives nil))
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-
 ;; Increase garbage collection threshold during startup, but once Emacs is finished
 ;; loading then set it at a reasonable level. Using large thresholds would lead to
 ;; stuttering/freezes when Emacs hit it as it's single-threaded.
@@ -46,6 +35,24 @@
   (setq
    ;; Silence compiler warnings as they can be pretty disruptive
    native-comp-async-report-warnings-errors nil))
+
+;; It's nice to use packages only on Guix, but it's too restrictive sometimes
+;; (when guix-p
+;;   ;; disable package system if running under guix
+;;   (setq package-enable-at-startup nil)
+;;   (setq package-archives nil))
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(setq package-archive-priorities
+      '(("gnu"          . 30)
+        ("nongnu"       . 20)
+        ("melpa-stable" . 10)
+        ("melpa"        . 5)
+        ("gnu-devel"    . 0)))
+(package-initialize)
 
 ;; don't resize frame as font, menu, tool bar... change
 (setq frame-inhibit-implied-resize t)

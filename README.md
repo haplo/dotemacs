@@ -115,3 +115,4 @@ Here are the ones I have studied more in depth:
 - [Emacs Siren](https://github.com/jimeh/.emacs.d).
 - [Crandel](https://github.com/Crandel/home/blob/master/.config/emacs/early-init.el)
 - [Serghei Iakovlev's Emacs configuration](https://github.com/sergeyklay/.emacs.d)
+- [Patrick M. Niedzielski](https://github.com/pniedzielski/emacs.d)

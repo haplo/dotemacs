@@ -15,7 +15,6 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/index.html
 (require 'use-package)
 ;; Pin packages to MELPA stable unless explicitly changed with :pin
-(setq use-package-always-pin "melpa-stable")
 (setq use-package-always-demand t)
 (setq use-package-always-ensure t)
 
