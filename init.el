@@ -18,15 +18,14 @@
 (setq use-package-always-demand t)
 (setq use-package-always-ensure t)
 
-(defvar my-line-length 80)
+(use-package xdg)
 
-(defvar my-savefile-dir (expand-file-name "savefile" user-emacs-directory)
-  "Where to put all automatically generated save/history-files.")
-(unless (file-exists-p my-savefile-dir)
-  (make-directory my-savefile-dir))
+(use-package no-littering
+  :commands (no-littering-expand-etc-file-name no-littering-var-directory)
+  :config (no-littering-theme-backups))
 
 ;; Stop customize from writing to my init file
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file (no-littering-expand-etc-file-name "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
 
@@ -127,7 +126,7 @@
   :init
   (save-place-mode)
   :config
-  (setq save-place-file (expand-file-name "saveplace" my-savefile-dir)))
+  (setq save-place-file (no-littering-expand-var-file-name "saveplace")))
 
 ;; Emacs built-in diff interface
 ;; https://www.gnu.org/software/emacs/manual/html_node/ediff/index.html
@@ -221,17 +220,21 @@
         ;; save every minute
         savehist-autosave-interval 60
         ;; keep the home clean
-        savehist-file (expand-file-name "savehist" my-savefile-dir)))
+        savehist-file (no-littering-expand-var-file-name "savehist")))
 
 ;; save recent files
 (use-package recentf
   :config
-  (setq recentf-save-file (expand-file-name "recentf" my-savefile-dir)
+  (setq recentf-save-file (no-littering-expand-var-file-name "recentf")
         recentf-max-saved-items 500
         recentf-max-menu-items 15
         ;; disable recentf-cleanup on Emacs start, because it can cause
         ;; problems with remote files
-        recentf-auto-cleanup 'never))
+        recentf-auto-cleanup 'never)
+  (add-to-list 'recentf-exclude
+             (recentf-expand-file-name no-littering-var-directory))
+  (add-to-list 'recentf-exclude
+             (recentf-expand-file-name no-littering-etc-directory)))
 
 ;; smarter kill-ring navigation
 (use-package browse-kill-ring
@@ -249,7 +252,7 @@
   :config
   (setq
    ;; don't pollute .emacs.d directory
-   tramp-persistency-file-name (expand-file-name "tramp" my-savefile-dir)
+   tramp-persistency-file-name (no-littering-expand-var-file-name "tramp")
    ;; default to SSH
    tramp-default-method "ssh")
   ;; manage yadm using Magit (also see yadm defun in magit section)
@@ -283,7 +286,7 @@
 (use-package bookmark
   :ensure nil  ;; Emacs built-in
   :config
-  (setq bookmark-default-file (expand-file-name "bookmarks" my-savefile-dir)
+  (setq bookmark-default-file (no-littering-expand-var-file-name "bookmarks")
         bookmark-save-flag 1))
 
 (use-package align
@@ -354,10 +357,10 @@
 
 (use-package eshell
   :config
-  (setq eshell-directory-name (expand-file-name "eshell" my-savefile-dir)))
+  (setq eshell-directory-name (no-littering-expand-var-file-name "eshell")))
 
 (setq semanticdb-default-save-directory
-      (expand-file-name "semanticdb" my-savefile-dir))
+      (no-littering-expand-var-file-name "semanticdb"))
 
 ;; crux is a collection of general editing utilities, see below for keybindings
 ;; https://github.com/bbatsov/crux
@@ -606,7 +609,7 @@
       (persp-state-save)))
   :custom
   (persp-mode-prefix-key (kbd "C-z"))
-  (persp-state-default-file (expand-file-name "perspective" my-savefile-dir))
+  (persp-state-default-file (no-littering-expand-var-file-name "perspective"))
   (persp-modestring-short t)
   :init
   (persp-mode)
@@ -1110,7 +1113,7 @@ targets."
   ;; don't ask for confirmation when pushing branches
   (magit-push-always-verify nil)
   ;; put history.el in the custom savefile dir
-  (transient-history-file (expand-file-name "transient-history.el" my-savefile-dir))
+  (transient-history-file (no-littering-expand-var-file-name "transient-history.el"))
   ;; do not ask confirmation for actions easily reverted when wip-mode is enabled
   (magit-no-confirm '(set-and-push safe-with-wip))
   :config
@@ -1145,7 +1148,7 @@ targets."
   :after magit
   :config
   (setq forge-database-file
-        (expand-file-name "forge-database.sqlite" my-savefile-dir))
+        (no-littering-expand-var-file-name "forge-database.sqlite"))
   )
 
 ;; browse previous revisions of any git-controlled file
@@ -1167,14 +1170,14 @@ targets."
 
 (use-package project
   :config
-  (setq project-list-file (expand-file-name "projects" my-savefile-dir)))
+  (setq project-list-file (no-littering-expand-var-file-name "projects")))
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
   :bind-keymap (("C-c p" . projectile-command-map))
   :config
-  (setq projectile-cache-file (expand-file-name  "projectile.cache" my-savefile-dir)
-        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-savefile-dir)
+  (setq projectile-cache-file (no-littering-expand-var-file-name  "projectile.cache")
+        projectile-known-projects-file (no-littering-expand-var-file-name "projectile-bookmarks.eld")
         ;; open a dired buffer when switching projects
         projectile-switch-project-action 'dired-jump
         ;; https://docs.projectile.mx/projectile/configuration.html#project-specific-compilation-buffers
@@ -1266,7 +1269,7 @@ targets."
   (kind-icon-blend-background nil)
   (kind-icon-blend-frac 0.08)
   ;; don't allow svg-lib to litter with its cache directory
-  (svg-lib-icons-dir (expand-file-name "svg-lib/cache/" my-savefile-dir))
+  (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/"))
   :config
   ;; enable for corfu
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
@@ -1678,7 +1681,7 @@ targets."
    ;; geiser replies on a REPL to provide autodoc and completion
    geiser-mode-start-repl-p t
    ;; save geiser history to savefile dir
-   geiser-repl-history-filename (expand-file-name "geiser-history" my-savefile-dir)
+   geiser-repl-history-filename (no-littering-expand-var-file-name "geiser-history")
    ))
 
 ;;;;;;;;;;;;;;
@@ -1887,7 +1890,7 @@ targets."
   :defer t
   :mode "\\.epub\'"
   :custom
-  (nov-place-file (expand-file-name "nov-places" my-savefile-dir))
+  (nov-place-file (no-littering-expand-var-file-name "nov-places"))
   )
 
 ;;;;;;;;;;;;;;
@@ -2012,7 +2015,7 @@ targets."
   (ellama-language "English")
   (ellama-user-nick  "Fidel")
   (ellama-long-lines-length my-line-length)
-  (ellama-sessions-directory (expand-file-name "ellama-sessions" my-savefile-dir))
+  (ellama-sessions-directory (no-littering-expand-var-file-name "ellama-sessions"))
   :init
   (require 'llm-ollama)
   (setopt ellama-provider

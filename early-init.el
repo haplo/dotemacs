@@ -11,6 +11,14 @@
   (setq native-comp-async-report-warnings-errors 'silent)
   (setq native-compile-prune-cache t))
 
+;; put native compilation files inside var/ (see no-littering in init.el)
+(when (and (fboundp 'startup-redirect-eln-cache)
+           (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
+  (startup-redirect-eln-cache
+   (convert-standard-filename
+    (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+
 ;; Fix TRAMP compatibility with fish shell
 ;; TRAMP and other Emacs internals need a POSIX shell
 (setenv "SHELL" "/bin/bash")
