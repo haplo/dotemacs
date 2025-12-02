@@ -166,12 +166,6 @@
 ;; smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
 
-;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
 ;; automatically revert buffers for files that changed on disk when the open buffer has no
 ;; unsaved changes
 (global-auto-revert-mode t)
