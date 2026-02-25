@@ -147,6 +147,8 @@
 ;;; editor ;;;
 ;;;;;;;;;;;;;;
 
+(setq my-line-length 88)
+
 ;; always indent with spaces unless major mode overrides
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
