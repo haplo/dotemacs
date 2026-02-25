@@ -14,7 +14,6 @@
 ;; process if they aren't found.
 ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/index.html
 (require 'use-package)
-;; Pin packages to MELPA stable unless explicitly changed with :pin
 (setq use-package-always-demand t)
 (setq use-package-always-ensure t)
 
@@ -44,11 +43,12 @@
   :config (unless (server-running-p) (server-start)))
 
 ;; Theme
-;; https://github.com/hlissner/emacs-doom-themes
+;; https://github.com/doomemacs/themes/
 (use-package doom-themes
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italic t)
   :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
   (load-theme 'doom-solarized-dark t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -942,7 +942,6 @@
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-docker t))
 
 (use-package consult-yasnippet
-  :pin melpa
   :after (consult)
   :bind (("C-c C-s" . consult-yasnippet)))
 
@@ -1082,7 +1081,6 @@ targets."
 
 ;; https://magit.vc/
 (use-package magit
-  :pin melpa
   :if (executable-find "git")
   :hook (git-commit-setup . my-git-commit-setup)
   :bind (("C-c v m" . magit-status)
@@ -1127,7 +1125,6 @@ targets."
 
 ;; https://github.com/dandavison/magit-delta
 (use-package magit-delta
-  :pin melpa
   :if (executable-find "delta")
   :after magit
   :hook ((magit-mode . magit-delta-mode))
@@ -1138,7 +1135,6 @@ targets."
 
 ;; https://magit.vc/manual/forge/
 (use-package forge
-  :pin melpa
   :after magit
   :config
   (setq forge-database-file
@@ -1151,7 +1147,6 @@ targets."
   :bind (("C-c v t" . git-timemachine)))
 
 (use-package consult-git-log-grep
-  :pin melpa
   :after magit
   :if (executable-find "git")
   :bind (("C-c L" . consult-git-log-grep))
@@ -1393,7 +1388,6 @@ targets."
 ;; smart pairing for all programming modes
 ;; https://github.com/AmaiKinono/puni
 (use-package puni
-  :pin melpa
   :bind (("M-<up>" . puni-splice)
          ("M-S-<up>" . puni-raise)
          ("M-<down>" . puni-split)
@@ -1772,11 +1766,9 @@ targets."
    ;;   (sql-mode . t)
    ))
 
-(use-package orgit
-  :pin melpa)
+(use-package orgit)
 
-(use-package orgit-forge
-  :pin melpa)
+(use-package orgit-forge)
 
 ;; syntax highlighting for exported source code blocks, needs listings and color latex
 ;; packages (texlive-latex-recommended package in Debian/Ubuntu)
@@ -2002,7 +1994,6 @@ targets."
 ;; A tool for interacting with large language models from Emacs Python
 ;; https://github.com/s-kostyaev/ellama
 (use-package ellama
-  :pin melpa
   :ensure t
   :bind ("C-c a" . ellama-transient-main-menu)
   :custom

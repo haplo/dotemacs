@@ -57,9 +57,11 @@
 (setq package-archive-priorities
       '(("gnu"          . 30)
         ("nongnu"       . 20)
-        ("melpa-stable" . 10)
-        ("melpa"        . 5)
+        ("melpa"        . 10)
+        ("melpa-stable" . 5)
         ("gnu-devel"    . 0)))
+;; don't hide packages from lower-priority archives
+(setq package-menu-hide-low-priority nil)
 (package-initialize)
 
 ;; don't resize frame as font, menu, tool bar... change
