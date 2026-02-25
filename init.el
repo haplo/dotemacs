@@ -877,16 +877,16 @@
   (consult--regexp-compiler consult--orderless-regexp-compiler)
   :config
   (consult-customize
-   consult--source-hidden-buffer
-   consult--source-buffer
-   consult--source-recent-file
-   consult--source-bookmark
-   consult--source-project-buffer
-   consult--source-project-recent-file
+   consult-source-hidden-buffer
+   consult-source-buffer
+   consult-source-recent-file
+   consult-source-bookmark
+   consult-source-project-buffer
+   consult-source-project-recent-file
    :preview-key '"M-.")
   ;; filter buffers in current perspective by default
   ;; can narrow to see all buffers if necessary
-  (consult-customize consult--source-buffer :hidden t :default nil)
+  (consult-customize consult-source-buffer :hidden t :default nil)
   (add-to-list 'consult-buffer-sources persp-consult-source)
   (setq
    ;; use consult for xref navigation
