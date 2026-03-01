@@ -443,6 +443,23 @@
 (use-package wgrep
   :after (embark))
 
+;; multiple cursors
+;; https://github.com/magnars/multiple-cursors.el
+(use-package multiple-cursors
+  :bind (("C->" . mc/mark-next-like-this-symbol)
+         ("C-<" . mc/mark-previous-like-this-symbol)
+         ("C-M->" . mc/unmark-next-like-this)
+         ("C-M-<" . mc/unmark-previous-like-this)
+         ("C-S-c c" . mc/edit-lines)
+         ("C-S-c C-c" . mc/edit-lines)
+         ("C-S-c C-S-c" . mc/edit-lines)
+         ("C-S-c a" . mc/edit-beginnings-of-lines)
+         ("C-S-c C-a" . mc/edit-beginnings-of-lines)
+         ("C-S-c e" . mc/edit-ends-of-lines)
+         ("C-S-c C-e" . mc/edit-ends-of-lines)
+         ("C-S-c d" . mc/mark-all-dwim)
+         ("C-S-c C-d" . mc/mark-all-dwim)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Window and frame management ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
