@@ -263,6 +263,8 @@
                  ))
   )
 
+(auto-compression-mode 1)
+
 (set-default 'imenu-auto-rescan t)
 
 ;; enable set goal column (C-x C-n)
