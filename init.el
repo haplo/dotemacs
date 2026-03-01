@@ -819,7 +819,6 @@
          ("C-c C-m" . consult-minor-mode-menu)
          ("C-h C-m" . consult-man)
          ("C-c ! j" . consult-flymake)
-         ("C-x l" . consult-locate)
          ("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop)
 
