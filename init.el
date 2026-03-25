@@ -154,7 +154,7 @@
 (setq-default tab-width 4)
 
 ;; enable y/n answers
-(fset 'yes-or-no-p 'y-or-n-p)
+(setopt use-short-answers t)
 
 ;; save files to home directory by default
 (setq-default default-directory '~)
