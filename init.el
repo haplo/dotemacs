@@ -240,7 +240,14 @@
 ;; https://github.com/bbatsov/super-save
 (use-package super-save
   :diminish
-  :config (super-save-mode +1))
+  :config
+  ;; save buffers automatically when Emacs is idle
+  (setq super-save-auto-save-when-idle t)
+  ;; don't display "Wrote file..." messages in the echo area
+  (setq super-save-silent t)
+  ;; disable the built-in auto-save (backup files) since super-save handles it
+  (setq auto-save-default nil)
+  (super-save-mode +1))
 
 ;; TRAMP is awesome
 ;; https://www.gnu.org/software/tramp/
