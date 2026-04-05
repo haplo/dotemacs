@@ -146,6 +146,8 @@
                 (unless (frame-focus-state)
                   (garbage-collect))))
 
+(context-menu-mode)
+
 ;;;;;;;;;;;;;;
 ;;; editor ;;;
 ;;;;;;;;;;;;;;
