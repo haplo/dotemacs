@@ -120,6 +120,9 @@
 ;; Cycle between candidates when there are not a lot of them
 (setq completion-cycle-threshold 3)
 
+;; hide non-relevant candidated in M-x
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
 ;; remember point location when reopening a file
 (use-package saveplace
   :ensure nil  ;; Emacs built-in
