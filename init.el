@@ -324,7 +324,10 @@
 (use-package ffap
   :ensure nil  ;; Emacs built-in
   :bind (("C-x C-." . find-file-at-point)
-         ("C-x C->" . ffap-next)))
+         ("C-x C->" . ffap-next))
+  :custom
+  ;; do not attempt to resolve what look like hostnames
+  (ffap-machine-p-known 'reject))
 
 ;; avy allows us to effectively navigate to visible things
 (use-package avy
