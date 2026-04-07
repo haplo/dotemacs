@@ -196,6 +196,9 @@
 ;; avoid duplicates in kill ring
 (setq kill-do-not-save-duplicates t)
 
+;; save the existing clipboard content into kill ring before overwriting it
+(setq save-interprogram-paste-before-kill t)
+
 ;; Mouse yank inserts at point, not at cursor
 (setq mouse-yank-at-point t)
 
