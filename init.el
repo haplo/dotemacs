@@ -213,6 +213,12 @@
 ;; http://osdir.com/ml/help-gnu-emacs-gnu/2009-05/msg00170.hotel
 (require 'iso-transl)
 
+;; disable right-to-left language support
+;; improves performance on large buffers
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+
 ;; use directory name in buffer names of files with the same name
 (use-package uniquify
   :ensure nil  ;; Emacs built-in
