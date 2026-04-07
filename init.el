@@ -710,6 +710,21 @@
                                      )))
      )))
 
+(use-package winner
+  :ensure nil
+  :preface
+  (defun toggle-delete-other-windows ()
+    "Delete other windows in frame if any, or restore previous window config."
+    (interactive)
+    (if (and winner-mode
+             (equal (selected-window) (next-window)))
+        (winner-undo)
+      (delete-other-windows)))
+  :bind ("C-x 1" . toggle-delete-other-windows)
+  :config
+  (winner-mode 1)
+)
+
 ;;;;;;;;;;;;;
 ;;; Shell ;;;
 ;;;;;;;;;;;;;
