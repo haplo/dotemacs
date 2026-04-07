@@ -260,6 +260,11 @@
   (add-to-list 'recentf-exclude
              (recentf-expand-file-name no-littering-etc-directory)))
 
+(use-package isearch
+  :ensure nil
+  :custom
+  (isearch-lazy-count t))
+
 ;; smarter kill-ring navigation
 (use-package browse-kill-ring
   :bind (("C-x C-k" . browse-kill-ring)))
@@ -356,14 +361,6 @@
           (embark-act symbol)))))
   :config (setq avy-background t
                 avy-style 'at-full))
-
-;; highlight results in search and replace commands
-;; https://github.com/emacsorphanage/anzu
-(use-package anzu
-  :diminish
-  :bind (("M-%" . anzu-query-replace)
-         ("C-M-%" . anzu-query-replace-regexp))
-  :config (global-anzu-mode))
 
 ;; make a shell script executable automatically on save
 (add-hook 'after-save-hook

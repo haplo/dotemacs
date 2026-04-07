@@ -22,7 +22,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`all-the-icons`](https://github.com/domtronn/all-the-icons.el): pretty icons.
 * [`all-the-icons-ibuffer`](https://github.com/seagle0128/all-the-icons-ibuffer): pretty icons in *ibuffer*.
 * [`all-the-icons-completion`](https://github.com/iyefrat/all-the-icons-completion): pretty icons in completion minibuffer.
-* [`anzu`](https://github.com/emacsorphanage/anzu): highlight search and replace.
 * [`auto-compile`](https://github.com/emacscollective/auto-compile/): compile Elisp files on load and/or save.
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
 * [`browse-kill-ring`](https://github.com/browse-kill-ring/browse-kill-ring): Browse. The. Kill. Ring.
