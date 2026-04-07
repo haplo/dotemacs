@@ -193,6 +193,9 @@
       save-interprogram-paste-before-kill t
       )
 
+;; avoid duplicates in kill ring
+(setq kill-do-not-save-duplicates t)
+
 ;; Mouse yank inserts at point, not at cursor
 (setq mouse-yank-at-point t)
 
