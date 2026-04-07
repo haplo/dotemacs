@@ -117,6 +117,9 @@
 ;; mondays are the first day of my week (for M-x calendar)
 (setq-default calendar-week-start-day 1)
 
+;; Delay syntax-highlighting until typing stops to avoid micro-stutters
+(setq redisplay-skip-fontification-on-input t)
+
 ;; Cycle between candidates when there are not a lot of them
 (setq completion-cycle-threshold 3)
 
