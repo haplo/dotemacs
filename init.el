@@ -126,6 +126,9 @@
 ;; hide non-relevant candidated in M-x
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 
+;; keep popping mark ring with C-SPC after the initial C-u C-SPC
+(setq set-mark-command-repeat-pop t)
+
 ;; remember point location when reopening a file
 (use-package saveplace
   :ensure nil  ;; Emacs built-in
