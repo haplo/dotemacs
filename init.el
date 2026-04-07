@@ -622,6 +622,9 @@
 ;; Pop new window if trying to switch buffer in a dedicated window
 (setq switch-to-buffer-in-dedicated-window 'pop)
 
+;; Rebalance windows when splitting
+(setq window-combination-resize t)
+
 ;; maximum number of side windows per side (left, top, right, bottom)
 (setq window-sides-slots '(1 0 1 2))
 
