@@ -145,6 +145,11 @@
   ;; don't open another frame, reuse current one
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-package repeat
+  :ensure nil
+  :config
+  (repeat-mode 1))
+
 ;; run garbage collection when frame loses focus, which should mean I'm not using
 ;; Emacs at that time so I won't care about any slowdown
 (add-function :after after-focus-change-function
