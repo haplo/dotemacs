@@ -1996,6 +1996,8 @@ targets."
 ;; highlight the current line
 (use-package hl-line
   :ensure nil  ;; Emacs built-in
+  :config
+  (global-hl-line-mode 1)
   )
 
 ;; highlight parts changing because of some operations
