@@ -90,6 +90,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`tramp`](https://www.gnu.org/software/tramp/): remote file editing, beyond cool.
 * [`treesit-auto`](https://github.com/renzmann/treesit-auto): automatically install and use [tree-sitter grammars](https://tree-sitter.github.io/tree-sitter/).
 * [`unfill`](https://github.com/purcell/unfill): the inverse of Emacs' `fill-paragraph` and `fill-region`.
+* [`valign`](https://github.com/casouri/valign): visual alignment for tables.
 * [`vundo`](https://github.com/casouri/vundo): visualize and navigate the undo history as a tree, never lose an edit.
 * [`vertico`](https://github.com/minad/vertico): performant and minimalistic vertical completion UI based on the default completion system.
 * [`volatile-highlights`](https://github.com/k-talo/volatile-highlights.el): visual feedback for some operations.
