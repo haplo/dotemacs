@@ -660,6 +660,11 @@
   (;; save perspectives on Emacs exit
    (kill-emacs . my-persp-state-save-with-backup))
   :preface
+  (defun my-persp-mode-start ()
+    (persp-mode)
+    (when (f-file-p persp-state-default-file)
+      (persp-state-load persp-state-default-file)
+      (persp-kill "main")))
   (defun my-persp-state-save-with-backup ()
     (interactive)
     (let ((persp-state-backup-file (concat persp-state-default-file ".bak")))
@@ -671,7 +676,7 @@
   (persp-state-default-file (no-littering-expand-var-file-name "perspective"))
   (persp-modestring-short t)
   :init
-  (persp-mode)
+  (my-persp-mode-start)
   )
 
 ;; tame the flood of ephemeral windows Emacs produces
