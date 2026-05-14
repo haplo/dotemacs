@@ -70,7 +70,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`multiple-cursors`](https://github.com/magnars/multiple-cursors.el): what it says in the label, allows editing multiple lines simultaneously.
 * [`no-littering`](https://github.com/emacscollective/no-littering): keep Emacs config directory clean.
 * [`nov-el`](https://depp.brause.cc/nov.el/): major mode for reading EPUB files in Emacs.
-* [`olivetti`](https://github.com/rnkn/olivetti): center text for better writing.
 * [`orderless`](https://github.com/oantolin/orderless): completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 * [`org`](https://orgmode.org/): the most powerful note taking and planning software ever created.
 * [`org-superstar`](https://github.com/integral-dw/org-superstar-mode): prettier headings in org-mode.

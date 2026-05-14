@@ -2016,11 +2016,6 @@ targets."
   :diminish
   :config (volatile-highlights-mode t))
 
-;; olivetti-mode centers text
-;; https://github.com/rnkn/olivetti
-(use-package olivetti
-  :hook ((markdown-mode . olivetti-mode)))
-
 ;; display emojis (and nice interactive picker)
 ;; https://github.com/iqbalansari/emacs-emojify
 (use-package emojify
