@@ -1183,7 +1183,7 @@ targets."
   ;; Visual warning if commit first line gets too long
   (git-commit-summary-max-length 60)
   ;; path to my root code dir, so I can do C-x g from anywhere
-  (magit-repository-directories '(("~/Code" . 3)
+  (magit-repository-directories '(("~/Code" . 4)
                                   ("~/Sync/Research" . 1)))
   ;; create a local tracking branch when visiting a remote branch
   (magit-visit-ref-create t)
