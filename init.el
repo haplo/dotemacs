@@ -297,11 +297,21 @@
                '("yadm"
                  (tramp-login-program "yadm")
                  (tramp-login-args (("enter")))
-                 (tramp-login-env (("SHELL") ("/bin/sh")))
+                 (tramp-login-env (("SHELL" "/bin/sh")))
                  (tramp-remote-shell "/bin/sh")
                  (tramp-remote-shell-args ("-c"))
                  ))
-  )
+  ;; Make the yadm Tramp method inherit the user's local PATH, so
+  ;; subprocesses spawned by Magit (git, GIT_SSH_COMMAND wrapper,
+  ;; onlykey-agent, …) can find user-installed tools. Scoped to the
+  ;; "yadm" protocol so other Tramp connections keep their defaults.
+  (connection-local-set-profile-variables
+   'tramp-yadm-profile
+   '((tramp-remote-path . (tramp-own-remote-path
+                           tramp-default-remote-path))))
+  (connection-local-set-profiles
+   '(:application tramp :protocol "yadm")
+   'tramp-yadm-profile))
 
 (auto-compression-mode 1)
 
