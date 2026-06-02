@@ -672,9 +672,7 @@
   :preface
   (defun my-persp-mode-start ()
     (persp-mode)
-    (when (f-file-p persp-state-default-file)
-      (persp-state-load persp-state-default-file)
-      (persp-kill "main")))
+    )
   (defun my-persp-state-save-with-backup ()
     (interactive)
     (let ((persp-state-backup-file (concat persp-state-default-file ".bak")))
