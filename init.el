@@ -1875,6 +1875,10 @@ targets."
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
 
+;; export Org to Markdown
+(use-package ox-md
+  :ensure nil  ;; Emacs built-in
+  )
 
 ;; color links in Latex PDF output
 (add-to-list 'org-latex-packages-alist "\\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}")
