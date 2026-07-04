@@ -885,6 +885,7 @@
          ("C-c k" . consult-kmacro)
          ("C-c m" . consult-man)
          ("C-s" . consult-line)
+         ("C-S-s" . my-consult-line-at-point)
          ("C-c s" . my-consult-line-at-point)
          ("C-c M-s" . consult-line-multi)
          ("C-c M-x" . consult-mode-command)
