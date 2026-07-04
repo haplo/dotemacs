@@ -1474,27 +1474,6 @@ targets."
   (key-chord-mode +1)
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; structured editing ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; smart pairing for all programming modes
-;; https://github.com/AmaiKinono/puni
-(use-package puni
-  :bind (("M-<up>" . puni-splice)
-         ("M-S-<up>" . puni-raise)
-         ("M-<down>" . puni-split)
-         ("M-S-<down>" . puni-squeeze)
-         ("M-[" . puni-slurp-backward)
-         ("M-]" . puni-slurp-forward)
-         ("M-{" . puni-barf-backward)
-         ("M-}" . puni-barf-forward))
-  :hook ((minibuffer-setup . puni-disable-puni-mode)
-         (org-mode . puni-disable-puni-mode)
-         (term-mode . puni-disable-puni-mode))
-  :config
-  (puni-global-mode))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; General programming ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;

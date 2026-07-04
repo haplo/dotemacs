@@ -78,7 +78,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`perspective`](https://github.com/nex3/perspective-el): per-project named workspaces with window layouts and buffer lists.
 * [`popper`](https://github.com/karthink/popper): tame the flood of ephemeral windows Emacs produces.
 * [`projectile`](https://github.com/bbatsov/projectile): project management.
-* [`puni`](https://github.com/AmaiKinono/puni): minor mode to work with delimiters that come in pairs, e.g. parentheses, braces, tags, etc.
 * [`rainbow-delimiters`](https://github.com/Fanael/rainbow-delimiters): color delimiters such as parentheses or braces as they nest.
 * [`rainbow-mode`](https://elpa.gnu.org/packages/rainbow-mode.html): color strings that describe colors.
 * [`rjsx-mode`](https://github.com/felipeochoa/rjsx-mode/): minor mode for React JSX files.
