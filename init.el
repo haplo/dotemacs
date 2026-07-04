@@ -1761,6 +1761,8 @@ targets."
 ;;; org-mode  ;;;
 ;;;;;;;;;;;;;;;;;
 
+(defconst my-org-directory (expand-file-name "~/Org"))
+
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . (lambda ()
@@ -1773,7 +1775,7 @@ targets."
               ("C-c j" . consult-org-heading)
               ("C-c r" . org-refile))
   :custom
-  (org-directory (expand-file-name "~/Org"))
+  (org-directory my-org-directory)
   ;; add all *.org files in the org-directory defined above
   (org-agenda-files (list org-directory))
   (org-default-notes-file (concat org-directory "/notes.org"))
