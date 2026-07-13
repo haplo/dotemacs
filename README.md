@@ -48,7 +48,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
 * [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
 * [`flymake`](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
-* [`flyspell`](https://www.emacswiki.org/emacs/FlySpell): spell checking.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
 * [`geiser`](https://nongnu.org/geiser/): [Scheme](https://www.scheme.org/) hacking.
 * [`git-timemachine`](https://codeberg.org/pidu/git-timemachine): browse previous revisions of any git-controlled file.
@@ -56,6 +55,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.
 * [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers.
 * [`ibuffer-projectile`](https://github.com/purcell/ibuffer-projectile): group buffers by project in *ibuffer* view.
+* [`jinx`](https://github.com/minad/jinx): fast just-in-time spell checker (uses [enchant](https://rrthomas.github.io/enchant/)).
 * [`js2-mode`](https://github.com/mooz/js2-mode): major mode for Javascript files.
 * [`js2-refactor`](https://github.com/js-emacs/js2-refactor.el): refactor operations for Javascript code.
 * [`json-mode`](https://github.com/joshwnj/json-mode): major mode for JSON files.
