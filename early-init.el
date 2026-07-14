@@ -31,7 +31,7 @@
       gc-cons-percentage 0.6)
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* 16 1024 1024) ; 16mb
+            (setq gc-cons-threshold (* 32 1024 1024) ; 32mb
                   gc-cons-percentage 0.1)))
 
 ;; read more from subprocesses
