@@ -14,7 +14,6 @@
 ;; process if they aren't found.
 ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/index.html
 (require 'use-package)
-(setq use-package-always-demand t)
 (setq use-package-always-ensure t)
 
 (use-package xdg)
@@ -1761,8 +1760,7 @@ targets."
 ;;;;;;;;;;;;;;;;
 
 (use-package markdown-ts-mode
-  :mode ("\\.md\\'" . markdown-ts-mode)
-  :defer t)
+  :mode ("\\.md\\'" . markdown-ts-mode))
 
 ;;;;;;;;;;;
 ;;; CSV ;;;
