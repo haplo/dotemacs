@@ -1259,6 +1259,9 @@ targets."
 (use-package projectile
   :bind-keymap (("C-c p" . projectile-command-map)
                 ("s-p" . projectile-command-map))
+  :init
+  (setq projectile-project-search-path '(("~/Code/" . 3)
+                                         "~/Sync/Research/"))
   :config
   (setq projectile-cache-file (no-littering-expand-var-file-name  "projectile.cache")
         projectile-known-projects-file (no-littering-expand-var-file-name "projectile-bookmarks.eld")
