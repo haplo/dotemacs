@@ -1679,6 +1679,13 @@ targets."
   :bind (:map org-mode-map
               ("C-c j" . consult-org-heading)
               ("C-c r" . org-refile))
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)
+     (shell . t)
+     ))
   :custom
   (org-directory my-org-directory)
   ;; add all *.org files in the org-directory defined above
@@ -1719,17 +1726,6 @@ targets."
       "** TODO %?  :refile:\n  %i\n  %a")
      ))
   )
-
-;; enable more languages support in org-babel
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)
-   ;;   emacs-ob-rust not in Guix yet
-   ;;   (rust . t)
-   (shell . t)
-   ;;   emacs-ob-sql-mode not in Guix yet
-   ;;   (sql-mode . t)
-   ))
 
 (use-package orgit
   :defer t)
