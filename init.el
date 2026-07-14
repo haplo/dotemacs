@@ -1257,7 +1257,8 @@ targets."
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
-  :bind-keymap (("C-c p" . projectile-command-map))
+  :bind-keymap (("C-c p" . projectile-command-map)
+                ("s-p" . projectile-command-map))
   :config
   (setq projectile-cache-file (no-littering-expand-var-file-name  "projectile.cache")
         projectile-known-projects-file (no-littering-expand-var-file-name "projectile-bookmarks.eld")
