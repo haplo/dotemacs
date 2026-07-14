@@ -1595,17 +1595,6 @@ targets."
   (setq rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer"))
   )
 
-;;;;;;;;;;
-;;; Go ;;;
-;;;;;;;;;;
-
-(use-package go-mode
-  :mode "\\.go\\'"
-  :bind (:map go-mode-map
-              ("M-RET" . godef-jump)
-              ("M-." . godef-jump)
-              ("C-M-RET" . godef-jump-other-window)))
-
 ;;;;;;;;;;;;;;;;;;
 ;;; Emacs Lisp ;;;
 ;;;;;;;;;;;;;;;;;;
