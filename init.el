@@ -1889,9 +1889,8 @@ targets."
 ;;; JSON ;;;
 ;;;;;;;;;;;;
 
-(use-package json-mode
-  :mode "\\.json\'"
-  :config (setq js-indent-level 2))
+(use-package json-ts-mode
+  :mode "\\.json\'")
 
 ;;;;;;;;;;;;
 ;;; YAML ;;;
