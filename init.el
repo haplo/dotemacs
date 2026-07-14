@@ -1504,6 +1504,7 @@ targets."
 ;; https://joaotavora.github.io/eglot/
 (use-package eglot
   :hook ((go-ts-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure)
          (python-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
@@ -1582,105 +1583,6 @@ targets."
   (setq treesit-auto-install 'prompt)
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
-
-;;;;;;;;;;;;;;;;;;
-;;; Javascript ;;;
-;;;;;;;;;;;;;;;;;;
-
-;; Major mode for Javascript files
-;; https://github.com/mooz/js2-mode
-(use-package js2-mode
-  :mode "\\.js\\'"
-  :interpreter "node"
-  :hook (js2-mode . (lambda () (run-hooks 'my-js-mode-overrides)))
-  :config
-  (defun my-js-mode-overrides ()
-    (setq mode-name "JS2")
-    (js2-imenu-extras-mode +1)
-    (subword-mode +1)
-    ))
-
-;; Refactor operations on top of JS2
-;; https://github.com/js-emacs/js2-refactor.el
-(use-package js2-refactor
-  :hook (js2-mode . js2-refactor-mode)
-  :config
-  (js2r-add-keybindings-with-prefix "C-c C-m")
-  )
-
-;; Support for JSX files
-;; https://github.com/felipeochoa/rjsx-mode
-(use-package rjsx-mode
-  :mode "\\.jsx"
-  )
-
-;;;;;;;;;;;;;;;;;;
-;;; Typescript ;;;
-;;;;;;;;;;;;;;;;;;
-
-(use-package typescript-ts-mode
-  :mode (("\\.ts\\'" . typescript-ts-mode)
-         ("\\.tsx\\'" . tsx-ts-mode)))
-
-;;;;;;;;;;;
-;;; Web ;;;
-;;;;;;;;;;;
-
-;; https://web-mode.org/
-(use-package web-mode
-  :mode (
-         "\\.html\\'"
-         "\\.phtml\\'"
-         "\\.php\\'"
-         "\\.tsx\\'"
-         "\\.tpl\\.php\\'"
-         "\\.tpl\\'"
-         "\\.hbs\\'"
-         "\\.blade\\.php\\'"
-         "\\.jsp\\'"
-         "\\.as[cp]x\\'"
-         "\\.erb\\'"
-         "\\.html?\\'"
-         )
-  :hook (web-mode . my-web-mode-set-engine-django)
-  :preface
-  ;; detect if Django project and set web-mode engine to django
-  (defun my-web-mode-set-engine-django ()
-    (if (projectile-project-p)
-        (if (file-exists-p (concat (projectile-project-root) "manage.py"))
-            (web-mode-set-engine "django"))))
-  :config
-  (setq web-mode-code-indent-offset 2
-        web-mode-markup-indent-offset 2
-        web-mode-enable-auto-indentation nil))
-
-;;;;;;;;;;;
-;;; CSS ;;;
-;;;;;;;;;;;
-
-(use-package css-mode
-  :ensure nil  ;; Emacs built-in
-  :config
-  (setq css-indent-offset 2)
-  (defun my-css-mode-defaults ()
-    (rainbow-mode +1))
-  (setq my-css-mode-hook 'my-css-mode-defaults)
-  (add-hook 'css-mode-hook (lambda ()
-                             (run-hooks 'my-css-mode-hook))))
-
-;;;;;;;;;;;;;;
-;;; Python ;;;
-;;;;;;;;;;;;;;
-
-(use-package python
-  :hook (python-ts-mode . my-python-config)
-  :preface
-  (defun my-python-config ()
-    "My personal configuration for python-ts-mode"
-    (subword-mode +1)
-    ;; (python-docstring-mode +1)  ; not available in Guix yet
-    (eglot-ensure)
-    ))
 
 ;;;;;;;;;;;;
 ;;; Rust ;;;

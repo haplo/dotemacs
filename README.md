@@ -56,8 +56,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers.
 * [`ibuffer-projectile`](https://github.com/purcell/ibuffer-projectile): group buffers by project in *ibuffer* view.
 * [`jinx`](https://github.com/minad/jinx): fast just-in-time spell checker (uses [enchant](https://rrthomas.github.io/enchant/)).
-* [`js2-mode`](https://github.com/mooz/js2-mode): major mode for Javascript files.
-* [`js2-refactor`](https://github.com/js-emacs/js2-refactor.el): refactor operations for Javascript code.
 * [`key-chord`](https://github.com/emacsorphanage/key-chord): execute commands by pressing keys quickly.
 * [`keycast`](https://github.com/tarsius/keycast/): show current command and its binding.
 * [`kind-icon`](https://github.com/jdtsmith/kind-icon): icons for completion-at-point candidates.
@@ -78,7 +76,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`projectile`](https://github.com/bbatsov/projectile): project management.
 * [`rainbow-delimiters`](https://github.com/Fanael/rainbow-delimiters): color delimiters such as parentheses or braces as they nest.
 * [`rainbow-mode`](https://elpa.gnu.org/packages/rainbow-mode.html): color strings that describe colors.
-* [`rjsx-mode`](https://github.com/felipeochoa/rjsx-mode/): minor mode for React JSX files.
 * [`rustic`](https://github.com/brotzeit/rustic): major mode for [Rust](https://www.rust-lang.org/) coding.
 * [`saveplace`](https://www.emacswiki.org/emacs/SavePlace): built-in to remember last position on each open file.
 * [`super-save`](https://github.com/bbatsov/super-save): automatically save buffers on certain events.
@@ -90,7 +87,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`vundo`](https://github.com/casouri/vundo): visualize and navigate the undo history as a tree, never lose an edit.
 * [`vertico`](https://github.com/minad/vertico): performant and minimalistic vertical completion UI based on the default completion system.
 * [`volatile-highlights`](https://github.com/k-talo/volatile-highlights.el): visual feedback for some operations.
-* [`web-mode`](https://web-mode.org/): major mode for web templates (HTML and much more).
 * [`wgrep`](https://github.com/mhayashi1120/Emacs-wgrep): edit a grep buffer and apply those changes to the file buffer.
 * [`which-key`](https://github.com/justbur/emacs-which-key): show all possible key combinations.
 * [`whitespace-cleanup-mode`](https://github.com/purcell/whitespace-cleanup-mode): minor mode to clean up a buffer's whitespace on save.
