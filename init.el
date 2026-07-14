@@ -1868,12 +1868,9 @@ targets."
 ;;; Markdown ;;;
 ;;;;;;;;;;;;;;;;
 
-(use-package markdown-mode
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  )
+(use-package markdown-ts-mode
+  :mode ("\\.md\\'" . markdown-ts-mode)
+  :defer t)
 
 ;;;;;;;;;;;
 ;;; CSV ;;;

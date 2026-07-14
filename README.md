@@ -64,7 +64,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`magit`](https://magit.vc/): the best Git interface there is.
 * [`magit-delta`](https://github.com/dandavison/magit-delta): integrate [delta diff](https://github.com/dandavison/delta) with [Magit](https://magit.vc/).
 * [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
-* [`markdown-mode`](https://jblevins.org/projects/markdown-mode/): major mode to edit Markdown files.
+* [`markdown-ts-mode`](https://github.com/LionyxML/markdown-ts-mode): major mode to edit Markdown files, using tree-sitter grammar.
 * [`move-text`](https://github.com/emacsfodder/move-text): move lines or regions up and down.
 * [`multiple-cursors`](https://github.com/magnars/multiple-cursors.el): what it says in the label, allows editing multiple lines simultaneously.
 * [`no-littering`](https://github.com/emacscollective/no-littering): keep Emacs config directory clean.
