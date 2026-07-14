@@ -1509,8 +1509,7 @@ targets."
          (tsx-ts-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
          (eglot-managed-mode . my-eglot-eldoc)
-         (after-save . my-eglot-organize-imports)
-         (after-save . my-eglot-format-on-save))
+         (eglot-managed-mode . my-eglot-format-on-save-setup))
   :bind (:map eglot-mode-map
               ("C-c c a" . eglot-code-actions)
               ("C-c c d" . eglot-find-declaration)
@@ -1529,13 +1528,19 @@ targets."
   (defun my-eglot-eldoc ()
     (setq eldoc-documentation-strategy
           'eldoc-documentation-compose-eagerly))
-  (defun my-eglot-organize-imports () (interactive)
-         (if (and (eglot-managed-p)
-                  (eglot--server-capable :OrganizeImports))
-             (eglot-code-actions nil nil "source.organizeImports" t)))
-  (defun my-eglot-format-on-save () (interactive)
-         (if (eglot-managed-p)
-             (eglot-format-buffer)))
+  (defun my-eglot-format-on-save ()
+    "Organize imports and format the buffer."
+    (when (eglot-managed-p)
+      ;; Servers that don't advertise `source.organizeImports' will
+      ;; raise `user-error'; swallow it so saving still proceeds.
+      (ignore-errors
+        (eglot-code-actions nil nil "source.organizeImports" t))
+      (eglot-format-buffer)))
+  (defun my-eglot-format-on-save-setup ()
+    "Toggle the format-on-save hook with `eglot-managed-mode'."
+    (if (eglot-managed-p)
+        (add-hook 'after-save-hook #'my-eglot-format-on-save nil t)
+      (remove-hook 'after-save-hook #'my-eglot-format-on-save t)))
   :custom
   ;; shut down LSP server after last managed buffer is killed
   (eglot-autoshutdown t)
@@ -1543,11 +1548,6 @@ targets."
   (eglot-events-buffer-size 0)
   ;; use same eglot session when navigating outside project through Xref
   (eglot-extend-to-xref t)
-  ;; (lsp-register-custom-settings
-  ;;  '(("pylsp.plugins.pyls_mypy.enabled" t t)
-  ;;    ("pylsp.plugins.pyls_mypy.live_mode" nil t)
-  ;;    ("pylsp.plugins.pyls_black.enabled" t t)
-  ;;    ("pylsp.plugins.pyls_isort.enabled" t t)))
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
