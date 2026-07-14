@@ -388,10 +388,15 @@
 (use-package unfill
   :bind (("M-q" . unfill-toggle)))
 
-;; progressively expand region around cursor
-;; https://github.com/magnars/expand-region.el
-(use-package expand-region
-  :bind (("C-=" . er/expand-region)))
+;; progressively expand region around cursor, tree-sitter based
+;; https://emacsredux.com/blog/2026/03/03/expreg-expand-region-reborn/
+;; https://github.com/casouri/expreg
+(use-package expreg
+  :bind (("C-=" . expreg-expand)
+         ("C--" . expreg-contract))
+  (:repeat-map expreg-repeat-map
+               ("=" . expreg-expand)
+               ("-" . expreg-contract)))
 
 ;; automatically clean up whitespace on save only on initially clean buffers
 ;; disable by setting whitespace-cleanup-mode to nil in dir or local variables

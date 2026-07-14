@@ -46,7 +46,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`emojify`](https://github.com/iqbalansari/emacs-emojify): display emojis.
 * [`envrc`](https://github.com/purcell/envrc): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
-* [`expand-region`](https://github.com/magnars/expand-region.el): increase selected region by semantic units.
+* [`expreg`](https://github.com/casouri/expreg): increase selected region by semantic units, with tree-sitter.
 * [`flymake`](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
 * [`geiser`](https://nongnu.org/geiser/): [Scheme](https://www.scheme.org/) hacking.
