@@ -1,3 +1,17 @@
+;; Increase garbage collection threshold during startup, but once Emacs is finished
+;; loading then set it at a reasonable level. Using large thresholds would lead to
+;; stuttering/freezes when Emacs hit it as it's single-threaded.
+(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+      gc-cons-percentage 0.6)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (run-with-idle-timer
+             5 nil
+             (lambda ()
+               (setq gc-cons-threshold (* 32 1024 1024)
+                     gc-cons-percentage 0.1)
+               (garbage-collect)))))
+
 ;; Use .el files over .elc if they are newer
 (when (boundp 'load-prefer-newer)
   (setq load-prefer-newer t))
@@ -20,16 +34,6 @@
 ;; TRAMP and other Emacs internals need a POSIX shell
 (setenv "SHELL" "/bin/bash")
 (setq shell-file-name "/bin/bash")
-
-;; Increase garbage collection threshold during startup, but once Emacs is finished
-;; loading then set it at a reasonable level. Using large thresholds would lead to
-;; stuttering/freezes when Emacs hit it as it's single-threaded.
-(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
-      gc-cons-percentage 0.6)
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 32 1024 1024) ; 32mb
-                  gc-cons-percentage 0.1)))
 
 ;; read more from subprocesses
 ;; default is 4 KiB, it's already $YEAR so we can do more
