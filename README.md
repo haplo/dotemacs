@@ -71,7 +71,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`nov-el`](https://depp.brause.cc/nov.el/): major mode for reading EPUB files in Emacs.
 * [`orderless`](https://github.com/oantolin/orderless): completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 * [`org`](https://orgmode.org/): the most powerful note taking and planning software ever created.
-* [`org-superstar`](https://github.com/integral-dw/org-superstar-mode): prettier headings in org-mode.
 * [`orgit`](https://github.com/magit/orgit/): link to Magit buffers from Org-mode.
 * [`orgit-forge`](https://github.com/magit/orgit-forge/): link to Forge buffers from Org-mode.
 * [`perspective`](https://github.com/nex3/perspective-el): per-project named workspaces with window layouts and buffer lists.
