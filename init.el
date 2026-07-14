@@ -1731,14 +1731,17 @@ targets."
    ;;   (sql-mode . t)
    ))
 
-(use-package orgit)
+(use-package orgit
+  :defer t)
 
-(use-package orgit-forge)
+(use-package orgit-forge
+  :defer t)
 
 ;; syntax highlighting for exported source code blocks, needs listings and color latex
 ;; packages (texlive-latex-recommended package in Debian/Ubuntu)
 (use-package ox-latex
   :ensure nil  ;; Emacs built-in
+  :defer t
   :config
   (setq org-latex-src-block-backend 'minted)
   (add-to-list 'org-latex-packages-alist '("" "minted"))
