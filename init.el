@@ -1573,6 +1573,10 @@ targets."
 ;;; Tree-sitter ;;;
 ;;;;;;;;;;;;;;;;;;;
 
+(use-package tree-sitter
+  :config
+  (global-tree-sitter-mode +1))
+
 (use-package treesit-auto
   :config
   (setq treesit-auto-install 'prompt)
