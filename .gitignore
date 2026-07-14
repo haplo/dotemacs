@@ -4,10 +4,12 @@
 /auto-save-list
 /eln-cache
 /elpa
+/etc
 /emojis
 /savefile
 /custom.el
 /tramp
+/transient
 /tree-sitter
 /url
 /var
