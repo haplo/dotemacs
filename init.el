@@ -1937,8 +1937,7 @@ targets."
         calibredb-library-alist '(("~Calibre"))))
 
 (use-package nov
-  :defer t
-  :mode "\\.epub\'"
+  :mode ("\\.epub\'" "\\.kepub\'")
   :custom
   (nov-place-file (no-littering-expand-var-file-name "nov-places"))
   )
