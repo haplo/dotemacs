@@ -28,11 +28,11 @@
   (load custom-file))
 
 (use-package auto-compile
+  :defer 1
   :custom
   (auto-compile-display-buffer nil)
   (auto-compile-mode-line-counter t)
   :config
-  (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
 ;; Start an Emacs server if one is not already running
