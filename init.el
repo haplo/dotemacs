@@ -342,9 +342,9 @@
   :bind (("C-x \\" . align-regexp)))
 
 (use-package valign
-  :hook ((org-mode markdown-mode) . valign-mode)
+  :hook ((markdown-mode) . valign-mode)
   :custom
-  (valign-max-table-size 100000)
+  (valign-max-table-size 10000)
 )
 
 (use-package ffap
