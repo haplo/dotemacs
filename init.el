@@ -1573,13 +1573,11 @@ targets."
 ;;; Tree-sitter ;;;
 ;;;;;;;;;;;;;;;;;;;
 
-(use-package tree-sitter
-  :config
-  (global-tree-sitter-mode +1))
-
 (use-package treesit-auto
+  :demand t
+  :custom
+  (treesit-auto-install 'prompt)
   :config
-  (setq treesit-auto-install 'prompt)
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
