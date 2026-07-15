@@ -52,7 +52,11 @@
                                    ("nongnu"       . 20)
                                    ("melpa"        . 10))
       ;; don't hide packages from lower-priority archives
-      package-menu-hide-low-priority nil)
+      package-menu-hide-low-priority nil
+      ;; quickstart mode
+      ;; no-littering package puts the file inside var/ dir
+      package-quickstart-file (expand-file-name "var/package-quickstart.el" user-emacs-directory)
+      package-quickstart t)
 (package-initialize)
 
 ;; don't resize frame as font, menu, tool bar... change
