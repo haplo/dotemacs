@@ -100,6 +100,10 @@
   :config
   (exec-path-from-shell-initialize))
 
+;; Constants
+(defconst my-org-directory (expand-file-name "~/Org"))
+(defconst my-snippets-dir (expand-file-name "snippets" user-emacs-directory))
+
 ;;;;;;;;;;;;;;;;
 ;;; behavior ;;;
 ;;;;;;;;;;;;;;;;
@@ -1039,7 +1043,7 @@
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-docker t))
 
 (use-package consult-yasnippet
-  :after (consult)
+  :after (consult yasnippet)
   :bind (("C-c C-s" . consult-yasnippet)))
 
 ;; adds marginalia annotations to the minibuffer completions
@@ -1653,8 +1657,6 @@ targets."
 ;;; org-mode  ;;;
 ;;;;;;;;;;;;;;;;;
 
-(defconst my-org-directory (expand-file-name "~/Org"))
-
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . (lambda ()
@@ -1789,13 +1791,17 @@ targets."
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  ;; term-mode does not play well with yasnippet
-  :hook (term-mode . (lambda () (yas-minor-mode -1)))
+  :hook ((prog-mode text-mode) . my-maybe-enable-yas)
+  :preface
+  (defun my-maybe-enable-yas ()
+  "Enable yas-minor-mode except in *scratch* buffers."
+  (unless (string= (buffer-name) "*scratch*")
+    (yas-minor-mode 1)))
   :config
-  (add-to-list 'yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
-  (yas-global-mode 1))
+  (add-to-list 'yas-snippet-dirs my-snippets-dir))
 
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets
+  :after yasnippet)
 
 ;;;;;;;;;;;;;;;
 ;;; Writing ;;;
