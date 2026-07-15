@@ -905,7 +905,7 @@
 
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)
-         ;; originally mark-word, I use expand-region
+         ;; originally mark-word, I use expreg
          ("M-@" . consult-register-store)
          ("C-M-#" . consult-register)
          ([remap copy-to-register] . consult-register-store)
