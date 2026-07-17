@@ -463,6 +463,7 @@
 ;; use settings from .editorconfig file when present
 ;; https://github.com/editorconfig/editorconfig-emacs
 (use-package editorconfig
+  :ensure nil  ;; built-in since Emacs 30
   :diminish
   :config (editorconfig-mode 1))
 
