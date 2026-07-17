@@ -1293,6 +1293,11 @@ targets."
       (completion-preview-mode +1)))
   :hook (after-change-major-mode . my-completion-preview-mode-enable))
 
+(use-package cape
+  :init
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev))
+
 ;; enhance completion at point with a small completion popup
 ;; https://github.com/minad/corfu
 (use-package corfu
