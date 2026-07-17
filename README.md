@@ -47,7 +47,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`expreg`](https://github.com/casouri/expreg): increase selected region by semantic units, with tree-sitter.
 * [`flymake`](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
-* [`geiser`](https://nongnu.org/geiser/): [Scheme](https://www.scheme.org/) hacking.
 * [`git-timemachine`](https://codeberg.org/pidu/git-timemachine): browse previous revisions of any git-controlled file.
 * [`go-mode`](https://github.com/dominikh/go-mode.el): major mode for [Go](https://go.dev/) files.
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.

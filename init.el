@@ -1621,20 +1621,6 @@ targets."
   :hook (emacs-lisp-mode . eldoc-mode)
   :config (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
-;;;;;;;;;;;;;;;;;;;
-;;; Scheme Lisp ;;;
-;;;;;;;;;;;;;;;;;;;
-
-(use-package geiser
-  :hook (scheme-mode . my-lisp-coding-defaults)
-  :config
-  (setq
-   ;; geiser replies on a REPL to provide autodoc and completion
-   geiser-mode-start-repl-p t
-   ;; save geiser history to savefile dir
-   geiser-repl-history-filename (no-littering-expand-var-file-name "geiser-history")
-   ))
-
 ;;;;;;;;;;;;;;
 ;;; Docker ;;;
 ;;;;;;;;;;;;;;
