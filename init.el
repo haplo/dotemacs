@@ -268,10 +268,6 @@
   :custom
   (isearch-lazy-count t))
 
-;; smarter kill-ring navigation
-(use-package browse-kill-ring
-  :bind (("C-x C-k" . browse-kill-ring)))
-
 ;; automatically save buffers associated with files on buffer and window switch
 ;; https://github.com/bbatsov/super-save
 (use-package super-save

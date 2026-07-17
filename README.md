@@ -24,7 +24,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`all-the-icons-completion`](https://github.com/iyefrat/all-the-icons-completion): pretty icons in completion minibuffer.
 * [`auto-compile`](https://github.com/emacscollective/auto-compile/): compile Elisp files on load and/or save.
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
-* [`browse-kill-ring`](https://github.com/browse-kill-ring/browse-kill-ring): Browse. The. Kill. Ring.
 * [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
 * [`corfu`](https://github.com/minad/corfu/): completion-at-point popup. Like [company](https://company-mode.github.io/) but lighter.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
