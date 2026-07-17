@@ -1937,34 +1937,3 @@ targets."
       (remove-hook 'pre-command-hook 'keycast--update)))
   (add-to-list 'global-mode-string '("" keycast-mode-line))
   )
-
-;;;;;;;;;;
-;;; AI ;;;
-;;;;;;;;;;
-
-;; A tool for interacting with large language models from Emacs Python
-;; https://github.com/s-kostyaev/ellama
-(use-package ellama
-  :ensure t
-  :bind ("C-c a" . ellama-transient-main-menu)
-  :custom
-  (ellama-language "English")
-  (ellama-user-nick  "Fidel")
-  (ellama-long-lines-length my-line-length)
-  (ellama-sessions-directory (no-littering-expand-var-file-name "ellama-sessions"))
-  :init
-  (require 'llm-ollama)
-  (setopt ellama-provider
-          (make-llm-ollama
-           :chat-model "gemma3:27b"
-           :embedding-model "nomic-embed-text"))
-  (setopt ellama-coding-provider
-          (make-llm-ollama
-           :chat-model "qwen2.5-coder:32b-instruct-q4_K_M"
-           :embedding-model "nomic-embed-text"))
-  (setopt ellama-providers
-          '(            ("llama3.2-vision" . (make-llm-ollama
-                                    :chat-model "llama3.2-vision:11b-instruct-q8_0"
-                                    :embedding-model "llama3.2-vision:11b-instruct-q8_0"))
-                        ))
-  )
