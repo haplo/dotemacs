@@ -1281,11 +1281,23 @@ targets."
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
 
+(use-package completion-preview
+  :ensure nil ;; built-in
+  :bind (:map completion-preview-active-mode-map
+              ("M-n" . completion-preview-next-candidate)
+              ("M-p" . completion-preview-prev-candidate))
+  :preface
+  ;; enable in all non-programming modes (which use corfu)
+  (defun my-completion-preview-mode-enable ()
+    (unless (derived-mode-p 'prog-mode)
+      (completion-preview-mode +1)))
+  :hook (after-change-major-mode . my-completion-preview-mode-enable))
+
 ;; enhance completion at point with a small completion popup
 ;; https://github.com/minad/corfu
 (use-package corfu
   :hook ((minibuffer-setup . corfu-enable-in-minibuffer)
-         ;; display autocomplete popup automatically in programming modes
+         ;; use corfu in programming modes (non-programming use completion-preview)
          (prog-mode . corfu-set-local-auto))
   :bind (:map corfu-map
               ("SPC" . corfu-insert-separator)
