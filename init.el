@@ -70,6 +70,13 @@
    )
   (run-hooks 'my-toggle-theme-hook))
 
+;; Follow system light/dark mode
+;; https://github.com/LionyxML/auto-dark-emacs
+(use-package auto-dark
+  :init (auto-dark-mode)
+  :custom
+  (auto-dark-themes '((doom-solarized-dark) (doom-solarized-light))))
+
 ;; Pretty icons
 ;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons
