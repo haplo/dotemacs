@@ -1303,7 +1303,7 @@ targets."
 (use-package corfu
   :hook ((minibuffer-setup . corfu-enable-in-minibuffer)
          ;; use corfu in programming modes (non-programming use completion-preview)
-         (prog-mode . corfu-set-local-auto))
+         (prog-mode . corfu-mode))
   :bind (:map corfu-map
               ("SPC" . corfu-insert-separator)
               ("C-g" . corfu-quit)
@@ -1320,9 +1320,6 @@ targets."
               ("M-n" . corfu-popupinfo-scroll-up)
               ("M-p" . corfu-popupinfo-scroll-down))
   :preface
-  (defun corfu-set-local-auto ()
-    "Enable popup appearing automatically only for current buffer"
-    (setq-local corfu-auto t))
   (defun corfu-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if `completion-at-point' is bound."
     (when (where-is-internal #'completion-at-point (list (current-local-map)))
@@ -1335,13 +1332,11 @@ targets."
              completion-cycle-threshold completion-cycling)
          (consult-completion-in-region beg end table pred)))))
   :config
-  (setq corfu-excluded-modes '(typescript-mode web-mode))
-  (global-corfu-mode)
   (corfu-indexed-mode)
   (corfu-popupinfo-mode)
   :custom
   ;; autocompletion only pops up automatically in programming modes
-  (corfu-auto nil)
+  (corfu-auto t)
   ;; show candidates as soon as 1 character is pressed
   (corfu-auto-prefix 1)
   ;; show candidates after this many seconds
@@ -1351,7 +1346,7 @@ targets."
   (corfu-max-width 80)
   (corfu-count 20)
   (corfu-scroll-margin 3)
-  (corfu-cycle nil)
+  (corfu-cycle t)
   (corfu-quit-at-boundary 'separator)
   ;; don't quit if there is corfu-separator inserted
   (corfu-quit-no-match 'separator)
