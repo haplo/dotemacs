@@ -540,6 +540,11 @@
   (lambda (buffer-name _action)
     (with-current-buffer buffer-name (apply #'derived-mode-p major-modes))))
 
+(defun maybe-display-in-direction (buffer action)
+  "Open BUFFER in a directional window only if the current frame is wide enough."
+  (when (> (frame-width) my-frame-width-limit-for-sidebars)
+    (display-buffer-in-direction buffer action)))
+
 ;; Conditionally open a buffer in a side window only if frame is large enough
 (defun maybe-display-in-side-window (buffer action)
   "Open BUFFER in a side window only if the current frame is wide enough."
@@ -583,26 +588,26 @@
          (dedicated . t)
          (window . root)
          (window-height . 20))
-        ;; left side window
+        ;; display on left preferentially
         ("\\*Org Agenda\\*"
-         (maybe-display-in-side-window)
+         (maybe-display-in-direction)
          (dedicated . t)
+         (direction . left)
          (window . root)
-         (side . left)
          (window-width . ,my-side-window-size))
         (,(make-display-buffer-matcher-function '(magit-mode))
-         (display-buffer-reuse-mode-window maybe-display-in-side-window)
+         (display-buffer-reuse-mode-window maybe-display-in-direction)
          (mode magit-mode)
          (dedicated . t)
-         (side . left)
+         (direction . left)
          (window . root)
          (window-width . ,my-side-window-size))
         (,(make-display-buffer-matcher-function '(org-mode))
-         (display-buffer-reuse-mode-window maybe-display-in-side-window)
+         (display-buffer-reuse-mode-window maybe-display-in-direction)
          (mode org-mode)
          (dedicated . t)
          (direction . left)
-         (side . left)
+         (direction . left)
          (window . root)
          (window-width . ,my-side-window-size))
         ;; right side window
