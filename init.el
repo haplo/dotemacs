@@ -477,6 +477,7 @@
 ;; show all remaining key combinations when doing multi-key commands
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
+  :ensure nil  ;; built-in since Emacs 30
   :custom
   (which-key-idle-delay 0.5)
   (which-key-max-description-length 80)
