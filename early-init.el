@@ -1,3 +1,6 @@
+;; profile startup time (also uncomment end of init.el)
+;; (profiler-start 'cpu)
+
 ;; Increase garbage collection threshold during startup, but once Emacs is finished
 ;; loading then set it at a reasonable level. Using large thresholds would lead to
 ;; stuttering/freezes when Emacs hit it as it's single-threaded.

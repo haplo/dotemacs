@@ -1945,3 +1945,13 @@ targets."
       (remove-hook 'pre-command-hook 'keycast--update)))
   (add-to-list 'global-mode-string '("" keycast-mode-line))
   )
+
+;;;;;;;;;;;;;;;;;
+;;; Profiling ;;;
+;;;;;;;;;;;;;;;;;
+
+;; Uncomment to profile startup time (see also early-start.el)
+;; (add-hook 'emacs-startup-hook
+;;           (lambda ()
+;;             (run-with-idle-timer 1 nil #'profiler-report)
+;;             (run-with-idle-timer 1 nil #'profiler-stop)))
