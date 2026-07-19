@@ -1215,11 +1215,24 @@ targets."
 ;; https://github.com/dandavison/magit-delta
 (use-package magit-delta
   :if (executable-find "delta")
-  :after magit
-  :hook ((magit-mode . magit-delta-mode))
+  :after (auto-dark magit)
+  :hook ((magit-mode . magit-delta-mode)
+         (auto-dark-dark-mode . my-magit-delta-set-dark)
+         (auto-dark-light-mode . my-magit-delta-set-light))
+  :preface
+  (defun my-magit-delta-set-dark ()
+    (dolist (item '("--dark" "--light"))
+      (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
+    (add-to-list 'magit-delta-delta-args "--dark" t)
+    (message "set dark"))
+  (defun my-magit-delta-set-light ()
+    (dolist (item '("--dark" "--light"))
+      (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
+    (add-to-list 'magit-delta-delta-args "--light" t)
+    (message "set light"))
   :config
   (add-to-list 'magit-delta-delta-args "--no-gitconfig")
-  (add-to-list 'magit-delta-delta-args "--dark")
+  (add-to-list 'magit-delta-delta-args "--light")
   )
 
 ;; https://magit.vc/manual/forge/
