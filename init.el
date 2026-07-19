@@ -45,20 +45,7 @@
 ;; https://github.com/bbatsov/batppuccin-emacs
 (use-package batppuccin
   :config
-  (load-theme 'batppuccin-mocha t))
-
-(defvar my-toggle-theme-hook nil)
-
-;; Toggle between light and dark themes
-(defun my-toggle-theme ()
-  (interactive)
-  (let* ((current (car custom-enabled-themes))
-         (next (cond ((eq current 'batppuccin-mocha) 'batppuccin-latte)
-                     ((eq current 'batppuccin-latte) 'batppuccin-mocha))))
-    (when next
-      (disable-theme current)
-      (load-theme next t)
-      (run-hooks 'my-toggle-theme-hook))))
+  (load-theme 'batppuccin-latte t))
 
 ;; Follow system light/dark mode
 ;; https://github.com/LionyxML/auto-dark-emacs
@@ -1366,7 +1353,8 @@ targets."
 (use-package kind-icon
   :pin gnu
   :after corfu
-  :hook (my-toggle-theme . (lambda () (interactive) (kind-icon-reset-cache)))
+  :hook ((auto-dark-dark-mode auto-dark-light-mode) . (lambda () (interactive)
+                                                        (kind-icon-reset-cache)))
   :custom
   ;; explicitly enable icons
   (kind-icon-use-icons t)
@@ -1457,7 +1445,7 @@ targets."
 (define-key my-mode-map (kbd "C-c o l") 'org-store-link)
 
 ;; Switch light/dark theme
-(define-key my-mode-map [f5] 'my-toggle-theme)
+(define-key my-mode-map [f5] 'auto-dark-toggle-appearance)
 
 ;; Consult
 (define-key my-mode-map (kbd "C-c C-j") 'consult-org-agenda)  ; was org-goto in org mode
