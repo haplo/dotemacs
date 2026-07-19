@@ -42,40 +42,30 @@
   :config (unless (server-running-p) (server-start)))
 
 ;; Theme
-;; https://github.com/doomemacs/themes/
-(use-package doom-themes
-  :custom
-  (doom-themes-enable-bold t)
-  (doom-themes-enable-italic t)
+;; https://github.com/bbatsov/batppuccin-emacs
+(use-package batppuccin
   :config
-  (load-theme 'doom-solarized-dark t)
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  )
+  (load-theme 'batppuccin-mocha t))
 
 (defvar my-toggle-theme-hook nil)
 
 ;; Toggle between light and dark themes
 (defun my-toggle-theme ()
   (interactive)
-  (cond
-   ((eq (car custom-enabled-themes) 'doom-solarized-dark)
-    (disable-theme 'doom-solarized-dark)
-    (load-theme 'doom-solarized-light t))
-   ((eq (car custom-enabled-themes) 'doom-solarized-light)
-    (disable-theme 'doom-solarized-light)
-    (load-theme 'doom-solarized-dark t))
-   )
-  (run-hooks 'my-toggle-theme-hook))
+  (let* ((current (car custom-enabled-themes))
+         (next (cond ((eq current 'batppuccin-mocha) 'batppuccin-latte)
+                     ((eq current 'batppuccin-latte) 'batppuccin-mocha))))
+    (when next
+      (disable-theme current)
+      (load-theme next t)
+      (run-hooks 'my-toggle-theme-hook))))
 
 ;; Follow system light/dark mode
 ;; https://github.com/LionyxML/auto-dark-emacs
 (use-package auto-dark
   :init (auto-dark-mode)
   :custom
-  (auto-dark-themes '((doom-solarized-dark) (doom-solarized-light))))
+  (auto-dark-themes '((batppuccin-mocha) (batppuccin-latte))))
 
 ;; Pretty icons
 ;; https://github.com/domtronn/all-the-icons.el

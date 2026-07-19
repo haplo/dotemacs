@@ -25,6 +25,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`auto-dark`](https://github.com/LionyxML/auto-dark-emacs): follow OS light/dark theme.
 * [`auto-compile`](https://github.com/emacscollective/auto-compile/): compile Elisp files on load and/or save.
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
+* [`batppuccin`](https://github.com/bbatsov/batppuccin-emacs): catppuccin-like theme, light/dark versions.
 * [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
 * [`corfu`](https://github.com/minad/corfu/): completion-at-point popup. Like [company](https://company-mode.github.io/) but lighter.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
@@ -36,7 +37,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
 * [`dockerfile-mode`](https://github.com/spotify/dockerfile-mode): major mode to edit Dockerfiles.
 * [`doom-modeline`](https://seagle0128.github.io/doom-modeline/): a very nice modeline.
-* [`doom-themes`](https://github.com/hlissner/emacs-doom-themes): collection of themes for [Doom Emacs](https://github.com/doomemacs/doomemacs), they place nicely with `doom-modeline`.
 * [`easy-kill`](https://github.com/leoliu/easy-kill): mark/kill words, sexps, lines and more.
 * [`editorconfig`](https://github.com/editorconfig/editorconfig-emacs): support for *.editorconfig* files.
 * [`eglot`](https://joaotavora.github.io/eglot/): LSP client built-in since Emacs 29.
