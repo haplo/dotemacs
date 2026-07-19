@@ -1382,7 +1382,7 @@ targets."
 ;;;;;;;;;;;;;;;;;;;
 
 (use-package jinx
-  :hook (emacs-startup . global-jinx-mode)
+  :hook (text-mode . jinx-mode)
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages)))
 
