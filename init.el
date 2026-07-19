@@ -656,7 +656,7 @@
    ))
 
 ;; manage window configurations
-;; https://depp.brause.cc/eyebrowse/
+;; https://github.com/nex3/perspective-el
 (use-package perspective
   :bind
   ("C-x C-b" . persp-list-buffers)
@@ -680,6 +680,9 @@
   (persp-modestring-short t)
   :init
   (my-persp-mode-start)
+  :config
+  (define-key persp-mode-map (concat persp-mode-prefix-key persp-mode-prefix-key) #'persp-switch)
+  (define-key persp-mode-map (concat persp-mode-prefix-key "z") #'persp-switch)
   )
 
 ;; tame the flood of ephemeral windows Emacs produces
