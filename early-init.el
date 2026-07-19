@@ -62,6 +62,10 @@
       package-quickstart t)
 (package-initialize)
 
+;; scratch buffer mode. With its default of elisp it triggers modes meant for
+;; programming, which delay startup.
+(setq initial-major-mode 'text-mode)
+
 ;; don't resize frame as font, menu, tool bar... change
 (setq frame-inhibit-implied-resize t)
 
