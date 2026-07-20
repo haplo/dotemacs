@@ -505,6 +505,9 @@
 ;;; Window and frame management ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defvar my-left-column-modes '(magit-mode org-mode)
+  "Major modes that share the left column and stack when both are visible.")
+
 (defvar my-side-window-size 77 "Size of my side bars.")
 
 (defvar my-frame-width-limit-for-sidebars
@@ -527,6 +530,50 @@
   "Open BUFFER in a side window only if the current frame is wide enough."
   (when (> (frame-width) my-frame-width-limit-for-sidebars)
     (display-buffer-in-side-window buffer action)))
+
+(defun my--left-column-family (buffer)
+  "Return the entry in `my-left-column-modes' BUFFER derives from, or nil."
+  (with-current-buffer buffer
+    (seq-find #'derived-mode-p my-left-column-modes)))
+
+(defun my-display-in-left-stack (buffer alist)
+  "Display BUFFER in the left column.
+
+Reuse an existing window if it shows a buffer of the same left-column
+mode family (e.g. any magit-mode reuses another magit window). If a
+window from a *different* family in `my-left-column-modes' is showing,
+split it below to stack. Otherwise create a new leftmost column by
+splitting the frame's main window and balance the main window."
+  (when (> (frame-width) my-frame-width-limit-for-sidebars)
+    (let* ((family (my--left-column-family buffer))
+           (same-family-win
+            (and family
+                 (seq-find (lambda (win)
+                             (with-current-buffer (window-buffer win)
+                               (derived-mode-p family)))
+                           (window-list nil 'no-mini))))
+           (sibling-win
+            (unless same-family-win
+              (seq-find (lambda (win)
+                          (with-current-buffer (window-buffer win)
+                            (apply #'derived-mode-p my-left-column-modes)))
+                        (window-list nil 'no-mini))))
+           (new-window
+            (cond
+             (same-family-win
+              (set-window-buffer same-family-win buffer)
+              same-family-win)
+             (sibling-win
+              (let ((win (split-window sibling-win nil 'below)))
+                (set-window-buffer win buffer)
+                win))
+             (t
+              (display-buffer-in-direction
+               buffer
+               (append '((direction . left) (window . main)) alist))))))
+      (when (and (window-live-p new-window) (not same-family-win))
+        (balance-windows (window-main-window)))
+      new-window)))
 
 ;; This is my window configuration
 ;;
@@ -566,27 +613,9 @@
          (window . root)
          (window-height . 20))
         ;; display on left preferentially
-        ("\\*Org Agenda\\*"
-         (maybe-display-in-direction)
-         (dedicated . t)
-         (direction . left)
-         (window . root)
-         (window-width . ,my-side-window-size))
-        (,(make-display-buffer-matcher-function '(magit-mode))
-         (display-buffer-reuse-mode-window maybe-display-in-direction)
-         (mode magit-mode)
-         (dedicated . t)
-         (direction . left)
-         (window . root)
-         (window-width . ,my-side-window-size))
-        (,(make-display-buffer-matcher-function '(org-mode))
-         (display-buffer-reuse-mode-window maybe-display-in-direction)
-         (mode org-mode)
-         (dedicated . t)
-         (direction . left)
-         (direction . left)
-         (window . root)
-         (window-width . ,my-side-window-size))
+        (,(make-display-buffer-matcher-function my-left-column-modes)
+         (display-buffer-reuse-mode-window my-display-in-left-stack)
+         (dedicated . t))
         ;; right side window
         (,(rx (| "\\*eldoc.*\\*"
                  "\\*Embark Collect:.*\\*"
@@ -1187,6 +1216,8 @@ targets."
   :custom
   ;; I set up my own keybindings
   (magit-define-global-key-bindings nil)
+  ;;
+  (magit-bury-buffer-function 'magit-restore-window-configuration)
   ;; Visual warning if commit first line gets too long
   (git-commit-summary-max-length 60)
   ;; path to my root code dir, so I can do C-x g from anywhere
