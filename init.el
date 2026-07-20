@@ -1273,6 +1273,8 @@ targets."
   :init
   (setq projectile-project-search-path '(("~/Code/" . 3)
                                          "~/Sync/Research/"))
+  :custom
+  (projectile-dynamic-mode-line nil)
   :config
   (setq projectile-cache-file (no-littering-expand-var-file-name  "projectile.cache")
         projectile-known-projects-file (no-littering-expand-var-file-name "projectile-bookmarks.eld")
