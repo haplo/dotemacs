@@ -316,8 +316,9 @@
 
 (use-package simple
   :ensure nil  ;; Emacs built-in
-  ;; upcase-downcase word at point or region if set
-  :bind (("M-u" . upcase-dwim)
+  :bind (("C-x C-M-t" . transpose-regions)
+         ;; upcase-downcase word at point or region if set
+         ("M-u" . upcase-dwim)
          ("M-l" . downcase-dwim))
   :config
   ;; enabled change region case commands
