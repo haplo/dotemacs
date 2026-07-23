@@ -1664,10 +1664,22 @@ targets."
               ("C-c ! n" . flymake-goto-next-error)
               ("C-c ! p" . flymake-goto-prev-error)
               ("C-c ! l" . flymake-show-buffer-diagnostics)
+              ("C-c ! t" . my-flymake-toggle-show-end-of-line)
               ("C-c ! L" . flymake-switch-to-log-buffer)
               ("C-c ! P" . flymake-show-project-diagnostics)
               ;; see consult for consult-flymake binding
-              ))
+              )
+  :preface
+  (defun my-flymake-toggle-show-end-of-line ()
+      "Toggle flymake display fancy-error-display"
+      (interactive)
+      ;; need to disable flymake and then reenable, otherwise won't refresh
+      (flymake-mode -1)
+      (setopt flymake-show-diagnostics-at-end-of-line
+              (if flymake-show-diagnostics-at-end-of-line nil 'short))
+      (flymake-mode))
+  )
+
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter ;;;
