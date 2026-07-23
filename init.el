@@ -18,6 +18,8 @@
 
 (use-package xdg)
 
+;; organize files out of main emacs directory
+;; https://github.com/emacscollective/no-littering
 (use-package no-littering
   :commands (no-littering-expand-etc-file-name no-littering-var-directory)
   :config (no-littering-theme-backups))
