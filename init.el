@@ -1557,6 +1557,7 @@ targets."
 ;; trigger commands by pressing keys in quick succession
 ;; https://github.com/emacsorphanage/key-chord
 (use-package key-chord
+  :demand t
   :config
   (key-chord-define-global "jj" 'avy-goto-word-1)
   (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
