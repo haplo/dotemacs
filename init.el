@@ -170,6 +170,10 @@
 ;; delete the selection with a keypress
 (delete-selection-mode t)
 
+;; enable view-mode automatically in read-only buffers
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/View-Mode.html
+(setq view-read-only t)
+
 ;; smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
 
