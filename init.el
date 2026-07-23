@@ -174,6 +174,11 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/View-Mode.html
 (setq view-read-only t)
 
+(use-package scroll-lock-mode
+  :ensure nil ;; built-in
+  :hook (view-mode . scroll-lock-mode)
+  )
+
 ;; smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
 
