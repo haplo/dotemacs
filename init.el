@@ -52,6 +52,7 @@
 ;; Follow system light/dark mode
 ;; https://github.com/LionyxML/auto-dark-emacs
 (use-package auto-dark
+  :demand
   :init (auto-dark-mode)
   :custom
   (auto-dark-themes '((batppuccin-mocha) (batppuccin-latte))))
@@ -1314,16 +1315,24 @@ targets."
          (auto-dark-dark-mode . my-magit-delta-set-dark)
          (auto-dark-light-mode . my-magit-delta-set-light))
   :preface
+  (defun my-magit-refresh-all-visible ()
+    "Refresh Magit buffers visible in any window on any frame."
+    (walk-windows
+     (lambda (win)
+       (with-current-buffer (window-buffer win)
+         (when (derived-mode-p 'magit-mode)
+           (magit-refresh))))
+     'no-minibuf t))
   (defun my-magit-delta-set-dark ()
     (dolist (item '("--dark" "--light"))
       (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
     (add-to-list 'magit-delta-delta-args "--dark" t)
-    (message "set dark"))
+    (my-magit-refresh-all-visible))
   (defun my-magit-delta-set-light ()
     (dolist (item '("--dark" "--light"))
       (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
     (add-to-list 'magit-delta-delta-args "--light" t)
-    (message "set light"))
+    (my-magit-refresh-all-visible))
   :config
   (add-to-list 'magit-delta-delta-args "--no-gitconfig")
   (add-to-list 'magit-delta-delta-args "--light")
