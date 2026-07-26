@@ -1212,6 +1212,15 @@ targets."
       (?# . orderless-initialism)
       (?= . orderless-literal)
       (?~ . orderless-flex)))
+  ;; collate accents to unaccentuated letter
+  (defvar my-orderless-accent-replacements
+    '(("a" . "[aàáâãäå]")
+      ("e" . "[eèéêë]")
+      ("i" . "[iìíîï]")
+      ("o" . "[oòóôõöœ]")
+      ("u" . "[uùúûü]")
+      ("c" . "[cç]")
+      ("n" . "[nñ]")))
   ;; Recognizes the following patterns:
   ;; * ~flex flex~
   ;; * =literal literal=
@@ -1221,25 +1230,30 @@ targets."
   ;; * .ext (file extension)
   ;; * regexp$ (regexp matching at end)
   (defun my-orderless-dispatch (pattern _index _total)
-    (cond
-     ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
-     ((string-suffix-p "$" pattern)
-      `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x200000-\x300000]*$")))
-     ;; File extensions
-     ((and
-       ;; Completing filename or eshell
-       (or minibuffer-completing-file-name
-           (derived-mode-p 'eshell-mode))
-       ;; File extension
-       (string-match-p "\\`\\.." pattern))
-      `(orderless-regexp . ,(concat "\\." (substring pattern 1) "[\x200000-\x300000]*$")))
-     ;; Ignore single !
-     ((string= "!" pattern) `(orderless-literal . ""))
-     ;; Prefix and suffix
-     ((if-let (x (assq (aref pattern 0) +orderless-dispatch-alist))
-          (cons (cdr x) (substring pattern 1))
-        (when-let (x (assq (aref pattern (1- (length pattern))) +orderless-dispatch-alist))
-          (cons (cdr x) (substring pattern 0 -1)))))))
+  (cond
+   ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
+   ((string-suffix-p "$" pattern)
+    `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x200000-\x300000]*$")))
+   ;; File extensions
+   ((and (or minibuffer-completing-file-name
+             (derived-mode-p 'eshell-mode))
+         (string-match-p "\\`\\.." pattern))
+    `(orderless-regexp . ,(concat "\\." (substring pattern 1) "[\x200000-\x300000]*$")))
+   ;; Ignore single !
+   ((string= "!" pattern) `(orderless-literal . ""))
+   ;; Explicit prefix/suffix style dispatchers
+   ((if-let (x (assq (aref pattern 0) +orderless-dispatch-alist))
+        (cons (cdr x) (substring pattern 1))
+      (when-let (x (assq (aref pattern (1- (length pattern))) +orderless-dispatch-alist))
+        (cons (cdr x) (substring pattern 0 -1)))))
+   ;; Default: accent-fold the pattern
+   (t (let ((new-pattern (seq-reduce
+                          (lambda (prev val)
+                            (replace-regexp-in-string (car val) (cdr val) prev))
+                          my-orderless-accent-replacements
+                          pattern)))
+        (unless (string= new-pattern pattern)
+          (cons 'orderless-regexp new-pattern))))))
   (defun my-match-components-literally ()
     "Components match literally for the rest of the session."
     (interactive)
@@ -1251,8 +1265,9 @@ targets."
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion))
-                                   (eglot (styles orderless))))
-  (orderless-style-dispatchers '(my-orderless-dispatch))
+                                   (eglot (styles orderless))
+                                   ))
+  (orderless-style-dispatchers '(my-orderless-accent-dispatch my-orderless-dispatch))
   ;; allow escaping space with backslash
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
