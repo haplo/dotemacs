@@ -1267,7 +1267,7 @@ targets."
   (completion-category-overrides '((file (styles basic partial-completion))
                                    (eglot (styles orderless))
                                    ))
-  (orderless-style-dispatchers '(my-orderless-accent-dispatch my-orderless-dispatch))
+  (orderless-style-dispatchers '(my-orderless-dispatch))
   ;; allow escaping space with backslash
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
