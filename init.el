@@ -850,14 +850,17 @@ i.e. windows tiled side-by-side."
 
 ;; make eshell-visual-commands run in a Ghostel buffer.
 (use-package ghostel-eshell
+  :ensure nil  ;; bundled in ghostel
   :hook (eshell-load . ghostel-eshell-visual-command-mode))
 
 ;; run all compile commands in a Ghostel buffer.
 (use-package ghostel-compile
+  :ensure nil  ;; bundled in ghostel
   :hook (after-init . ghostel-compile-global-mode))
 
 ;; replace comint's built-in ansi-color-process-output with Ghostel's VT parser.
 (use-package ghostel-comint
+  :ensure nil  ;; bundled in ghostel
   :hook (after-init . ghostel-comint-global-mode))
 
 ;; .zsh file is shell script too
