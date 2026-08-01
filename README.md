@@ -40,6 +40,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`flymake`](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
 * [`git-timemachine`](https://codeberg.org/pidu/git-timemachine): browse previous revisions of any git-controlled file.
+* [`ghostel`](https://github.com/dakra/ghostel): terminal emulator powered by libghostty-vt.
 * [`go-mode`](https://github.com/dominikh/go-mode.el): major mode for [Go](https://go.dev/) files.
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.
 * [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers.

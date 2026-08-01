@@ -415,6 +415,10 @@
 ;; crux is a collection of general editing utilities, see below for keybindings
 ;; https://github.com/bbatsov/crux
 (use-package crux
+  :custom
+  ;; use ghostel as terminal for `crux-visit-term-buffer'
+  (crux-term-func #'ghostel)
+  (crux-term-buffer-name "ghostel")
   :bind (("C-c O" . crux-open-with)
          ("C-a" . crux-move-beginning-of-line)
          ("C-c C-i" . crux-indent-defun)
@@ -655,6 +659,7 @@ splitting the frame's main window and balance the main window."
            '(compilation-mode
              comint-mode
              eshell-mode
+             ghostel-mode
              shell-mode))
          (display-buffer-at-bottom)
          (dedicated . t)
@@ -802,6 +807,7 @@ i.e. windows tiled side-by-side."
      "\\*Compile-Log\\*"
      "\\*eldoc.*\\*"
      "^\\*eshell.*\\*$" eshell-mode
+     "^\\*ghostel.*\\*$" ghostel-mode
      "^\\*ielm.*\\*$"
      "^\\*shell.*\\*$"  shell-mode
      "^\\*term.*\\*$"   term-mode
@@ -837,6 +843,22 @@ i.e. windows tiled side-by-side."
 ;;;;;;;;;;;;;
 ;;; Shell ;;;
 ;;;;;;;;;;;;;
+
+;; use libghostty as terminal emulator
+;; https://github.com/dakra/ghostel
+(use-package ghostel)
+
+;; make eshell-visual-commands run in a Ghostel buffer.
+(use-package ghostel-eshell
+  :hook (eshell-load . ghostel-eshell-visual-command-mode))
+
+;; run all compile commands in a Ghostel buffer.
+(use-package ghostel-compile
+  :hook (after-init . ghostel-compile-global-mode))
+
+;; replace comint's built-in ansi-color-process-output with Ghostel's VT parser.
+(use-package ghostel-comint
+  :hook (after-init . ghostel-comint-global-mode))
 
 ;; .zsh file is shell script too
 (use-package sh-script
@@ -1379,7 +1401,9 @@ targets."
 
 (use-package project
   :config
-  (setq project-list-file (no-littering-expand-var-file-name "projects")))
+  (setq project-list-file (no-littering-expand-var-file-name "projects"))
+  ;; open a ghostel terminal from `project-switch-project'
+  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t))
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
@@ -1390,6 +1414,7 @@ targets."
                                          "~/Sync/Research/"))
   :custom
   (projectile-dynamic-mode-line nil)
+  (projectile-shell-backend 'ghostel)
   :config
   (setq projectile-cache-file (no-littering-expand-var-file-name  "projectile.cache")
         projectile-known-projects-file (no-littering-expand-var-file-name "projectile-bookmarks.eld")
