@@ -84,6 +84,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`yaml-mode`](https://github.com/yoshiki/yaml-mode): major mode for YAML files.
 * [`yasnippet`](https://joaotavora.github.io/yasnippet/): snippet extension.
 * [`yasnippet-snippets`](https://github.com/AndreaCrotti/yasnippet-snippets/): snippet collection for yasnippet.
+* [`zoom-window`](https://github.com/emacsorphanage/zoom-window): toggle windows to display full-frame.
 
 ## Inspiration
 

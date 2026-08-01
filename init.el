@@ -825,6 +825,23 @@ i.e. windows tiled side-by-side."
                                      )))
      )))
 
+;; zoom and unzoom windows like tmux
+;; https://github.com/emacsorphanage/zoom-window
+(use-package zoom-window
+  :after popper
+  :preface
+  (defun my-popper-unzoom-before (&rest _)
+    "Unzoom before popper closes or kills a zoomed popup window.
+Popper dismisses popups with `quit-window', which cannot delete a
+sole zoomed window and would leave the frame showing an unrelated
+buffer instead of restoring the previous window layout."
+    (when (frame-parameter nil 'zoom-window-enabled)
+      (zoom-window-zoom)))
+  :bind (("<f12>" . zoom-window-zoom))
+  :config
+  (advice-add 'popper-close-latest :before #'my-popper-unzoom-before)
+  (advice-add 'popper-kill-latest-popup :before #'my-popper-unzoom-before))
+
 (use-package winner
   :ensure nil
   :preface
@@ -846,7 +863,11 @@ i.e. windows tiled side-by-side."
 
 ;; use libghostty as terminal emulator
 ;; https://github.com/dakra/ghostel
-(use-package ghostel)
+(use-package ghostel
+  :custom
+  ;; let F12 reach Emacs (it toggles a popup's full-frame zoom);
+  ;; char mode still sends all keys to the terminal
+  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\" "<f12>")))
 
 ;; make eshell-visual-commands run in a Ghostel buffer.
 (use-package ghostel-eshell
