@@ -5,15 +5,6 @@ There are many like it, but this one's mine.
 
 This configuration is meant and has only been tested with Emacs 30.2.
 
-I try to be explicit about what I use.
-Magic is limited to using external packages.
-I know every line of the configuration and why are they there.
-
-I use [use-package](https://github.com/jwiegley/use-package) extensively.
-
-I used to have an [Emacs configuration based on Prelude](https://github.com/haplo/prelude)
-which is now discontinued.
-
 ## Packages I use
 
 This list might be outdated, you would do better by grepping [init.el](init.el) for `use-package` uses.
