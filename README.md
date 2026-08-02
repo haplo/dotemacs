@@ -5,6 +5,41 @@ There are many like it, but this one's mine.
 
 This configuration is meant and has only been tested with Emacs 30.2.
 
+## Package management
+
+Packages are managed with [straight.el](https://github.com/radian-software/straight.el),
+which installs them as git clones of their own repositories (in `straight/repos/`),
+instead of tarballs like package.el does. This makes it easy to hack on packages (`M-x
+straight-visit-package`) and contribute changes upstream.
+
+Packages that ship with Emacs are used as built-ins; they are registered with straight
+via `:type built-in` so that package dependencies don't pull repository checkouts
+anyway. The one exception is [transient](https://github.com/magit/transient): Magit
+requires a newer version than the one built into Emacs 30.2, so it is installed from its
+git repository.
+
+Upgrades are manual and reviewable:
+
+1. `M-x straight-fetch-all` fetches all package remotes without changing anything.
+2. Review pending changes: `M-x magit-list-repositories` lists all package checkouts.
+3. `M-x straight-merge-all` merges each package, but allows dropping into Magit with a
+   recursive edit.
+4. Restart Emacs, verify that everything works, then run `M-x straight-freeze-versions`
+   and commit `straight/versions/default.el`. This lockfile pins every package to an
+   exact commit; `M-x straight-thaw-versions` restores those revisions.
+
+Security notes:
+
+- The straight.el bootstrap script is verified against a pinned SHA-256 checksum; on
+  mismatch startup stops for manual review (see `early-init.el`).
+- The lockfile pins everything: package repositories, recipe repositories (MELPA, the
+  ELPA mirrors) and straight.el itself. Nothing moves without an explicit merge and
+  `straight-freeze-versions`. When committing an upgrade, review `git diff
+  straight/versions/default.el` for a concise list of what moved.
+- `M-x straight-get-recipe` shows where a package is actually fetched from. Recipe
+  changes only take effect when the recipe repositories themselves are merged;
+  spot-check with `git -C straight/repos/melpa diff HEAD..@{upstream} -- recipes/<pkg>`.
+
 ## Packages I use
 
 This list might be outdated, you would do better by grepping [init.el](init.el) for `use-package` uses.

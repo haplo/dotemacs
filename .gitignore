@@ -13,3 +13,6 @@
 /tree-sitter
 /url
 /var
+# straight.el: ignore everything but the version lockfiles
+/straight/*
+!/straight/versions/

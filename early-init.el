@@ -48,19 +48,53 @@
    ;; Silence compiler warnings as they can be pretty disruptive
    native-comp-async-report-warnings-errors nil))
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(setq package-archive-priorities '(("gnu"          . 30)
-                                   ("nongnu"       . 20)
-                                   ("melpa"        . 10))
-      ;; don't hide packages from lower-priority archives
-      package-menu-hide-low-priority nil
-      ;; quickstart mode
-      ;; no-littering package puts the file inside var/ dir
-      package-quickstart-file (expand-file-name "var/package-quickstart.el" user-emacs-directory)
-      package-quickstart t)
-(package-initialize)
+;; package.el is disabled, straight.el is the package manager
+(setq package-enable-at-startup nil)
+
+;; straight.el: install packages as git clones of their own repositories, this makes it
+;; easy to review changes, hack on them and contribute changes upstream
+;; https://github.com/radian-software/straight.el
+
+;; SHA-256 checksum of straight.el's install.el bootstrap script. The
+;; download is verified before being evaluated; on mismatch init stops
+;; here for manual review. If the change is legitimate (see
+;; https://github.com/radian-software/straight.el/commits/develop/install.el)
+;; update the hash with: curl -s <url> | sha256sum
+(defconst my-straight-install-el-sha256
+  "e29e07d52d16d4136971f0a822cb6a1a6e1e764a1cb9fe67cccbc7c048aba553")
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      ;; verify the bootstrap script against its pinned checksum before
+      ;; evaluating it
+      (require 'url-http)
+      (when url-http-end-of-headers
+        (delete-region (point-min) url-http-end-of-headers)
+        (delete-region (point-min)
+                       (progn (skip-chars-forward " \t\n") (point))))
+      (let ((checksum (secure-hash 'sha256 (current-buffer))))
+        (unless (string= checksum my-straight-install-el-sha256)
+          (error
+           (concat
+            "straight.el bootstrap checksum mismatch!\n"
+            "Expected: %s\n"
+            "Got:      %s\n"
+            "Review the change at https://github.com/radian-software/straight.el/commits/develop/install.el\n"
+            "and update my-straight-install-el-sha256 in early-init.el if legitimate")
+           my-straight-install-el-sha256 checksum)))
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;; scratch buffer mode. With its default of elisp it triggers modes meant for
 ;; programming, which delay startup.

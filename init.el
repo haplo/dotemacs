@@ -14,9 +14,23 @@
 ;; process if they aren't found.
 ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/index.html
 (require 'use-package)
-(setq use-package-always-ensure t)
+;; install packages from their git repositories with straight.el
+;; (bootstrapped in early-init.el)
+(setq straight-use-package-by-default t)
 
-(use-package xdg)
+;; Use Emacs' built-in versions of these libraries, even though they are
+;; also available from package repositories. Registering them with
+;; straight prevents repository checkouts when other packages depend on
+;; them (e.g. magit requires seq).
+;; NOTE: transient is deliberately NOT here: magit requires a newer
+;; transient than the one built into Emacs 30.2, so it is installed from
+;; its git repository (https://github.com/magit/transient).
+(dolist (pkg '(seq let-alist xref jsonrpc use-package))
+  (straight-use-package (list pkg :type 'built-in)))
+
+(use-package xdg
+  :straight nil  ;; Emacs built-in
+  )
 
 ;; organize files out of main emacs directory
 ;; https://github.com/emacscollective/no-littering
@@ -40,6 +54,7 @@
 ;; Start an Emacs server if one is not already running
 ;; this allows use of emacsclient
 (use-package server
+  :straight nil  ;; Emacs built-in
   :demand t
   :config (unless (server-running-p) (server-start)))
 
@@ -121,7 +136,7 @@
 
 ;; remember point location when reopening a file
 (use-package saveplace
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :init
   (save-place-mode)
   :config
@@ -130,13 +145,13 @@
 ;; Emacs built-in diff interface
 ;; https://www.gnu.org/software/emacs/manual/html_node/ediff/index.html
 (use-package ediff
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :config
   ;; don't open another frame, reuse current one
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package repeat
-  :ensure nil
+  :straight nil
   :config
   (repeat-mode 1))
 
@@ -176,7 +191,7 @@
 (setq view-read-only t)
 
 (use-package scroll-lock-mode
-  :ensure nil ;; built-in
+  :straight nil ;; built-in
   :hook (view-mode . scroll-lock-mode)
   )
 
@@ -225,7 +240,7 @@
 
 ;; use directory name in buffer names of files with the same name
 (use-package uniquify
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :config
   (setq uniquify-buffer-name-style 'forward
         uniquify-separator "/"
@@ -236,6 +251,7 @@
 
 ;; savehist keeps track of some history
 (use-package savehist
+  :straight nil  ;; Emacs built-in
   :config
   (setq savehist-additional-variables
         ;; search entries
@@ -247,6 +263,7 @@
 
 ;; save recent files
 (use-package recentf
+  :straight nil  ;; Emacs built-in
   :config
   (setq recentf-save-file (no-littering-expand-var-file-name "recentf")
         recentf-max-saved-items 500
@@ -260,7 +277,7 @@
              (recentf-expand-file-name no-littering-etc-directory)))
 
 (use-package isearch
-  :ensure nil
+  :straight nil
   :custom
   (isearch-lazy-count t))
 
@@ -280,6 +297,7 @@
 ;; TRAMP is awesome
 ;; https://www.gnu.org/software/tramp/
 (use-package tramp
+  :straight (:type built-in)  ;; Emacs built-in
   :config
   (setq
    ;; don't pollute .emacs.d directory
@@ -316,7 +334,7 @@
 (put 'set-goal-column 'disabled nil)
 
 (use-package simple
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :bind (("C-x C-M-t" . transpose-regions)
          ;; upcase-downcase word at point or region if set
          ("M-u" . upcase-dwim)
@@ -328,13 +346,13 @@
 
 ;; bookmarks
 (use-package bookmark
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :config
   (setq bookmark-default-file (no-littering-expand-var-file-name "bookmarks")
         bookmark-save-flag 1))
 
 (use-package align
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :bind (("C-x \\" . align-regexp)))
 
 (use-package valign
@@ -344,7 +362,7 @@
 )
 
 (use-package ffap
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :bind (("C-x C-." . find-file-at-point)
          ("C-x C->" . ffap-next))
   :custom
@@ -402,10 +420,12 @@
 
 ;; saner regex syntax
 (use-package re-builder
+  :straight nil  ;; Emacs built-in
   :config
   (setq reb-re-syntax 'string))
 
 (use-package eshell
+  :straight nil  ;; Emacs built-in
   :config
   (setq eshell-directory-name (no-littering-expand-var-file-name "eshell")))
 
@@ -441,7 +461,6 @@
 ;; display undo history as a tree and allow moving around its branches
 ;; https://github.com/casouri/vundo
 (use-package vundo
-  :pin gnu
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
 
@@ -464,14 +483,14 @@
 ;; use settings from .editorconfig file when present
 ;; https://github.com/editorconfig/editorconfig-emacs
 (use-package editorconfig
-  :ensure nil  ;; built-in since Emacs 30
+  :straight (:type built-in)  ;; built-in since Emacs 30
   :diminish
   :config (editorconfig-mode 1))
 
 ;; show all remaining key combinations when doing multi-key commands
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
-  :ensure nil  ;; built-in since Emacs 30
+  :straight (:type built-in)  ;; built-in since Emacs 30
   :custom
   (which-key-idle-delay 0.5)
   (which-key-max-description-length 80)
@@ -843,7 +862,7 @@ buffer instead of restoring the previous window layout."
   (advice-add 'popper-kill-latest-popup :before #'my-popper-unzoom-before))
 
 (use-package winner
-  :ensure nil
+  :straight nil
   :preface
   (defun toggle-delete-other-windows ()
     "Delete other windows in frame if any, or restore previous window config."
@@ -871,22 +890,22 @@ buffer instead of restoring the previous window layout."
 
 ;; make eshell-visual-commands run in a Ghostel buffer.
 (use-package ghostel-eshell
-  :ensure nil  ;; bundled in ghostel
+  :straight nil  ;; bundled in ghostel
   :hook (eshell-load . ghostel-eshell-visual-command-mode))
 
 ;; run all compile commands in a Ghostel buffer.
 (use-package ghostel-compile
-  :ensure nil  ;; bundled in ghostel
+  :straight nil  ;; bundled in ghostel
   :hook (after-init . ghostel-compile-global-mode))
 
 ;; replace comint's built-in ansi-color-process-output with Ghostel's VT parser.
 (use-package ghostel-comint
-  :ensure nil  ;; bundled in ghostel
+  :straight nil  ;; bundled in ghostel
   :hook (after-init . ghostel-comint-global-mode))
 
 ;; .zsh file is shell script too
 (use-package sh-script
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :mode ("\\.zsh" . shell-script-mode))
 
 ;; major mode for fish shell script (https://fishshell.com/)
@@ -899,7 +918,7 @@ buffer instead of restoring the previous window layout."
 ;;;;;;;;;;;;;
 
 (use-package dired
-  :ensure nil
+  :straight nil
   :after all-the-icons-dired
   :bind (("C-x C-j" . dired-jump)
          :map dired-mode-map
@@ -924,6 +943,7 @@ buffer instead of restoring the previous window layout."
 ;;;;;;;;;;;;;;;
 
 (use-package ibuffer
+  :straight nil  ;; Emacs built-in
   :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-projectile
@@ -941,6 +961,7 @@ buffer instead of restoring the previous window layout."
 ;;;;;;;;;;;;;;;
 
 (use-package compile
+  :straight nil  ;; Emacs built-in
   :config
   (setq
    ;; save before compiling
@@ -954,6 +975,7 @@ buffer instead of restoring the previous window layout."
 ;; Colorize output of Compilation Mode, see
 ;; http://stackoverflow.com/a/3072831/355252
 (use-package ansi-color
+  :straight nil  ;; Emacs built-in
   :hook
   (compilation-filter . colorize-compilation-buffer)
   :preface
@@ -996,7 +1018,7 @@ buffer instead of restoring the previous window layout."
 ;; https://github.com/minad/vertico/blob/main/extensions/vertico-directory.el
 (use-package vertico-directory
   :after vertico
-  :ensure nil  ;; bundled with vertico
+  :straight nil  ;; bundled with vertico
   ;; More convenient directory navigation commands
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
@@ -1343,8 +1365,13 @@ targets."
   ;; Visual warning if commit first line gets too long
   (git-commit-summary-max-length 60)
   ;; path to my root code dir, so I can do C-x g from anywhere
-  (magit-repository-directories '(("~/Code" . 4)
-                                  ("~/Sync/Research" . 1)))
+  (magit-repository-directories `(("~/Code" . 4)
+                                  ("~/Sync/Research" . 1)
+                                  ;; straight.el package checkouts, to review
+                                  ;; package updates and hack on packages
+                                  (,(expand-file-name "straight/repos"
+                                                      user-emacs-directory)
+                                   . 1)))
   ;; create a local tracking branch when visiting a remote branch
   (magit-visit-ref-create t)
   ;; don't ask for confirmation when pushing branches
@@ -1424,6 +1451,7 @@ targets."
 ;;;;;;;;;;;;;;;;
 
 (use-package project
+  :straight (:type built-in)  ;; Emacs built-in
   :config
   (setq project-list-file (no-littering-expand-var-file-name "projects"))
   ;; open a ghostel terminal from `project-switch-project'
@@ -1454,7 +1482,7 @@ targets."
 ;;;;;;;;;;;;;;;;;;;;
 
 (use-package completion-preview
-  :ensure nil ;; built-in
+  :straight nil ;; built-in
   :bind (:map completion-preview-active-mode-map
               ("M-n" . completion-preview-next-candidate)
               ("M-p" . completion-preview-prev-candidate))
@@ -1533,7 +1561,6 @@ targets."
 ;; icons for autocomplete results
 ;; https://github.com/jdtsmith/kind-icon
 (use-package kind-icon
-  :pin gnu
   :after corfu
   :hook ((auto-dark-dark-mode auto-dark-light-mode) . (lambda () (interactive)
                                                         (kind-icon-reset-cache)))
@@ -1553,6 +1580,7 @@ targets."
 
 ;; use dabbrev with corfu
 (use-package dabbrev
+  :straight nil  ;; Emacs built-in
   ;; swap M-/ and C-M-/, as M-/ will use corfu
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand))
@@ -1574,6 +1602,7 @@ targets."
 
 ;; use shift + arrow keys to switch between visible buffers
 (use-package windmove
+  :straight nil  ;; Emacs built-in
   :config (windmove-default-keybindings))
 
 ;; define a new minor mode
@@ -1666,7 +1695,7 @@ targets."
 ;; automatically add closing symbol (parentheses, brackets, quotes...)
 ;; https://www.emacswiki.org/emacs/ElectricPair
 (use-package elec-pair
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :hook (prog-mode . electric-pair-mode)
   )
 
@@ -1678,7 +1707,6 @@ targets."
 ;; Set background color to strings that match color
 ;; https://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode
-  :pin gnu
   :diminish
   :hook ((prog-mode)))
 
@@ -1688,6 +1716,7 @@ targets."
 
 ;; https://joaotavora.github.io/eglot/
 (use-package eglot
+  :straight (:type built-in)  ;; Emacs built-in
   :hook ((go-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
          (python-ts-mode . eglot-ensure)
@@ -1741,7 +1770,7 @@ targets."
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package flymake
-  :ensure nil  ;; Emacs built-in
+  :straight (:type built-in)  ;; Emacs built-in
   :hook ((prog-mode . flymake-mode))
   :bind (:map flymake-mode-map
               ("M-n" . flymake-goto-next-error)
@@ -1816,6 +1845,7 @@ targets."
                                   (run-hooks 'my-emacs-lisp-mode-hook)))
 
 (use-package eldoc
+  :straight (:type built-in)  ;; Emacs built-in
   :commands (eldoc-mode)
   :hook (emacs-lisp-mode . eldoc-mode)
   :config (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
@@ -1838,6 +1868,7 @@ targets."
 ;;;;;;;;;;;;;;;;;
 
 (use-package org
+  :straight (:type built-in)  ;; Emacs built-in
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . (lambda ()
                       (org-indent-mode +1)
@@ -1905,7 +1936,7 @@ targets."
 ;; syntax highlighting for exported source code blocks, needs listings and color latex
 ;; packages (texlive-latex-recommended package in Debian/Ubuntu)
 (use-package ox-latex
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :defer t
   :config
   (setq org-latex-src-block-backend 'minted)
@@ -1917,7 +1948,7 @@ targets."
 
 ;; export Org to Markdown
 (use-package ox-md
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   )
 
 ;; color links in Latex PDF output
@@ -1935,7 +1966,6 @@ targets."
 ;;;;;;;;;;;
 
 (use-package csv-mode
-  :pin gnu
   :mode "\\.csv\'"
   ;; always enter CSV mode in align mode, easier to read
   :hook (csv-mode . csv-align-mode))
@@ -1945,6 +1975,7 @@ targets."
 ;;;;;;;;;;;;
 
 (use-package json-ts-mode
+  :straight nil  ;; Emacs built-in
   :mode "\\.json\'")
 
 ;;;;;;;;;;;;
@@ -1962,7 +1993,7 @@ targets."
 ;;;;;;;;;;;;
 
 (use-package toml-ts-mode
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :mode ("\\.toml\'"))
 
 ;;;;;;;;;;;;;;;;
@@ -2036,7 +2067,7 @@ targets."
 
 ;; display line numbers in programming modes
 (use-package display-line-numbers
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :hook (prog-mode . display-line-numbers-mode))
 
 ;; more useful frame title, showing either a file or a buffer name
@@ -2056,7 +2087,7 @@ targets."
 
 ;; highlight the current line
 (use-package hl-line
-  :ensure nil  ;; Emacs built-in
+  :straight nil  ;; Emacs built-in
   :config
   (global-hl-line-mode 1)
   )
@@ -2096,8 +2127,7 @@ targets."
 
 ;; Major mode for editing systemd units
 ;; https://github.com/holomorph/systemd-mode
-(use-package systemd
-  :pin nongnu)
+(use-package systemd)
 
 ;;;;;;;;;;;;;;;;;;
 ;;; Screencast ;;;
