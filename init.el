@@ -542,13 +542,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar my-left-column-modes '(magit-mode org-mode)
-  "Major modes that share the left column and stack when both are visible.")
+  "Major modes that share the left column window, replacing each other.")
 
 (defvar my-side-window-size 77 "Size of my side bars.")
 
 (defvar my-frame-width-limit-for-sidebars
   (* my-side-window-size 3)
-  "Use side windows when frame width is above this limit.")
+  "Use the right-side window when frame width is above this limit.")
+
+(defvar my-frame-width-limit-for-left-column
+  (* my-side-window-size 2)
+  "Use the left column for Org/Magit when frame width is above this limit.")
 
 ;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 (defun make-display-buffer-matcher-function (major-modes)
@@ -567,49 +571,59 @@
   (when (> (frame-width) my-frame-width-limit-for-sidebars)
     (display-buffer-in-side-window buffer action)))
 
-(defun my--left-column-family (buffer)
-  "Return the entry in `my-left-column-modes' BUFFER derives from, or nil."
-  (with-current-buffer buffer
-    (seq-find #'derived-mode-p my-left-column-modes)))
+;; Custom matcher for popper popups in display-buffer-alist, since
+;; popper's own `popper-display-control-p' is inert when
+;; `popper-display-control' is nil.
+(defun my-popper-popup-matcher (buffer-or-name _action)
+  "Match popper popup buffers for DISPLAY-BUFFER-ALIST.
+Matches buffers designated as popups by `popper-reference-buffers'
+\(or lowered with `popper-toggle-type'), but not popups raised to
+regular status."
+  (when (boundp 'popper-popup-status)
+    (let* ((buffer (if (bufferp buffer-or-name)
+                       buffer-or-name
+                     (get-buffer buffer-or-name)))
+           (status (and buffer (buffer-local-value 'popper-popup-status buffer))))
+      (and buffer
+           (or (memq status '(popup user-popup))
+               (and (not (eq status 'raised))
+                    (popper-popup-p buffer)))))))
 
-(defun my-display-in-left-stack (buffer alist)
-  "Display BUFFER in the left column.
+;; Narrow-frame fallbacks for the width-gated rules below: they act only
+;; when the frame is too narrow for the corresponding sidebar, so they
+;; cannot fire while the wide-frame path applies.
+(defun my-display-full-frame-left-narrow (buffer action)
+  "Display BUFFER full frame when too narrow for the left column."
+  (unless (> (frame-width) my-frame-width-limit-for-left-column)
+    (display-buffer-full-frame buffer action)))
 
-Reuse an existing window if it shows a buffer of the same left-column
-mode family (e.g. any magit-mode reuses another magit window). If a
-window from a *different* family in `my-left-column-modes' is showing,
-split it below to stack. Otherwise create a new leftmost column by
-splitting the frame's main window and balance the main window."
-  (when (> (frame-width) my-frame-width-limit-for-sidebars)
-    (let* ((family (my--left-column-family buffer))
-           (same-family-win
-            (and family
-                 (seq-find (lambda (win)
-                             (with-current-buffer (window-buffer win)
-                               (derived-mode-p family)))
-                           (window-list nil 'no-mini))))
-           (sibling-win
-            (unless same-family-win
+(defun my-display-at-bottom-sidebar-narrow (buffer action)
+  "Display BUFFER at the bottom when too narrow for the right sidebar."
+  (unless (> (frame-width) my-frame-width-limit-for-sidebars)
+    (display-buffer-at-bottom buffer action)))
+
+(defun my-display-in-left-column (buffer alist)
+  "Display BUFFER in the left column, reusing the left-column window.
+
+Org and Magit buffers share one left-column window and replace each
+other in it. If no left column is shown, create it by splitting the
+frame's main window leftward and balance the main window."
+  (when (> (frame-width) my-frame-width-limit-for-left-column)
+    (if-let ((left-col-win
               (seq-find (lambda (win)
                           (with-current-buffer (window-buffer win)
                             (apply #'derived-mode-p my-left-column-modes)))
                         (window-list nil 'no-mini))))
-           (new-window
-            (cond
-             (same-family-win
-              (set-window-buffer same-family-win buffer)
-              same-family-win)
-             (sibling-win
-              (let ((win (split-window sibling-win nil 'below)))
-                (set-window-buffer win buffer)
-                win))
-             (t
-              (display-buffer-in-direction
-               buffer
-               (append '((direction . left) (window . main)) alist))))))
-      (when (and (window-live-p new-window) (not same-family-win))
-        (balance-windows (window-main-window)))
-      new-window)))
+        (progn
+          (set-window-buffer left-col-win buffer)
+          left-col-win)
+      (let ((new-window
+             (display-buffer-in-direction
+              buffer
+              (append '((direction . left) (window . main)) alist))))
+        (when (window-live-p new-window)
+          (balance-windows (window-main-window)))
+        new-window))))
 
 ;; This is my window configuration
 ;;
@@ -619,18 +633,24 @@ splitting the frame's main window and balance the main window."
 ;; Great article by Mastering Emacs:
 ;;   https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 ;;
-;; It's currently tailored for work in my 4K monitor. The main idea is to have
-;; a 4-column layout:
-;; 1. Left side window dedicated to Magit, Org buffers...
+;; It's tailored for my main displays: 4k and 1080p.
+;;
+;; On 4k it's a 4-column layout:
+;; 1. Left column for Magit, Org buffers (they replace each other)...
 ;; 2. A file I'm working on.
 ;; 3. Another file (optional, if I split column 2 vertically).
 ;; 4. Right side window dedicated to help, documentation, flymake, grep, imenu...
 ;;
-;; Besides the 4 columns I set a bottom buffer for things like running shells or
-;; compilations.
+;; On 1080p it's a 2-column layout:
+;; 1. Left column for Magit, Org buffers, as above...
+;; 2. Files or anything else.
 ;;
-;; Special input happens in a bottom sidebar, like Magit transient menu, or Org
-;; capture.
+;; Narrower frames use a single-column layout.
+;;
+;; All popper popups go to a bottom buffer by default (catch-all rule).
+;; Some special rules display popups on the right.
+;;
+;; f12 is bound to toggle any window full-frame and back (see zoom-window).
 (setq display-buffer-alist
       `(;; bottom side window
         (;; `org-capture' key selection and `org-add-log-note'
@@ -640,24 +660,15 @@ splitting the frame's main window and balance the main window."
          (side . bottom)
          (slot . 0)
          (window-parameters . ((mode-line-format . none))))
-        (,(rx (| "\\*Messages\\*"
-                 "Output\\*$"
-                 "\\*Async Shell Command\\*"
-                 ))
-         (display-buffer-reuse-mode-window display-buffer-at-bottom)
-         (dedicated . t)
-         (window . root)
-         (window-height . 20))
-        ;; display on left preferentially
+        ;; display on left preferentially; full frame when too narrow
         (,(make-display-buffer-matcher-function my-left-column-modes)
-         (display-buffer-reuse-mode-window my-display-in-left-stack)
-         (dedicated . t))
+         (display-buffer-reuse-mode-window my-display-in-left-column my-display-full-frame-left-narrow))
         ;; right side window
-        (,(rx (| "\\*eldoc.*\\*"
-                 "\\*Embark Collect:.*\\*"
-                 "\\*Embark Export:.*\\*"
-                 ))
-         (maybe-display-in-side-window)
+        ;; These exceptions take precedence over the popper catch-all below.
+        (,(rx (| (regexp "\\*eldoc.*\\*")
+                 (regexp "\\*Embark Collect:.*\\*")
+                 (regexp "\\*Embark Export:.*\\*")))
+         (maybe-display-in-side-window my-display-at-bottom-sidebar-narrow)
          (dedicated . t)
          (side . right)
          (slot . 0)
@@ -668,23 +679,18 @@ splitting the frame's main window and balance the main window."
              grep-mode
              help-mode
              helpful-mode))
-         (maybe-display-in-side-window)
+         (maybe-display-in-side-window my-display-at-bottom-sidebar-narrow)
          (dedicated . t)
          (side . right)
          (slot . 0)
-         (window-width . ,my-side-window-size))
-        ;; bottom buffer (NOT side window)
-        (,(make-display-buffer-matcher-function
-           '(compilation-mode
-             comint-mode
-             eshell-mode
-             ghostel-mode
-             shell-mode))
+         (window-width . ,my-side-window-size)
+         (body-function . select-window))
+        ;; popper catch-all: any remaining popup goes to the bottom
+        (my-popper-popup-matcher
          (display-buffer-at-bottom)
          (dedicated . t)
          (window . root)
-         (window-height . 20)
-         (body-function . select-window))
+         (window-height . 20))
         ))
 
 ;; Try reusing windows
