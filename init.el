@@ -835,6 +835,7 @@ i.e. windows tiled side-by-side."
      "\\*Embark Export.*\\*"
      "\\*Flymake diagnostics.*\\*"
      "\\*Shell Command Output\\*"
+     "\\*envrc\\*"
      ;; include derived modes, e.g. inferior-python-mode extends comint-mode
      (lambda (buf) (with-current-buffer buf
                      (derived-mode-p 'compilation-mode
