@@ -2240,11 +2240,59 @@ changes; with prefix ALL-REPOS show every checkout."
 ;; C-c a RET send region (or buffer) to the LLM
 ;; C-c a m   menu: switch model (-m), parameters, context...
 ;; C-c a r   rewrite region in place
+;; C-c a R   review region (or buffer) for malicious code
 (use-package gptel
+  :preface
+  (defvar my-gptel-review-system-prompt
+    "You are a meticulous security reviewer auditing third-party code
+before it is merged or used. The user will show you one or more git
+diffs, each preceded by the list of incoming commits with author and
+date.
+
+Scan for anything that could act maliciously once merged or called:
+- backdoors, remote code execution, persistence mechanisms
+- credential, token, key or data exfiltration (also covert channels)
+- unexpected network activity, downloads or connections to new hosts
+- obfuscation designed to hide behavior (heavy encoding, dead stores)
+- tampering with build, installation or packaging scripts
+- anomalous commit authorship: new maintainer, changed email address,
+  commits by someone unrelated to the project
+
+For every finding, state: severity (high/medium/low), the file and
+hunk, and a one-paragraph rationale.  Close with an overall verdict:
+whether the changes look safe to merge.  If nothing is suspicious,
+say so plainly and briefly; do not invent findings."
+    "System prompt for `my-gptel-review-malicious-code'.")
+  (defun my-gptel-review-malicious-code ()
+    "Review the region, or the whole buffer, for malicious code.
+Send the text to the LLM with a security-audit system prompt and
+show the response in the *gptel-review* buffer."
+    (interactive)
+    (require 'gptel)
+    (let* ((text (buffer-substring-no-properties
+                  (if (use-region-p) (region-beginning) (point-min))
+                  (if (use-region-p) (region-end) (point-max))))
+           (buffer (get-buffer-create "*gptel-review*"))
+           (marker (with-current-buffer buffer
+                     (erase-buffer)
+                     (org-mode)
+                     (goto-char (point-min))
+                     (point-marker))))
+      (pop-to-buffer buffer)
+      (gptel-request
+       (format
+        "Review the following content from %s for malicious code or \
+exploits.\n\n%s"
+        (buffer-name) text)
+       :system my-gptel-review-system-prompt
+       :stream t
+       :buffer buffer
+       :position marker)))
   :bind (("C-c a c"   . gptel)
          ("C-c a RET" . gptel-send)
          ("C-c a m"   . gptel-menu)
-         ("C-c a r"   . gptel-rewrite))
+         ("C-c a r"   . gptel-rewrite)
+         ("C-c a R"   . my-gptel-review-malicious-code))
   :config
   (setq gptel-default-mode 'org-mode
         gptel-backend

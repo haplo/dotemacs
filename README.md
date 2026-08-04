@@ -21,13 +21,17 @@ git repository.
 Upgrades are manual and reviewable:
 
 1. `M-x straight-fetch-all` fetches all package remotes without changing anything.
-2. After fetching, `my-straight-review-diffs` (`C-c v u`) opens automatically and shows
-   a multi-magit view of the checkouts that have new upstream commits or local changes,
-   with a per-repo diffstat and log of incoming commits; hit `RET` on a repo heading for
-   the regular Magit status of that checkout. `C-u C-c v u` shows every checkout.
-3. `M-x straight-merge-all` merges each package, but allows dropping into Magit with a
+2. After fetching, `my-straight-incoming-diffs` (`C-c v U`) opens automatically with
+   one concatenated `diff-mode` buffer: for each checkout that is behind upstream, the
+   incoming commits (with authors and dates) followed by the net patch that merging
+   would apply, ready to be skimmed or fed to a reviewing agent. For a lighter
+   overview, `C-c v u` (`my-straight-review-diffs`) shows a multi-magit view of the
+   checkouts that have new upstream commits or local changes.
+3. `M-x my-gptel-review-malicious-code` (`C-c a R`) can be called on the diff buffer
+   to have an AI review the diff for malicious code.
+4. `M-x straight-merge-all` merges each package, but allows dropping into Magit with a
    recursive edit.
-4. Restart Emacs, verify that everything works, then run `M-x straight-freeze-versions`
+5. Restart Emacs, verify that everything works, then run `M-x straight-freeze-versions`
    and commit `straight/versions/default.el`. This lockfile pins every package to an
    exact commit; `M-x straight-thaw-versions` restores those revisions.
 
