@@ -1439,7 +1439,8 @@ targets."
 (use-package multi-magit
   :straight (:host github :repo "luismbo/multi-magit")
   :after magit
-  :bind (("C-c v u" . my-straight-review-diffs))
+  :bind (("C-c v u" . my-straight-review-diffs)
+         ("C-c v U" . my-straight-incoming-diffs))
   :preface
   (defun my-straight-repo-needs-review-p (repo)
     "Return non-nil if REPO needs review.
@@ -1484,18 +1485,64 @@ changes; with prefix ALL-REPOS show every checkout."
       (if multi-magit-selected-repositories
           (multi-magit-status)
         (message "All straight.el checkouts are clean and up to date"))))
-  (defun my-straight-review-diffs-after-fetch (&rest _)
-    "Review straight.el updates after an interactive `straight-fetch-all'."
+  (defun my-straight-repo-behind-p (repo)
+    "Return non-nil if REPO's current branch is behind its upstream."
+    (let* ((default-directory repo)
+           (lines (magit-git-lines "status" "--porcelain=2" "--branch")))
+      (seq-some (lambda (line)
+                  (string-match-p "^# branch\\.ab [+][0-9]+ -[1-9]" line))
+                lines)))
+  (defun my-straight-incoming-diffs ()
+    "Concatenate the full patches of all incoming upstream changes.
+Create a `diff-mode' buffer listing, for every straight.el checkout
+that is behind its upstream, the incoming commits with author and
+date, followed by the net patch that merging would apply.  The
+buffer is left writable so hunks can be trimmed before feeding it
+to a reviewing agent."
+    (interactive)
+    (let* ((repos (magit-list-repos-1
+                   (expand-file-name "straight/repos" user-emacs-directory)
+                   1))
+           (behind (seq-filter #'my-straight-repo-behind-p repos)))
+      (if (null behind)
+          (message "No incoming upstream changes")
+        (with-current-buffer (get-buffer-create "*straight-incoming-diffs*")
+          (erase-buffer)
+          (dolist (repo behind)
+            (let* ((default-directory repo)
+                   (branch (magit-git-string "rev-parse" "--abbrev-ref"
+                                             "HEAD"))
+                   (upstream (magit-git-string "rev-parse" "--abbrev-ref"
+                                               "@{upstream}"))
+                   (commits (magit-git-lines
+                             "log" "--format=%h  %ad  %an <%ae>  %s"
+                             "--date=short" "HEAD..@{upstream}"))
+                   (n (length commits)))
+              (insert (make-string 80 ?=) "\n")
+              (insert
+               (format "%s  (%s <- %s, %d commit%s)\n"
+                       (file-name-nondirectory (directory-file-name repo))
+                       (or branch "HEAD") (or upstream "?")
+                       n (if (= n 1) "" "s")))
+              (insert (make-string 80 ?-) "\n")
+              (insert (string-join commits "\n") "\n\n")
+              (magit-git-insert "diff" "HEAD...@{upstream}")
+              (insert "\n")))
+          (diff-mode)
+          (goto-char (point-min))
+          (pop-to-buffer (current-buffer))))))
+  (defun my-straight-incoming-diffs-after-fetch (&rest _)
+    "Show incoming full diffs after an interactive `straight-fetch-all'."
     (when (eq this-command 'straight-fetch-all)
       (condition-case err
-          (my-straight-review-diffs)
-        (error (message "my-straight-review-diffs failed: %S"
+          (my-straight-incoming-diffs)
+        (error (message "my-straight-incoming-diffs failed: %S"
                         (error-message-string err))))))
   :init
   ;; automatically show the review after fetching all package remotes
   (with-eval-after-load 'straight
     (advice-add 'straight-fetch-all
-                :after #'my-straight-review-diffs-after-fetch))
+                :after #'my-straight-incoming-diffs-after-fetch))
   :custom
   (multi-magit-status-sections-hook
    '(magit-insert-untracked-files
