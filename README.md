@@ -80,6 +80,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`git-timemachine`](https://codeberg.org/pidu/git-timemachine): browse previous revisions of any git-controlled file.
 * [`ghostel`](https://github.com/dakra/ghostel): terminal emulator powered by libghostty-vt.
 * [`go-mode`](https://github.com/dominikh/go-mode.el): major mode for [Go](https://go.dev/) files.
+* [`gptel`](https://github.com/karthink/gptel): LLM chat client: chat buffers, send/rewrite text.
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.
 * [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers.
 * [`ibuffer-projectile`](https://github.com/purcell/ibuffer-projectile): group buffers by project in *ibuffer* view.

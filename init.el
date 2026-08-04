@@ -2226,6 +2226,43 @@ changes; with prefix ALL-REPOS show every checkout."
   (add-to-list 'global-mode-string '("" keycast-mode-line))
   )
 
+;;;;;;;;;;
+;;; AI ;;;
+;;;;;;;;;;
+
+;; read API secrets from KWallet via the freedesktop Secret Service API,
+;; with authinfo files as fallback
+(setq auth-sources '("secrets:kdewallet" "~/.authinfo.gpg" "~/.authinfo"))
+
+;; LLM chat client: chat buffers, send region/buffer text, rewrite in place
+;; https://github.com/karthink/gptel
+;; C-c a c   open/start a chat buffer
+;; C-c a RET send region (or buffer) to the LLM
+;; C-c a m   menu: switch model (-m), parameters, context...
+;; C-c a r   rewrite region in place
+(use-package gptel
+  :bind (("C-c a c"   . gptel)
+         ("C-c a RET" . gptel-send)
+         ("C-c a m"   . gptel-menu)
+         ("C-c a r"   . gptel-rewrite))
+  :config
+  (setq gptel-default-mode 'org-mode
+        gptel-backend
+        (gptel-make-openai "Venice"
+          :host "api.venice.ai"
+          :endpoint "/api/v1/chat/completions"
+          ;; API key via auth-source: KWallet item with attributes
+          ;; host=api.venice.ai user=apikey
+          :key #'gptel-api-key
+          :stream t
+          :models '(kimi-k3
+                    claude-opus-5
+                    openai-gpt-56-sol
+                    grok-4-5
+                    zai-org-glm-5-2
+                    deepseek-v4-flash-0731))
+        gptel-model 'deepseek-v4-flash-0731))
+
 ;;;;;;;;;;;;;;;;;
 ;;; Profiling ;;;
 ;;;;;;;;;;;;;;;;;

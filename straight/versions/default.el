@@ -47,6 +47,7 @@
  ("ghub" . "cba5666d8b999e2733aefac369a4e0def3be7fc9")
  ("git-timemachine" . "d1346a76122595aeeb7ebb292765841c6cfd417b")
  ("gnu-elpa-mirror" . "f0852d36505d0672d0eb16eb926e0a57a9127e3c")
+ ("gptel" . "3c93bccf9a117535f2573e5a9753d6324474689a")
  ("helpful" . "03756fa6ad4dcca5e0920622b1ee3f70abfc4e39")
  ("ht.el" . "1c49aad1c820c86f7ee35bf9fff8429502f60fef")
  ("ibuffer-projectile" . "d012ccf7f1e3abe33e67953a5ce2774ae1437467")
