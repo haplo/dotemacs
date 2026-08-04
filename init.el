@@ -1433,6 +1433,76 @@ targets."
   (add-to-list 'magit-delta-delta-args "--light")
   )
 
+;; Magit status aggregated over multiple repositories; used to review
+;; straight.el package updates after M-x straight-fetch-all
+;; https://github.com/luismbo/multi-magit
+(use-package multi-magit
+  :straight (:host github :repo "luismbo/multi-magit")
+  :after magit
+  :bind (("C-c v u" . my-straight-review-diffs))
+  :preface
+  (defun my-straight-repo-needs-review-p (repo)
+    "Return non-nil if REPO needs review.
+That is, if it has incoming upstream commits, unpushed local
+commits or uncommitted local changes."
+    (let* ((default-directory repo)
+           ;; branch.ab +A -B tracks ahead/behind
+           (lines (magit-git-lines "status" "--porcelain=2" "--branch")))
+      (seq-some (lambda (line)
+                  (or
+                   ;; behind upstream
+                   (string-match-p "^# branch\\.ab [+][0-9]+ -[1-9]" line)
+                   ;; ahead of upstream
+                   (string-match-p "^# branch\\.ab [+][1-9]" line)
+                   ;; changed (1), renamed (2), unmerged (u), untracked (?)
+                   (memq (aref line 0) '(?1 ?2 ?u ??))))
+                lines)))
+  (defun my-multi-magit-insert-upstream-changes ()
+    "Insert a diffstat and commit log of incoming upstream changes.
+Insert nothing when the checkout is up to date with its remote."
+    (when-let ((merge-base (magit-git-string "merge-base" "HEAD"
+                                             "@{upstream}")))
+      (unless (equal merge-base (magit-git-string "rev-parse" "@{upstream}"))
+        (magit-insert-section (diffstat)
+          (magit-insert-heading "New upstream commits")
+          (magit-git-wash #'magit-diff-wash-diffs
+            "diff" "HEAD...@{upstream}" "--stat" "--numstat" "--no-prefix")
+          (insert "\n")
+          (magit-insert-log "HEAD..@{upstream}")))))
+  (defun my-straight-review-diffs (&optional all-repos)
+    "Review incoming and local changes across straight.el checkouts.
+Limit the view to checkouts that have new upstream commits or local
+changes; with prefix ALL-REPOS show every checkout."
+    (interactive "P")
+    (require 'multi-magit)
+    (let ((repos (magit-list-repos-1
+                  (expand-file-name "straight/repos" user-emacs-directory)
+                  1)))
+      (setq multi-magit-selected-repositories
+            (if all-repos repos
+              (seq-filter #'my-straight-repo-needs-review-p repos)))
+      (if multi-magit-selected-repositories
+          (multi-magit-status)
+        (message "All straight.el checkouts are clean and up to date"))))
+  (defun my-straight-review-diffs-after-fetch (&rest _)
+    "Review straight.el updates after an interactive `straight-fetch-all'."
+    (when (eq this-command 'straight-fetch-all)
+      (condition-case err
+          (my-straight-review-diffs)
+        (error (message "my-straight-review-diffs failed: %S"
+                        (error-message-string err))))))
+  :init
+  ;; automatically show the review after fetching all package remotes
+  (with-eval-after-load 'straight
+    (advice-add 'straight-fetch-all
+                :after #'my-straight-review-diffs-after-fetch))
+  :custom
+  (multi-magit-status-sections-hook
+   '(magit-insert-untracked-files
+     magit-insert-unstaged-changes
+     magit-insert-staged-changes
+     my-multi-magit-insert-upstream-changes)))
+
 ;; https://magit.vc/manual/forge/
 (use-package forge
   :after magit

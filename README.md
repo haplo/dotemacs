@@ -21,7 +21,10 @@ git repository.
 Upgrades are manual and reviewable:
 
 1. `M-x straight-fetch-all` fetches all package remotes without changing anything.
-2. Review pending changes: `M-x magit-list-repositories` lists all package checkouts.
+2. After fetching, `my-straight-review-diffs` (`C-c v u`) opens automatically and shows
+   a multi-magit view of the checkouts that have new upstream commits or local changes,
+   with a per-repo diffstat and log of incoming commits; hit `RET` on a repo heading for
+   the regular Magit status of that checkout. `C-u C-c v u` shows every checkout.
 3. `M-x straight-merge-all` merges each package, but allows dropping into Magit with a
    recursive edit.
 4. Restart Emacs, verify that everything works, then run `M-x straight-freeze-versions`
@@ -89,6 +92,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
 * [`markdown-ts-mode`](https://github.com/LionyxML/markdown-ts-mode): major mode to edit Markdown files, using tree-sitter grammar.
 * [`move-text`](https://github.com/emacsfodder/move-text): move lines or regions up and down.
+* [`multi-magit`](https://github.com/luismbo/multi-magit): Magit status aggregated over multiple repositories.
 * [`multiple-cursors`](https://github.com/magnars/multiple-cursors.el): what it says in the label, allows editing multiple lines simultaneously.
 * [`no-littering`](https://github.com/emacscollective/no-littering): keep Emacs config directory clean.
 * [`nov-el`](https://depp.brause.cc/nov.el/): major mode for reading EPUB files in Emacs.
