@@ -2382,6 +2382,92 @@ exploits.\n\n%s"
                     deepseek-v4-flash-0731))
         gptel-model 'deepseek-v4-flash-0731))
 
+;; Agentic coding frontend driving external agents via ACP; one opencode
+;; session per project, each in its own firejail sandbox
+;; https://github.com/xenodium/agent-shell
+;; C-c a s   start opencode for this project, or switch to its session
+(use-package agent-shell
+  :bind (("C-c a s" . my-agent-shell-opencode))
+  :commands (agent-shell-opencode-start-agent)
+  :preface
+  ;; declare special so the lets in `my-agent-shell-opencode' bind
+  ;; dynamically even before the package loads (init.el is lexical)
+  (defvar agent-shell-command-prefix)
+  (defvar agent-shell-opencode-acp-command)
+  (defvar my-agent-shell-command-override nil
+    "Full agent command to run; set per project via dir-locals.")
+  (defvar my-agent-shell-extra-firejail-args nil
+    "Extra firejail arguments for the agent command; set via dir-locals.
+Inserted after the project --whitelist, e.g. additional whitelists.")
+  (defvar my-agent-shell-extra-args nil
+    "Extra arguments appended to the agent command; set via dir-locals.")
+  (put 'my-agent-shell-command-override 'safe-local-variable #'stringp)
+  (put 'my-agent-shell-extra-firejail-args 'safe-local-variable
+       (lambda (v) (and (listp v) (seq-every-p #'stringp v))))
+  (put 'my-agent-shell-extra-args 'safe-local-variable
+       (lambda (v) (and (listp v) (seq-every-p #'stringp v))))
+  (defun my-agent-shell--dir-locals (dir)
+    "Read agent-shell dir-local variables for DIR.
+Return (OVERRIDE EXTRA-FIREJAIL-ARGS EXTRA-ARGS)."
+    (with-temp-buffer
+      (setq default-directory (file-name-as-directory dir))
+      (hack-dir-local-variables-non-file-buffer)
+      (list (and (boundp 'my-agent-shell-command-override)
+                 my-agent-shell-command-override)
+            (and (boundp 'my-agent-shell-extra-firejail-args)
+                 my-agent-shell-extra-firejail-args)
+            (and (boundp 'my-agent-shell-extra-args)
+                 my-agent-shell-extra-args))))
+  (defun my-agent-shell--default-command (dir extra-firejail-args extra-args)
+    "Default jailed opencode command for DIR.
+EXTRA-FIREJAIL-ARGS are inserted after the project whitelist,
+EXTRA-ARGS are appended at the end."
+    (append (list "firejail" "--profile=opencode"
+                  (format "--whitelist=%s" dir))
+            extra-firejail-args
+            (list "/usr/bin/opencode" "acp")
+            extra-args))
+  (defun my-agent-shell-opencode ()
+    "Start an opencode agent session for the current Projectile project.
+If a session buffer already exists for the project, switch to it.
+Otherwise propose the full jailed command in the minibuffer for
+review and editing, then start it.  Outside projects, jail the
+current directory."
+    (interactive)
+    (let ((root (file-truename (or (ignore-errors (projectile-project-root))
+                                   default-directory))))
+      (if-let ((buf (seq-find (lambda (b)
+                                (with-current-buffer b
+                                  (and (derived-mode-p 'agent-shell-mode)
+                                       (string-equal
+                                        (file-truename default-directory)
+                                        root))))
+                              (buffer-list))))
+          (pop-to-buffer buf)
+        (pcase-let ((`(,override ,xtra-jail ,xtra)
+                     (my-agent-shell--dir-locals root)))
+          (let* ((default (or override
+                              (combine-and-quote-strings
+                               (my-agent-shell--default-command
+                                root xtra-jail xtra))))
+                 (input (read-shell-command "Agent command: " default))
+                 (cmd (split-string-and-unquote input)))
+            (unless cmd (user-error "Empty command, aborted"))
+            (let ((agent-shell-opencode-acp-command cmd)
+                  (agent-shell-command-prefix nil)
+                  (default-directory root))
+              (agent-shell-opencode-start-agent)))))))
+  :custom
+  ;; same binary as the shell alias
+  (agent-shell-opencode-acp-command '("/usr/bin/opencode" "acp"))
+  ;; safety net for sessions not started via C-c a s (e.g. M-x
+  ;; agent-shell-opencode-start-agent): plain jail, session dir only
+  (agent-shell-command-prefix
+   (lambda (buffer)
+     (list "firejail" "--profile=opencode"
+           (format "--whitelist=%s"
+                   (with-current-buffer buffer default-directory))))))
+
 ;;;;;;;;;;;;;;;;;
 ;;; Profiling ;;;
 ;;;;;;;;;;;;;;;;;

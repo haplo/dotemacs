@@ -49,3 +49,10 @@ below (newest last).
   silently dropping all other lockfile entries. When adding new packages instruct
   the user to regenerate the lockfile with `M-x straight-freeze-versions` or edit
   the lockfile by hand: it's an alphabetical alist of `("name" . "commit")` entries.
+- **Batch Emacs loads can pick built-in copies of straight packages.** A batch
+  session bootstrapped with only `early-init.el` activates just the packages
+  explicitly requested; everything else resolves to Emacs' built-in copies.
+  Example: loading agent-shell in batch pulled the built-in transient 0.7.2.2
+  instead of the pinned git checkout and died on `transient--set-layout`.
+  Activate every package the load depends on in the batch eval
+  (`(straight-use-package 'transient)` etc.) before requiring or compiling.
