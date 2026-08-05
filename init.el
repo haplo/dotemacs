@@ -2355,9 +2355,15 @@ exploits.\n\n%s"
        :position marker)))
   :bind (("C-c a c"   . gptel)
          ("C-c a RET" . gptel-send)
+         ("C-c a a"   . gptel-add)
+         ("C-c a A"   . gptel-add-file)
          ("C-c a m"   . gptel-menu)
          ("C-c a r"   . gptel-rewrite)
-         ("C-c a R"   . my-gptel-review-malicious-code))
+         ("C-c a R"   . my-gptel-review-malicious-code)
+         :map org-mode-map
+         ("C-c a o"   . gptel-org-set-topic)
+         ("C-c a O"   . gptel-org-set-properties)
+         )
   :config
   (setq gptel-default-mode 'org-mode
         gptel-backend
