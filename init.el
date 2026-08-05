@@ -603,27 +603,45 @@ regular status."
     (display-buffer-at-bottom buffer action)))
 
 (defun my-display-in-left-column (buffer alist)
-  "Display BUFFER in the left column, reusing the left-column window.
+  "Display BUFFER in the Magit/Org left column.
 
-Org and Magit buffers share one left-column window and replace each
-other in it. If no left column is shown, create it by splitting the
-frame's main window leftward and balance the main window."
+If a window already shows a `my-left-column-modes' buffer, reuse it
+(Magit and Org buffers replace each other there).  Otherwise, if the
+frame is too narrow for the full sidebars and already shows more than
+one window, take over its leftmost window instead of crowding in a
+third one.  Otherwise create a new left column sized
+`my-side-window-size' and rebalance the remaining windows."
   (when (> (frame-width) my-frame-width-limit-for-left-column)
-    (if-let ((left-col-win
-              (seq-find (lambda (win)
-                          (with-current-buffer (window-buffer win)
-                            (apply #'derived-mode-p my-left-column-modes)))
-                        (window-list nil 'no-mini))))
-        (progn
-          (set-window-buffer left-col-win buffer)
-          left-col-win)
-      (let ((new-window
-             (display-buffer-in-direction
-              buffer
-              (append '((direction . left) (window . main)) alist))))
-        (when (window-live-p new-window)
-          (balance-windows (window-main-window)))
-        new-window))))
+    (let ((family-win
+           (seq-find (lambda (win)
+                       (with-current-buffer (window-buffer win)
+                         (apply #'derived-mode-p my-left-column-modes)))
+                     (window-list nil 'no-mini)))
+          leftmost-win)
+      (cond
+       (family-win
+        (set-window-buffer family-win buffer)
+        family-win)
+       ((and (<= (frame-width) my-frame-width-limit-for-sidebars)
+             (> (length (window-list nil 'no-mini)) 1)
+             (setq leftmost-win
+                   (seq-find (lambda (win) (not (window-dedicated-p win)))
+                             (window-list nil 'no-mini))))
+        (set-window-buffer leftmost-win buffer)
+        leftmost-win)
+       (t
+        (let ((new-window
+               (display-buffer-in-direction
+                buffer
+                (append (list (cons 'direction 'left)
+                              (cons 'window 'main)
+                              (cons 'window-width my-side-window-size))
+                        alist))))
+          (when (window-live-p new-window)
+            ;; rebalance only the sibling subtree; balancing the whole
+            ;; root would undo the column's fixed width
+            (balance-windows (window-next-sibling new-window)))
+          new-window))))))
 
 ;; This is my window configuration
 ;;
