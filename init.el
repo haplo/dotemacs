@@ -1629,9 +1629,11 @@ to a reviewing agent."
               ("M-n" . completion-preview-next-candidate)
               ("M-p" . completion-preview-prev-candidate))
   :preface
-  ;; enable in all non-programming modes (which use corfu)
+  ;; enable in all non-programming modes (which use corfu),
+  ;; except agent-shell buffers (which use corfu for @ / completion)
   (defun my-completion-preview-mode-enable ()
-    (unless (derived-mode-p 'prog-mode)
+    (unless (or (derived-mode-p 'prog-mode)
+                (derived-mode-p 'agent-shell-mode))
       (completion-preview-mode +1)))
   :hook (after-change-major-mode . my-completion-preview-mode-enable))
 
@@ -2389,6 +2391,7 @@ exploits.\n\n%s"
 (use-package agent-shell
   :bind (("C-c a s" . my-agent-shell-opencode))
   :commands (agent-shell-opencode-start-agent)
+  :hook (agent-shell-mode . my-agent-shell-completion-setup)
   :preface
   ;; declare special so the lets in `my-agent-shell-opencode' bind
   ;; dynamically even before the package loads (init.el is lexical)
@@ -2457,6 +2460,16 @@ current directory."
                   (agent-shell-command-prefix nil)
                   (default-directory root))
               (agent-shell-opencode-start-agent)))))))
+  (defun my-agent-shell-completion-setup ()
+    "Use Corfu for @ and / completion in agent-shell buffers."
+    ;; leave only agent-shell's @ / capfs (plus comint's), avoiding
+    ;; duplicate candidates from the global cape capfs
+    (setq-local completion-at-point-functions
+                (seq-remove (lambda (f) (memq f '(cape-file cape-dabbrev)))
+                            completion-at-point-functions))
+    ;; popups only via the @ and / triggers or explicit C-M-i
+    (setq-local corfu-auto nil)
+    (corfu-mode 1))
   :custom
   ;; same binary as the shell alias
   (agent-shell-opencode-acp-command '("/usr/bin/opencode" "acp"))
