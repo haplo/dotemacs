@@ -66,7 +66,6 @@
  ("markdown-ts-mode" . "801579b9b955f63673dd6dc9742c1fd5311b76c9")
  ("melpa" . "02288397f1214c8d83555c4bb31dd53c5de29218")
  ("move-text" . "142890cfb46d9c374113b4b49021a4202033147b")
- ("multi-magit" . "ef0abae4be05b5563e9f1719ba573c0accb26a43")
  ("multiple-cursors.el" . "94b8b07a4bab87f803123723b68227565429dfa1")
  ("nerd-icons.el" . "1e75075e323dedaf9f2fd5837082c60a2d0dfae3")
  ("no-littering" . "c949f327f417734005203769673e6f925877fa88")

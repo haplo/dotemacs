@@ -24,9 +24,7 @@ Upgrades are manual and reviewable:
 2. After fetching, `my-straight-incoming-diffs` (`C-c v U`) opens automatically with
    one concatenated `diff-mode` buffer: for each checkout that is behind upstream, the
    incoming commits (with authors and dates) followed by the net patch that merging
-   would apply, ready to be skimmed or fed to a reviewing agent. For a lighter
-   overview, `C-c v u` (`my-straight-review-diffs`) shows a multi-magit view of the
-   checkouts that have new upstream commits or local changes.
+   would apply, ready to be skimmed or fed to a reviewing agent.
 3. `M-x my-gptel-review-malicious-code` (`C-c a R`) can be called on the diff buffer
    to have an AI review the diff for malicious code.
 4. `M-x straight-merge-all` merges each package, but allows dropping into Magit with a
@@ -98,7 +96,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
 * [`markdown-ts-mode`](https://github.com/LionyxML/markdown-ts-mode): major mode to edit Markdown files, using tree-sitter grammar.
 * [`move-text`](https://github.com/emacsfodder/move-text): move lines or regions up and down.
-* [`multi-magit`](https://github.com/luismbo/multi-magit): Magit status aggregated over multiple repositories.
 * [`multiple-cursors`](https://github.com/magnars/multiple-cursors.el): what it says in the label, allows editing multiple lines simultaneously.
 * [`no-littering`](https://github.com/emacscollective/no-littering): keep Emacs config directory clean.
 * [`nov-el`](https://depp.brause.cc/nov.el/): major mode for reading EPUB files in Emacs.
