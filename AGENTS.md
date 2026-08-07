@@ -56,3 +56,11 @@ below (newest last).
   instead of the pinned git checkout and died on `transient--set-layout`.
   Activate every package the load depends on in the batch eval
   (`(straight-use-package 'transient)` etc.) before requiring or compiling.
+- **`:bind` with an unloaded `:map` defers to the BLOCK's package, not the
+  map's owner.** use-package emits `(bind-keys :package NAME :map MODE-MAP ...)`
+  and bind-key wraps it as `(if (boundp 'MODE-MAP) bind (eval-after-load 'NAME
+  bind))`. If the keymap belongs to another package, the binding never lands
+  (or errors in `after-load-functions` when NAME loads first). Put each `:bind
+  (:map ...)` in the use-package block of the package that owns the keymap.
+  Raw `bind-keys` without `:package` has no such guard and errors
+  `void-variable` on unbound maps, so test through full use-package forms.

@@ -355,11 +355,11 @@
   :straight nil  ;; Emacs built-in
   :bind (("C-x \\" . align-regexp)))
 
+;; Visually align org and markdown tables
+;; https://github.com/casouri/valign
 (use-package valign
-  :hook ((markdown-mode) . valign-mode)
   :custom
-  (valign-max-table-size 10000)
-)
+  (valign-max-table-size 10000))
 
 (use-package ffap
   :straight nil  ;; Emacs built-in
@@ -2022,7 +2022,8 @@ to a reviewing agent."
                       ))
   :bind (:map org-mode-map
               ("C-c j" . consult-org-heading)
-              ("C-c r" . org-refile))
+              ("C-c r" . org-refile)
+              ("C-c T" . valign-table))
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -2102,8 +2103,17 @@ to a reviewing agent."
 ;;; Markdown ;;;
 ;;;;;;;;;;;;;;;;
 
+(use-package markdown-mode
+  :defer t
+  :bind (:map markdown-mode-map
+              ("C-c T" . valign-table)))
+
+;; Major mode for Markdown using tree-sitter
+;; https://github.com/LionyxML/markdown-ts-mode
 (use-package markdown-ts-mode
-  :mode ("\\.md\\'" . markdown-ts-mode))
+  :mode ("\\.md\\'" . markdown-ts-mode)
+  :bind (:map markdown-ts-mode-map
+              ("C-c T" . valign-table)))
 
 ;;;;;;;;;;;
 ;;; CSV ;;;
