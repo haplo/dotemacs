@@ -865,6 +865,151 @@ i.e. windows tiled side-by-side."
                  (concat tabspaces-session-file ".bak") t)))
   (add-hook 'kill-emacs-hook #'my-tabspaces-session-backup -50))
 
+;;;; workspace auto-routing ;;;;
+
+;; Visiting a file switches to the workspace it belongs to:
+;; - files in a project create or open that project's tabspace
+;; - otherwise open in current tabspace
+;; - `C-u C-z o' force-creates an extra workspace for a project
+
+(defvar my-workspaces-auto-switch nil
+  "Non-nil once file-driven workspace switching is armed.
+See `my-workspaces-arm': arming waits for the startup session restore.")
+
+(defun my-workspaces-project-for-tab (tab-name)
+  "Return project root mapped to TAB-NAME, nil if not a project tab.
+Numbered duplicate tabs like \"proj<2>\" count as their base project."
+  (or (car (rassoc tab-name tabspaces-project-tab-map))
+      (when (string-match "\\`\\(.+\\)<[0-9]+>\\'" tab-name)
+        (car (rassoc (match-string 1 tab-name)
+                     tabspaces-project-tab-map)))))
+
+(defun my-workspaces-tab-for-project (root)
+  "Return the workspace tab mapped to project ROOT, or nil."
+  (cdr (assoc root tabspaces-project-tab-map)))
+
+(defun my-workspaces-switch-for-file ()
+  "Switch to the workspace matching the visited file, if needed.
+
+Files inside a project switch to its workspace unless the current tab
+already belongs to it (making \"proj<2>\" duplicates sticky); anything else
+stays in the current workspace."
+  ;; `tabspaces--current-tab-name' and `tabspaces--list-tabspaces' are
+  ;; documented by tabspaces as its stable integration API, despite the
+  ;; `--' prefix.  The `save-current-buffer' below preserves
+  ;; `current-buffer' across the tab switch: `find-file-noselect-1'
+  ;; returns the current buffer after running `find-file-hook', and
+  ;; `after-find-file' (which runs this hook) would otherwise keep
+  ;; operating in the new tab's buffer.
+  (when (and my-workspaces-auto-switch
+             (bound-and-true-p tabspaces-mode)
+             (buffer-file-name)
+             (not (active-minibuffer-window)))
+    (let* ((file (buffer-file-name))
+           (root (when-let* ((project
+                              (project-current
+                               nil (file-name-directory file))))
+                   (expand-file-name (project-root project))))
+           (current (tabspaces--current-tab-name)))
+      (save-current-buffer
+        (cond
+         (root
+          (unless (equal (my-workspaces-project-for-tab current) root)
+            (if-let* ((tab (my-workspaces-tab-for-project root)))
+                (tab-bar-switch-to-tab tab)
+              (let ((name (tabspaces-generate-descriptive-tab-name
+                           root (tabspaces--list-tabspaces))))
+                (tabspaces-switch-or-create-workspace name)
+                ;; the generator registers the mapping only on the
+                ;; conflict-free path; make sure we recorded it
+                (unless (assoc root tabspaces-project-tab-map)
+                  (push (cons root name) tabspaces-project-tab-map)))))))))))
+
+(defun my-workspaces-arm ()
+  "Arm file-driven workspace switching."
+  (setq my-workspaces-auto-switch t)
+  (remove-hook 'server-after-make-frame-hook #'my-workspaces-arm))
+
+;; arm only after the startup session state has been restored: with a
+;; daemon the restore happens on the first client frame (tabspaces'
+;; restore lands on the same hook later, hence in front of ours, and
+;; runs first); otherwise it has run before `emacs-startup-hook' fires.
+(if (daemonp)
+    (add-hook 'server-after-make-frame-hook #'my-workspaces-arm)
+  (add-hook 'emacs-startup-hook #'my-workspaces-arm))
+
+;; Find file's existing-buffer branch never runs `find-file-hook', so
+;; opening an already-visited file of another project would land in the
+;; current tab.  This advice routes interactive `find-file' calls to
+;; the tab that owns the buffer instead; programmatic calls are left
+;; alone (e.g. xref keeps default display behavior).
+(defun my-workspaces-tab-owning-buffer (buffer)
+  "Return name of the workspace tab uniquely owning BUFFER, or nil.
+Buffers contained in more than one tab's list (e.g. those injected
+into every tab via `tabspaces-include-buffers', or deliberately
+displayed in two workspaces) are not uniquely owned and yield nil --
+routing such a buffer to an \"owning\" tab would be wrong: innocent
+`switch-to-buffer' calls on shared buffers such as *scratch* would
+jump tabs, e.g. during tab creation inside `tab-bar-new-tab-to'."
+  (cl-loop with tabs = (tabspaces--list-tabspaces)
+           for tab in tabs
+           for i from 0
+           when (memq buffer (tabspaces--buffer-list nil i))
+           collect tab into owned
+           finally return (and (= (length owned) 1) (car owned))))
+
+(defun my-workspaces-goto-owning-tab (buffer)
+  "Switch to the first workspace tab owning BUFFER, if it is elsewhere."
+  (when-let* ((tab (my-workspaces-tab-owning-buffer buffer))
+              ((not (equal tab (tabspaces--current-tab-name)))))
+    (tab-bar-switch-to-tab tab)))
+
+(defun my-find-file-route-to-owning-workspace (filename &optional _wildcards)
+  "Switch to the workspace tab owning FILENAME's buffer before visiting it.
+Installed as :before advice on `find-file'; acts only on interactive
+calls, coordinating with `my-workspaces-switch-for-file' (which covers
+first-time opens through `find-file-hook')."
+  (when (and (called-interactively-p 'interactive)
+             (bound-and-true-p tabspaces-mode)
+             my-workspaces-auto-switch)
+    (let ((buffer (find-buffer-visiting
+                   (abbreviate-file-name (expand-file-name filename)))))
+      (when buffer
+        (my-workspaces-goto-owning-tab buffer)))))
+
+(advice-add #'find-file :before #'my-find-file-route-to-owning-workspace)
+
+;; Buffer switching (consult-buffer, ibuffer, plain C-x b): if the
+;; target buffer belongs to another workspace tab, jump there first
+;; instead of displaying it in the current tab.  The minibuffer guard
+;; keeps consult's previews local: they cycle buffers through
+;; `switch-to-buffer' under an active minibuffer, while real selections
+;; run after the minibuffer has exited.
+(defun my-switch-to-buffer-route-to-owning-workspace (buffer-or-name
+                                                      &rest _)
+  "Switch to the workspace tab owning BUFFER-OR-NAME before displaying it.
+Installed as :before advice on `switch-to-buffer'."
+  (when (and (bound-and-true-p tabspaces-mode)
+             my-workspaces-auto-switch
+             (not (active-minibuffer-window)))
+    (when-let* ((buffer (get-buffer buffer-or-name)))
+      (my-workspaces-goto-owning-tab buffer))))
+
+(advice-add #'switch-to-buffer
+            :before #'my-switch-to-buffer-route-to-owning-workspace)
+
+(defun my-tabspaces-project-action ()
+  "Open the project at `default-directory' in its own workspace.
+Used as `projectile-switch-project-action', so `default-directory' is
+the project root.  New projects get a fresh tab and land on the
+`project-switch-commands' dispatch; known projects just switch tabs."
+  ;; `tabspaces-open-or-create-project-and-workspace' reads
+  ;; `project--list' without ensuring it was read from
+  ;; `project-list-file'; only its interactive spec does that.  Force
+  ;; the read through the public API first (upstream fix candidate).
+  (project-known-project-roots)
+  (tabspaces-open-or-create-project-and-workspace default-directory))
+
 ;; tame the flood of ephemeral windows Emacs produces
 ;; https://github.com/karthink/popper
 (use-package popper
@@ -1759,8 +1904,11 @@ to a reviewing agent."
   :config
   (setq projectile-cache-file (no-littering-expand-var-file-name  "projectile.cache")
         projectile-known-projects-file (no-littering-expand-var-file-name "projectile-bookmarks.eld")
-        ;; open a dired buffer when switching projects
-        projectile-switch-project-action 'dired-jump
+        ;; switch to the project's workspace when switching projects;
+        ;; a new project's tab lands on the `project-switch-commands'
+        ;; dispatch (f = find file, D = dired, ...); an existing
+        ;; project tab is just switched to
+        projectile-switch-project-action #'my-tabspaces-project-action
         ;; https://docs.projectile.mx/projectile/configuration.html#project-specific-compilation-buffers
         projectile-per-project-compilation-buffer t
         )
