@@ -41,6 +41,8 @@ workflow.
   `emacs -Q --batch --eval "(with-temp-buffer (emacs-lisp-mode) (insert-file-contents \"init.el\") (check-parens))"`
 - Propose fixes to third-party packages when identifying bugs, user will either
   fork or submit the fix upstream.
+- Update the list of currently used packages in `README.md` as they get added or
+  removed.
 
 ## Learnings
 
