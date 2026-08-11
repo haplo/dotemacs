@@ -1698,19 +1698,14 @@ to a reviewing agent."
 ;;; autocomplete ;;;
 ;;;;;;;;;;;;;;;;;;;;
 
+;; inline preview of the completion-at-point suggestion
+;; https://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/completion-preview.el
 (use-package completion-preview
   :straight nil ;; built-in
   :bind (:map completion-preview-active-mode-map
               ("M-n" . completion-preview-next-candidate)
               ("M-p" . completion-preview-prev-candidate))
-  :preface
-  ;; enable in all non-programming modes (which use corfu),
-  ;; except agent-shell buffers (which use corfu for @ / completion)
-  (defun my-completion-preview-mode-enable ()
-    (unless (or (derived-mode-p 'prog-mode)
-                (derived-mode-p 'agent-shell-mode))
-      (completion-preview-mode +1)))
-  :hook (after-change-major-mode . my-completion-preview-mode-enable))
+  :hook (text-mode . completion-preview-mode))
 
 (use-package cape
   :init
