@@ -27,15 +27,20 @@ workflow.
 - Prefer public package APIs (no double dash `--` in the name). Avoid
   referencing other packages' private (`--`) variables and functions — they can
   change without notice. If a private API is unavoidable, say so in a comment.
+- Favor built-in behavior instead of custom functions whenever possible.
 - Give every `use-package` block a one-line description comment with the
   upstream URL, matching the existing blocks.
 - Register packages that ship with Emacs as built-ins via `:type built-in`
   instead of installing them from a repository.
+- Prefer use-package style declarations. E.g. `:bind` instead of `keymap-set`, `:hook`
+  instead of `add-hook`, `:custom` better than using `setq` in `:config`.
 - Keep state files out of the config root with
   `no-littering-expand-etc-file-name` / `no-littering-expand-var-file-name`.
 - Wrap comments and docstrings at 88 columns (`my-line-length`).
 - After editing `init.el`, syntax-check in batch:
   `emacs -Q --batch --eval "(with-temp-buffer (emacs-lisp-mode) (insert-file-contents \"init.el\") (check-parens))"`
+- Propose fixes to third-party packages when identifying bugs, user will either
+  fork or submit the fix upstream.
 
 ## Learnings
 
