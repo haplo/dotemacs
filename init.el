@@ -1733,6 +1733,23 @@ The link is pushed onto `org-stored-links' and offered by
   (defun my-git-commit-setup ()
     (setq-local fill-column 72)
     (git-commit-turn-on-auto-fill))
+  ;; persisted across sessions by savehist
+  (defvar my-git-commit-assisted-history nil
+    "History of values entered for `my-git-commit-assisted'.")
+  (defun my-git-commit-assisted ()
+    "Insert an \"Assisted-By\" trailer crediting an AI coding agent.
+Prompt for the agent description (free text, e.g. \"Claude Opus 4.7\"),
+offering previously entered values as completion."
+    (interactive)
+    ;; NOTE: `git-commit--insert-trailer' is a private API; magit
+    ;; offers no public function for inserting an arbitrary trailer.
+    (let ((value (completing-read "Assisted by: "
+                                  my-git-commit-assisted-history
+                                  nil nil nil
+                                  'my-git-commit-assisted-history)))
+      (when (string-empty-p value)
+        (user-error "Empty agent description"))
+      (git-commit--insert-trailer "Assisted-By" value)))
   (defun my-straight-repo-behind-p (repo)
     "Return non-nil if REPO's current branch is behind its upstream."
     (let* ((default-directory repo)
@@ -1824,6 +1841,14 @@ to a reviewing agent."
   ;; https://magit.vc/manual/magit.html#Committing-Performance
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
+  ;; C-c TAB A inserts an "Assisted-By" trailer crediting an AI agent
+  (transient-append-suffix 'git-commit-insert-trailer 'git-commit-test
+                           '("A" "Assisted" my-git-commit-assisted))
+  ;; highlight the trailer token
+  (add-to-list 'git-commit-trailers "Assisted-By")
+  ;; remember agent descriptions across sessions
+  (add-to-list 'savehist-additional-variables
+               'my-git-commit-assisted-history)
   (defun yadm ()
     (interactive)
     (magit-status "/yadm::"))
