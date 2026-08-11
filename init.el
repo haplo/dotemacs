@@ -254,12 +254,17 @@
   :straight nil  ;; Emacs built-in
   :config
   (setq savehist-additional-variables
-        ;; search entries
-        '(search-ring regexp-search-ring kill-ring)
+        '(kill-ring
+          my-git-commit-assisted-history
+          regexp-search-ring
+          search-ring
+          vertico-repeat-history)
         ;; save every minute
         savehist-autosave-interval 60
         ;; keep the home clean
-        savehist-file (no-littering-expand-var-file-name "savehist")))
+        savehist-file (no-littering-expand-var-file-name "savehist"))
+  ;; keep histories across sessions
+  (savehist-mode +1))
 
 ;; save recent files
 (use-package recentf
@@ -1229,7 +1234,6 @@ buffer instead of restoring the previous window layout."
   :init
   (setq minibuffer-default-add-function 'my-minibuffer-default-add-function)
   (vertico-mode)
-  (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
   :custom
   (vertico-count 20)
   (vertico-cycle t)
@@ -1846,9 +1850,6 @@ to a reviewing agent."
                            '("A" "Assisted" my-git-commit-assisted))
   ;; highlight the trailer token
   (add-to-list 'git-commit-trailers "Assisted-By")
-  ;; remember agent descriptions across sessions
-  (add-to-list 'savehist-additional-variables
-               'my-git-commit-assisted-history)
   (defun yadm ()
     (interactive)
     (magit-status "/yadm::"))
