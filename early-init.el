@@ -96,6 +96,14 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; Register core packages as built-ins so straight never clones their
+;; ELPA recipes when a package (e.g. tabspaces) depends on them.  The
+;; Emacs-shipped copies are what the corresponding use-package blocks
+;; declare via `:type built-in'.
+(setq straight-recipe-overrides
+      '((nil . ((project :type built-in)
+                (xref :type built-in)))))
+
 ;; scratch buffer mode. With its default of elisp it triggers modes meant for
 ;; programming, which delay startup.
 (setq initial-major-mode 'text-mode)

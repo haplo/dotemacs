@@ -103,7 +103,6 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`org`](https://orgmode.org/): the most powerful note taking and planning software ever created.
 * [`orgit`](https://github.com/magit/orgit/): link to Magit buffers from Org-mode.
 * [`orgit-forge`](https://github.com/magit/orgit-forge/): link to Forge buffers from Org-mode.
-* [`perspective`](https://github.com/nex3/perspective-el): per-project named workspaces with window layouts and buffer lists.
 * [`popper`](https://github.com/karthink/popper): tame the flood of ephemeral windows Emacs produces.
 * [`projectile`](https://github.com/bbatsov/projectile): project management.
 * [`rainbow-delimiters`](https://github.com/Fanael/rainbow-delimiters): color delimiters such as parentheses or braces as they nest.
@@ -112,6 +111,8 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`saveplace`](https://www.emacswiki.org/emacs/SavePlace): built-in to remember last position on each open file.
 * [`super-save`](https://github.com/bbatsov/super-save): automatically save buffers on certain events.
 * [`systemd`](https://github.com/holomorph/systemd-mode): major mode for editing systemd files.
+* [`tab-bar`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Bars.html): Emacs built-in tab bar.
+* [`tabspaces`](https://codeberg.org/mclear-tools/tabspaces): lightweight workspaces in tabs using Emacs built-in tab-bar and project.
 * [`tramp`](https://www.gnu.org/software/tramp/): remote file editing, beyond cool.
 * [`treesit-auto`](https://github.com/renzmann/treesit-auto): automatically install and use [tree-sitter grammars](https://tree-sitter.github.io/tree-sitter/).
 * [`unfill`](https://github.com/purcell/unfill): the inverse of Emacs' `fill-paragraph` and `fill-region`.

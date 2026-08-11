@@ -69,3 +69,19 @@ below (newest last).
   (:map ...)` in the use-package block of the package that owns the keymap.
   Raw `bind-keys` without `:package` has no such guard and errors
   `void-variable` on unbound maps, so test through full use-package forms.
+- **Dependency resolution can clone Emacs core packages from ELPA.** A package
+  that lists a core package in `Package-Requires` (e.g. tabspaces requiring
+  `project`, which requires `xref`) makes straight pull the ELPA-mirror clone
+  before init's own `:type built-in` declaration for it is even reached; the
+  clone then shadows the Emacs-shipped copy on every load. early-init.el sets
+  `straight-recipe-overrides` ((project :type built-in), (xref :type built-in))
+   right after the bootstrap to prevent this. When adding new packages, watch
+   the build log for unexpected "Cloning <core-package>" lines and extend that
+   override list instead of letting the clone live.
+- **use-package `:custom` value forms are evaluated at package load time, not
+  when init.el runs.** For a deferred package the form is stored unevaluated
+  in the `use-package` custom theme and evaluated when the `defcustom`
+  executes (verified by macroexpansion on Emacs 30.2). So `:custom` must not
+  read transient init-time state — e.g. a `command-line-args` flag that an
+  `:init` form later removes will read as absent. Stash such state in a
+  variable in `:init` and reference the variable from `:custom`.

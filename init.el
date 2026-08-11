@@ -445,8 +445,6 @@
          ("C-c e" . crux-eval-and-replace)
          ("C-c C-d" . crux-duplicate-current-line-or-region)
          ("C-c t" . crux-visit-term-buffer)
-         ("C-c I" . crux-find-user-init-file)
-         ("C-c S" . crux-find-shell-init-file)
          ("C-c C-k" . crux-kill-whole-line)
          ([(shift return)] . crux-smart-open-line)
          ([(control shift return)] . crux-smart-open-line-above)
@@ -793,40 +791,94 @@ i.e. windows tiled side-by-side."
    aw-background nil
    ))
 
-;; manage window configurations
-;; https://github.com/nex3/perspective-el
-(use-package perspective
-  :bind
-  ("C-x C-b" . persp-list-buffers)
-  ("C-x k" . persp-kill-buffer*)
-  :hook
-  (;; save perspectives on Emacs exit
-   (kill-emacs . my-persp-state-save-with-backup))
-  :preface
-  (defun my-persp-mode-start ()
-    (persp-mode)
-    )
-  (defun my-persp-state-save-with-backup ()
-    (interactive)
-    (let ((persp-state-backup-file (concat persp-state-default-file ".bak")))
-      (when (f-file-p persp-state-default-file)
-        (copy-file persp-state-default-file persp-state-backup-file t))
-      (persp-state-save)))
+;; tab-based workspaces: one tab per project or ad-hoc context
+;; (built-in tab-bar)
+(use-package tab-bar
+  :straight (:type built-in)
+  :bind (;; switch workspaces (shadows the low-value `scroll-left'/
+         ;; `scroll-right' defaults on C-<next>/C-<prior>)
+         ("C-<prior>"   . tab-bar-switch-to-prev-tab)
+         ("C-<next>"    . tab-bar-switch-to-next-tab)
+         ;; reorder the current workspace
+         ("C-S-<prior>" . tab-bar-move-tab-backward)
+         ("C-S-<next>"  . tab-bar-move-tab))
   :custom
-  (persp-mode-prefix-key (kbd "C-z"))
-  (persp-state-default-file (no-littering-expand-var-file-name "perspective"))
-  (persp-modestring-short t)
+  ;; always show the workspace tabs, even when only one exists
+  (tab-bar-show t)
+  ;; new tabs start on scratch instead of inheriting the current buffer
+  ;; (keeps previous buffers out of the new workspace's buffer list)
+  (tab-bar-new-tab-choice "*scratch*")
+  ;; number the tabs to match the C-M-<N> jumps below
+  (tab-bar-tab-hints t)
+  ;; jump straight to workspace N with C-M-1..C-M-9 (9 = last tab,
+  ;; 0 = most recent tab).  This shadows `digit-argument' on
+  ;; C-M-<digit>; M-<digit> and C-u still provide numeric arguments.
+  (tab-bar-select-tab-modifiers '(control meta))
   :init
-  (my-persp-mode-start)
+  (tab-bar-mode))
+
+;; isolated project workspaces on top of tab-bar
+;; https://codeberg.org/mclear-tools/tabspaces
+(use-package tabspaces
+  :straight (:host codeberg :repo "mclear-tools/tabspaces")
+  :hook ((after-init . tabspaces-mode)
+         ;; route file visits to their owning workspace (see the
+         ;; auto-routing section below for the machinery)
+         (find-file . my-workspaces-switch-for-file))
+  :bind (("C-x C-b" . tabspaces-switch-to-buffer)
+         (:map tabspaces-command-map
+               ("C-z"     . tabspaces-switch-or-create-workspace)
+               ("z"       . tab-bar-switch-to-recent-tab)
+               ("n"       . tab-bar-switch-to-next-tab)
+               ("p"       . tab-bar-switch-to-prev-tab)
+               ("<right>" . tab-bar-switch-to-next-tab)
+               ("<left>"  . tab-bar-switch-to-prev-tab)
+               ("N"       . tabspaces-rename-workspace)))
+  :custom
+  ;; workspace command prefix
+  (tabspaces-keymap-prefix "C-z")
+  ;; route `project-switch-project' (C-x p p) through workspaces
+  (tabspaces-project-switch-opens-workspace t)
+  ;; Resolve ".", "..", when opening projects
+  (tabspaces-fully-resolve-paths t)
+  ;; don't drop a todo file into newly created projects
+  (tabspaces-initialize-project-with-todo nil)
+  ;; sessions: the global session (non-project tabs) is saved on exit
+  ;; and restored on startup (daemon-aware: on the first client frame);
+  ;; project tabs are saved to per-project files and restored when the
+  ;; project is opened
+  (tabspaces-session t)
+  (tabspaces-session-auto-restore t)
+  (tabspaces-session-file
+   (no-littering-expand-var-file-name "tabspaces/session.el"))
+  ;; keep per-project session files out of the project directories
+  (tabspaces-session-project-session-store
+   (no-littering-expand-var-file-name "tabspaces/projects/"))
   :config
-  (define-key persp-mode-map (concat persp-mode-prefix-key persp-mode-prefix-key) #'persp-switch)
-  (define-key persp-mode-map (concat persp-mode-prefix-key "z") #'persp-switch)
-  )
+  (make-directory tabspaces-session-project-session-store t)
+  ;; back up the previous session file before the exit-time save
+  ;; overwrites it; runs before tabspaces' own save (hook depth -50)
+  (defun my-tabspaces-session-backup ()
+    "Back up `tabspaces-session-file' as FILE.bak before it is overwritten."
+    (when (file-exists-p tabspaces-session-file)
+      (copy-file tabspaces-session-file
+                 (concat tabspaces-session-file ".bak") t)))
+  (add-hook 'kill-emacs-hook #'my-tabspaces-session-backup -50))
 
 ;; tame the flood of ephemeral windows Emacs produces
 ;; https://github.com/karthink/popper
 (use-package popper
-  :after (perspective projectile)
+  ;; popper-mode classifies existing buffers at enable time using popper-group-function,
+  ;; needs project.el loaded (tabspaces requires project)
+  :after tabspaces
+  :preface
+  (defun my-popper-group-by-workspace ()
+    "Group popups by the current tabspaces workspace (tab name).
+Falls back to project.el grouping when workspaces are off."
+    (or (and (bound-and-true-p tabspaces-mode)
+             (fboundp 'tabspaces--current-tab-name)
+             (tabspaces--current-tab-name))
+        (popper-group-by-project)))
   :bind (("C-`" . popper-toggle)
          ("M-`" . popper-cycle)
          ("M-~" . popper-cycle-backwards)
@@ -840,7 +892,7 @@ i.e. windows tiled side-by-side."
   ;; enable actions in echo area (k to kill buffer)
   (popper-echo-dispatch-actions t)
   ;; how to group popups
-  (popper-group-function #'popper-group-by-perspective)
+  (popper-group-function #'my-popper-group-by-workspace)
   ;; which buffers should be considered popups
   (popper-reference-buffers
    '("\\*Messages\\*"
@@ -1055,7 +1107,7 @@ buffer instead of restoring the previous window layout."
 ;; practical commands based on core function completing-read
 ;; https://github.com/minad/consult
 (use-package consult
-  :after (perspective projectile)
+  :after projectile
   :bind (("C-c f" . consult-fd)
          ("C-c H" . my-consult-fd-home)
          ("C-c R" . my-consult-fd-root)
@@ -1139,6 +1191,23 @@ buffer instead of restoring the previous window layout."
              (unless (eq idx (1- (length consult--narrow-keys)))
                (car (nth (1+ idx) consult--narrow-keys))))
          (caar consult--narrow-keys)))))
+  ;; consult-buffer source limited to buffers of the current workspace,
+  ;; added to `consult-buffer-sources' in :config.  Uses
+  ;; `consult--buffer-state'/`consult--buffer-query' and
+  ;; `tabspaces--local-buffer-p': the upstream-documented pattern for
+  ;; this integration despite the `--' prefixes.
+  (defvar my-consult-source-workspace
+    (list :name     "Workspace Buffers"
+          :narrow   ?w
+          :history  'buffer-name-history
+          :category 'buffer
+          :state    #'consult--buffer-state
+          :default  t
+          :items    (lambda () (consult--buffer-query
+                                :predicate #'tabspaces--local-buffer-p
+                                :sort 'visibility
+                                :as #'buffer-name)))
+    "consult-buffer source listing buffers of the current workspace.")
   :custom
   (consult-async-min-input 2)
   (consult-narrow-key ",")
@@ -1158,10 +1227,13 @@ buffer instead of restoring the previous window layout."
    consult-source-project-buffer
    consult-source-project-recent-file
    :preview-key '"M-.")
-  ;; filter buffers in current perspective by default
-  ;; can narrow to see all buffers if necessary
-  (consult-customize consult-source-buffer :hidden t :default nil)
-  (add-to-list 'consult-buffer-sources persp-consult-source)
+  ;; filter buffers to the current workspace by default via the source
+  ;; defined in :preface; narrow with "b" to see all buffers.
+  ;; plist-put instead of consult-customize: that macro can
+  ;; mis-validate in some build orders (consult#345, tabspaces#76).
+  (plist-put consult-source-buffer :hidden t)
+  (plist-put consult-source-buffer :default nil)
+  (add-to-list 'consult-buffer-sources 'my-consult-source-workspace)
   (setq
    ;; use consult for xref navigation
    xref-show-xrefs-function #'consult-xref
@@ -1238,7 +1310,7 @@ buffer instead of restoring the previous window layout."
 ;; minibuffer completion session and in normal buffers
 ;; https://github.com/oantolin/embark/
 (use-package embark
-  :after (perspective which-key)
+  :after which-key
   :bind
   (("C-." . embark-act)
    ("C-M-." . embark-act-noquit)
