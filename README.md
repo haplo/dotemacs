@@ -54,19 +54,24 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`all-the-icons`](https://github.com/domtronn/all-the-icons.el): pretty icons.
 * [`all-the-icons-ibuffer`](https://github.com/seagle0128/all-the-icons-ibuffer): pretty icons in *ibuffer*.
 * [`all-the-icons-completion`](https://github.com/iyefrat/all-the-icons-completion): pretty icons in completion minibuffer.
+* [`all-the-icons-dired`](https://github.com/wyuenho/all-the-icons-dired): pretty icons in *dired*.
 * [`auto-dark`](https://github.com/LionyxML/auto-dark-emacs): follow OS light/dark theme.
 * [`auto-compile`](https://github.com/emacscollective/auto-compile/): compile Elisp files on load and/or save.
 * [`avy`](https://github.com/abo-abo/avy): quick jumps.
 * [`batppuccin`](https://github.com/bbatsov/batppuccin-emacs): catppuccin-like theme, light/dark versions.
 * [`calibredb`](https://github.com/chenyanming/calibredb.el): an Emacs interface to the Calibre DB.
+* [`cape`](https://github.com/minad/cape): completion-at-point extensions (dabbrev, file and more).
 * [`corfu`](https://github.com/minad/corfu/): completion-at-point popup. Like [company](https://company-mode.github.io/) but lighter.
 * [`compile`](https://www.emacswiki.org/emacs/CompileCommand): built-in command to compile stuff.
 * [`consult`](https://github.com/minad/consult): practical commands based on the Emacs completion function `completing-read`.
 * [`consult-dir`](https://github.com/karthink/consult-dir): insert directory paths into the minibuffer prompt.
+* [`consult-git-log-grep`](https://github.com/ghosty141/consult-git-log-grep): grep a repository's git history with consult.
 * [`crux`](https://github.com/bbatsov/crux): collection of random utilities, originally bundled with [Prelude](https://github.com/bbatsov/prelude).
 * [`csv-mode`](https://elpa.gnu.org/packages/csv-mode.html): major mode to edit CSV (Comma-Separated Values) files.
 * [`diff-hl`](https://github.com/dgutov/diff-hl): show uncommitted changes.
 * [`diminish`](https://github.com/myrjola/diminish.el): hide minor-modes from modeline.
+* [`docker`](https://github.com/Silex/docker.el): manage Docker (and Podman) from Emacs.
+* [`docker-compose-mode`](https://github.com/meqif/docker-compose-mode): major mode for docker-compose files.
 * [`dockerfile-mode`](https://github.com/spotify/dockerfile-mode): major mode to edit Dockerfiles.
 * [`doom-modeline`](https://seagle0128.github.io/doom-modeline/): a very nice modeline.
 * [`easy-kill`](https://github.com/leoliu/easy-kill): mark/kill words, sexps, lines and more.
@@ -78,11 +83,11 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`envrc`](https://github.com/purcell/envrc): use [direnv](https://direnv.net/) to update Emacs environment when visiting files.
 * [`exec-path-from-shell`](https://github.com/purcell/exec-path-from-shell): have Emacs inherit environment variables.
 * [`expreg`](https://github.com/casouri/expreg): increase selected region by semantic units, with tree-sitter.
+* [`fish-mode`](https://github.com/wwwjfy/emacs-fish): major mode for [fish](https://fishshell.com/) shell scripts.
 * [`flymake`](https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html): Emacs built-in error checker. It integrates natively with Eglot.
 * [`forge`](https://magit.vc/manual/forge/): Magit extension to work with code hosting sites (e.g. GitHub).
 * [`git-timemachine`](https://codeberg.org/pidu/git-timemachine): browse previous revisions of any git-controlled file.
 * [`ghostel`](https://github.com/dakra/ghostel): terminal emulator powered by libghostty-vt.
-* [`go-mode`](https://github.com/dominikh/go-mode.el): major mode for [Go](https://go.dev/) files.
 * [`gptel`](https://github.com/karthink/gptel): LLM chat client: chat buffers, send/rewrite text.
 * [`helpful`](https://github.com/Wilfred/helpful): better help buffers.
 * [`ibuffer`](https://www.emacswiki.org/emacs/IbufferMode): better buffer view. Like dired for buffers.
@@ -94,6 +99,7 @@ This list might be outdated, you would do better by grepping [init.el](init.el) 
 * [`magit`](https://magit.vc/): the best Git interface there is.
 * [`magit-delta`](https://github.com/dandavison/magit-delta): integrate [delta diff](https://github.com/dandavison/delta) with [Magit](https://magit.vc/).
 * [`marginalia`](https://github.com/minad/marginalia): adds marginalia to the minibuffer completions.
+* [`markdown-mode`](https://github.com/jrblevin/markdown-mode): major mode to edit Markdown files.
 * [`markdown-ts-mode`](https://github.com/LionyxML/markdown-ts-mode): major mode to edit Markdown files, using tree-sitter grammar.
 * [`move-text`](https://github.com/emacsfodder/move-text): move lines or regions up and down.
 * [`multiple-cursors`](https://github.com/magnars/multiple-cursors.el): what it says in the label, allows editing multiple lines simultaneously.
