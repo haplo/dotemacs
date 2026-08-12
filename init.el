@@ -1846,7 +1846,7 @@ to a reviewing agent."
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
   ;; C-c TAB A inserts an "Assisted-By" trailer crediting an AI agent
-  (transient-append-suffix 'git-commit-insert-trailer 'git-commit-test
+  (transient-append-suffix 'git-commit-insert-trailer 'git-commit-co-developed
                            '("A" "Assisted" my-git-commit-assisted))
   ;; highlight the trailer token
   (add-to-list 'git-commit-trailers "Assisted-By")
