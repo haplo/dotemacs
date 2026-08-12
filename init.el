@@ -1753,7 +1753,7 @@ offering previously entered values as completion."
                                   'my-git-commit-assisted-history)))
       (when (string-empty-p value)
         (user-error "Empty agent description"))
-      (git-commit--insert-trailer "Assisted-By" value)))
+      (git-commit--insert-trailer "Assisted-by" value)))
   (defun my-straight-repo-behind-p (repo)
     "Return non-nil if REPO's current branch is behind its upstream."
     (let* ((default-directory repo)
@@ -1849,7 +1849,7 @@ to a reviewing agent."
   (transient-append-suffix 'git-commit-insert-trailer 'git-commit-co-developed
                            '("A" "Assisted" my-git-commit-assisted))
   ;; highlight the trailer token
-  (add-to-list 'git-commit-trailers "Assisted-By")
+  (add-to-list 'git-commit-trailers "Assisted-by")
   (defun yadm ()
     (interactive)
     (magit-status "/yadm::"))
