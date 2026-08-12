@@ -1820,7 +1820,7 @@ to a reviewing agent."
   ;; Visual warning if commit first line gets too long
   (git-commit-summary-max-length 60)
   ;; path to my root code dir, so I can do C-x g from anywhere
-  (magit-repository-directories `(("~/Code" . 4)
+  (magit-repository-directories `(("~/Code" . 2)
                                   ("~/Sync/Research" . 1)
                                   ;; straight.el package checkouts, to review
                                   ;; package updates and hack on packages
@@ -1922,8 +1922,9 @@ to a reviewing agent."
   :bind-keymap (("C-c p" . projectile-command-map)
                 ("s-p" . projectile-command-map))
   :init
-  (setq projectile-project-search-path '(("~/Code/" . 3)
-                                         "~/Sync/Research/"))
+  (setq projectile-project-search-path `(("~/Code/" . 2)
+                                         "~/Sync/Research/"
+                                         ,(expand-file-name "straight/repos" user-emacs-directory)))
   :custom
   (projectile-dynamic-mode-line nil)
   (projectile-shell-backend 'ghostel)
