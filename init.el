@@ -1154,7 +1154,13 @@ buffer instead of restoring the previous window layout."
   :custom
   ;; let F12 reach Emacs (it toggles a popup's full-frame zoom);
   ;; char mode still sends all keys to the terminal
-  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\" "<f12>")))
+  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\"
+                               ;; allow popper use
+                               "C-`" "M-`"
+                               ;; tab switching
+                               "C-<next>" "C-<prior>"
+                               ;; zoom-window
+                               "<f12>")))
 
 ;; make eshell-visual-commands run in a Ghostel buffer.
 (use-package ghostel-eshell
