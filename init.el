@@ -1160,7 +1160,9 @@ buffer instead of restoring the previous window layout."
                                ;; tab switching
                                "C-<next>" "C-<prior>"
                                ;; zoom-window
-                               "<f12>")))
+                               "<f12>"))
+  :config
+  (add-to-list 'project-switch-commands '(ghostel-project "Term" "t") t))
 
 ;; make eshell-visual-commands run in a Ghostel buffer.
 (use-package ghostel-eshell
@@ -1969,9 +1971,7 @@ to a reviewing agent."
 (use-package project
   :straight (:type built-in)  ;; Emacs built-in
   :config
-  (setq project-list-file (no-littering-expand-var-file-name "projects"))
-  ;; open a ghostel terminal from `project-switch-project'
-  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t))
+  (setq project-list-file (no-littering-expand-var-file-name "projects")))
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
