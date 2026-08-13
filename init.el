@@ -1897,6 +1897,7 @@ to a reviewing agent."
                            '("A" "Assisted" my-git-commit-assisted))
   ;; highlight the trailer token
   (add-to-list 'git-commit-trailers "Assisted-by")
+  ;; yadm (dotfiles manager) is a special git repository, see tramp for /yadm::
   (defun yadm ()
     "Open yadm's magit status in its own workspace tab."
     (interactive)
