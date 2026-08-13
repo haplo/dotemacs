@@ -2706,7 +2706,7 @@ exploits.\n\n%s"
           :models '(kimi-k3
                     claude-opus-5
                     openai-gpt-56-sol
-                    grok-4-5
+                    grok-4-6
                     zai-org-glm-5-2
                     deepseek-v4-flash-0731))
         gptel-model 'deepseek-v4-flash-0731))
