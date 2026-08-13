@@ -87,3 +87,20 @@ below (newest last).
   read transient init-time state — e.g. a `command-line-args` flag that an
   `:init` form later removes will read as absent. Stash such state in a
   variable in `:init` and reference the variable from `:custom`.
+- **Directories bypass `find-file-hook`; `find-file`/`dired` display via
+  `pop-to-buffer-same-window`.** `find-file-noselect` hands directories to
+  `find-directory-functions` (`dired-noselect`) before any visit logic, and
+  the `pop-to-buffer-same-window` display path never runs `switch-to-buffer`
+  advice. Workspace routing therefore covers dired with a `:before` advice on
+  `dired-noselect` (single choke point, new and existing buffers; the
+  advice-add lives in dired's `:config` because `dired-noselect` is
+  autoloaded and advising it eagerly would load dired at startup) and magit
+  status with `magit-status-mode-hook` (magit calls the mode function before
+  `magit-display-buffer`, for new and existing status buffers alike).
+ - **Batch tests must register core packages as `:type built-in` too.** In a
+   batch test, `(straight-use-package 'tramp)` (without `:type built-in`, as
+   init.el declares it) silently cloned and built the ELPA-mirror tramp into
+   `straight/repos/tramp` — the exact hazard of the ELPA-clone learning above.
+   Mirror init.el's `(dolist (pkg '(seq let-alist xref jsonrpc use-package))
+   (straight-use-package (list pkg :type 'built-in)))` in test scripts, and
+   use `(list 'tramp :type 'built-in)` for tramp.

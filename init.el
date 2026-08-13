@@ -872,8 +872,9 @@ i.e. windows tiled side-by-side."
 
 ;;;; workspace auto-routing ;;;;
 
-;; Visiting a file switches to the workspace it belongs to:
-;; - files in a project create or open that project's tabspace
+;; Visiting a file, dired or magit status switches to the workspace it
+;; belongs to:
+;; - buffers in a project create or open that project's tabspace
 ;; - otherwise open in current tabspace
 ;; - `C-u C-z o' force-creates an extra workspace for a project
 
@@ -893,42 +894,48 @@ Numbered duplicate tabs like \"proj<2>\" count as their base project."
   "Return the workspace tab mapped to project ROOT, or nil."
   (cdr (assoc root tabspaces-project-tab-map)))
 
+(defun my-workspaces-root-for-directory (dir)
+  "Return the project root containing DIR, or nil."
+  (when-let* ((project (project-current nil dir)))
+    (expand-file-name (project-root project))))
+
+(defun my-workspaces-switch-for-root (root)
+  "Switch to the workspace owning project ROOT, creating it if needed.
+No-op when the current tab already belongs to ROOT (making \"proj<2>\"
+duplicates sticky)."
+  ;; `tabspaces--current-tab-name' and `tabspaces--list-tabspaces' are
+  ;; documented by tabspaces as its stable integration API, despite the
+  ;; `--' prefix.  The `save-current-buffer' preserves `current-buffer'
+  ;; across the tab switch: `find-file-noselect-1' returns the current
+  ;; buffer after running `find-file-hook', and `after-find-file' (which
+  ;; runs this hook) would otherwise keep operating in the new tab's
+  ;; buffer.
+  (save-current-buffer
+    (let ((current (tabspaces--current-tab-name)))
+      (unless (equal (my-workspaces-project-for-tab current) root)
+        (if-let* ((tab (my-workspaces-tab-for-project root)))
+            (tab-bar-switch-to-tab tab)
+          (let ((name (tabspaces-generate-descriptive-tab-name
+                       root (tabspaces--list-tabspaces))))
+            (tabspaces-switch-or-create-workspace name)
+            ;; the generator registers the mapping only on the
+            ;; conflict-free path; make sure we recorded it
+            (unless (assoc root tabspaces-project-tab-map)
+              (push (cons root name) tabspaces-project-tab-map))))))))
+
 (defun my-workspaces-switch-for-file ()
   "Switch to the workspace matching the visited file, if needed.
 
 Files inside a project switch to its workspace unless the current tab
 already belongs to it (making \"proj<2>\" duplicates sticky); anything else
 stays in the current workspace."
-  ;; `tabspaces--current-tab-name' and `tabspaces--list-tabspaces' are
-  ;; documented by tabspaces as its stable integration API, despite the
-  ;; `--' prefix.  The `save-current-buffer' below preserves
-  ;; `current-buffer' across the tab switch: `find-file-noselect-1'
-  ;; returns the current buffer after running `find-file-hook', and
-  ;; `after-find-file' (which runs this hook) would otherwise keep
-  ;; operating in the new tab's buffer.
   (when (and my-workspaces-auto-switch
              (bound-and-true-p tabspaces-mode)
              (buffer-file-name)
              (not (active-minibuffer-window)))
-    (let* ((file (buffer-file-name))
-           (root (when-let* ((project
-                              (project-current
-                               nil (file-name-directory file))))
-                   (expand-file-name (project-root project))))
-           (current (tabspaces--current-tab-name)))
-      (save-current-buffer
-        (cond
-         (root
-          (unless (equal (my-workspaces-project-for-tab current) root)
-            (if-let* ((tab (my-workspaces-tab-for-project root)))
-                (tab-bar-switch-to-tab tab)
-              (let ((name (tabspaces-generate-descriptive-tab-name
-                           root (tabspaces--list-tabspaces))))
-                (tabspaces-switch-or-create-workspace name)
-                ;; the generator registers the mapping only on the
-                ;; conflict-free path; make sure we recorded it
-                (unless (assoc root tabspaces-project-tab-map)
-                  (push (cons root name) tabspaces-project-tab-map)))))))))))
+    (when-let* ((root (my-workspaces-root-for-directory
+                       (file-name-directory (buffer-file-name)))))
+      (my-workspaces-switch-for-root root))))
 
 (defun my-workspaces-arm ()
   "Arm file-driven workspace switching."
@@ -1002,6 +1009,40 @@ Installed as :before advice on `switch-to-buffer'."
 
 (advice-add #'switch-to-buffer
             :before #'my-switch-to-buffer-route-to-owning-workspace)
+
+;; Dired and magit status join the routing: directories never run
+;; `find-file-hook' (`find-file-noselect' delegates them to
+;; `find-directory-functions'), so both need their own seams.
+
+(defun my-dired-route-to-owning-workspace (dir-or-list &optional _switches)
+  "Switch to the workspace of the directory dired is about to visit.
+Installed as :before advice on `dired-noselect': the single choke point
+of all dired entry points (`dired', `dired-jump', C-x C-f on a
+directory, ...), covering both new and existing dired buffers (existing
+ones skip `dired-mode-hook', and `dired' displays via
+`pop-to-buffer-same-window', bypassing the `switch-to-buffer' advice).
+Routing before buffer setup makes the caller's display land in the
+owning workspace."
+  (when (and my-workspaces-auto-switch
+             (bound-and-true-p tabspaces-mode)
+             (not (active-minibuffer-window)))
+    (when-let* ((root (my-workspaces-root-for-directory
+                       (if (consp dir-or-list)
+                           (car dir-or-list)
+                         (or dir-or-list default-directory)))))
+      (my-workspaces-switch-for-root root))))
+
+(defun my-magit-status-route-to-owning-workspace ()
+  "Switch to the workspace owning the repository of this status buffer.
+Runs on `magit-status-mode-hook': magit calls the mode function before
+`magit-display-buffer', for both new and existing status buffers, with
+`default-directory' already at the repository top-level -- so the
+subsequent display lands in the owning workspace."
+  (when (and my-workspaces-auto-switch
+             (bound-and-true-p tabspaces-mode)
+             (not (active-minibuffer-window)))
+    (when-let* ((root (my-workspaces-root-for-directory default-directory)))
+      (my-workspaces-switch-for-root root))))
 
 (defun my-tabspaces-project-action ()
   "Open the project at `default-directory' in its own workspace.
@@ -1160,7 +1201,11 @@ buffer instead of restoring the previous window layout."
   ;; if there is a dired buffer displayed in the next window, use its
   ;; current subdir, instead of the current subdir of this dired buffer
   (dired-dwim-target t)
-  )
+  :config
+  ;; route dired buffers to their project workspace; in :config because
+  ;; `dired-noselect' is autoloaded and advice-add would load it eagerly
+  (advice-add #'dired-noselect
+              :before #'my-dired-route-to-owning-workspace))
 
 (use-package all-the-icons-dired
   :after all-the-icons)
@@ -1725,7 +1770,9 @@ The link is pushed onto `org-stored-links' and offered by
 ;; https://magit.vc/
 (use-package magit
   :if (executable-find "git")
-  :hook (git-commit-setup . my-git-commit-setup)
+  :hook ((git-commit-setup . my-git-commit-setup)
+         ;; route status buffers to their project workspace
+         (magit-status-mode . my-magit-status-route-to-owning-workspace))
   :bind (("C-c v m" . magit-status)
          ("C-c v v" . magit-status)
          ("C-c v d" . magit-dispatch)
