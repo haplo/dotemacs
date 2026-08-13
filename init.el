@@ -1851,7 +1851,9 @@ to a reviewing agent."
   ;; highlight the trailer token
   (add-to-list 'git-commit-trailers "Assisted-by")
   (defun yadm ()
+    "Open yadm's magit status in its own workspace tab."
     (interactive)
+    (tabspaces-switch-or-create-workspace "yadm")
     (magit-status "/yadm::"))
   )
 
