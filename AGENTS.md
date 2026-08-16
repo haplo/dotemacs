@@ -104,3 +104,14 @@ below (newest last).
    Mirror init.el's `(dolist (pkg '(seq let-alist xref jsonrpc use-package))
    (straight-use-package (list pkg :type 'built-in)))` in test scripts, and
    use `(list 'tramp :type 'built-in)` for tramp.
+ - **`:after` defers `:hook` registration too.** use-package wraps the whole
+   block body (including `add-hook` calls) in `eval-after-load`, so a hook on
+   an eagerly-loaded package (e.g. auto-dark, loaded with `:demand`) placed
+   in a block gated on a lazy one (e.g. magit) is only registered once the
+   lazy package loads — silently missing earlier events, like auto-dark's
+   startup theme set.  Pattern: make the hook function a no-op until its
+   package is loaded (`boundp` guard on the package's defcustom) and call it
+   from `:config` to sync with the current state at load time, reading
+   public state (`frame-background-mode`, which auto-dark sets on every
+   switch before running its hooks) instead of assuming an initial value.
+   See `my-magit-delta-sync-appearance`.

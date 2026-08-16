@@ -1918,8 +1918,8 @@ to a reviewing agent."
   :if (executable-find "delta")
   :after (auto-dark magit)
   :hook ((magit-mode . magit-delta-mode)
-         (auto-dark-dark-mode . my-magit-delta-set-dark)
-         (auto-dark-light-mode . my-magit-delta-set-light))
+         ((auto-dark-dark-mode auto-dark-light-mode)
+          . my-magit-delta-sync-appearance))
   :preface
   (defun my-magit-refresh-all-visible ()
     "Refresh Magit buffers visible in any window on any frame."
@@ -1929,19 +1929,21 @@ to a reviewing agent."
          (when (derived-mode-p 'magit-mode)
            (magit-refresh))))
      'no-minibuf t))
-  (defun my-magit-delta-set-dark ()
-    (dolist (item '("--dark" "--light"))
-      (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
-    (add-to-list 'magit-delta-delta-args "--dark" t)
-    (my-magit-refresh-all-visible))
-  (defun my-magit-delta-set-light ()
-    (dolist (item '("--dark" "--light"))
-      (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
-    (add-to-list 'magit-delta-delta-args "--light" t)
-    (my-magit-refresh-all-visible))
+  (defun my-magit-delta-sync-appearance ()
+    "Sync delta's --light/--dark flag with the current appearance.
+Reads `frame-background-mode', which auto-dark sets on every switch
+before running its hooks, then refreshes visible Magit buffers.  No-op
+until magit-delta is loaded; the `:config' call covers theme switches
+that happened before the auto-dark hooks were registered."
+    (when (boundp 'magit-delta-delta-args)
+      (dolist (item '("--dark" "--light"))
+        (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
+      (add-to-list 'magit-delta-delta-args
+                   (if (eq frame-background-mode 'dark) "--dark" "--light") t)
+      (my-magit-refresh-all-visible)))
   :config
   (add-to-list 'magit-delta-delta-args "--no-gitconfig")
-  (add-to-list 'magit-delta-delta-args "--light")
+  (my-magit-delta-sync-appearance)
   )
 
 ;; https://magit.vc/manual/forge/
