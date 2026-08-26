@@ -844,6 +844,9 @@ i.e. windows tiled side-by-side."
   (tabspaces-keymap-prefix "C-z")
   ;; route `project-switch-project' (C-x p p) through workspaces
   (tabspaces-project-switch-opens-workspace t)
+  ;; skip the action dispatch when opening a project: a symbol value is
+  ;; invoked immediately by `project-switch-project'
+  (tabspaces-project-switch-commands #'my-project-open-magit-or-dired)
   ;; Resolve ".", "..", when opening projects
   (tabspaces-fully-resolve-paths t)
   ;; don't drop a todo file into newly created projects
@@ -1047,14 +1050,28 @@ subsequent display lands in the owning workspace."
 (defun my-tabspaces-project-action ()
   "Open the project at `default-directory' in its own workspace.
 Used as `projectile-switch-project-action', so `default-directory' is
-the project root.  New projects get a fresh tab and land on the
-`project-switch-commands' dispatch; known projects just switch tabs."
+the project root.  New projects get a fresh tab and land on magit (git
+projects) or dired via `my-project-open-magit-or-dired'; known projects
+just switch tabs."
   ;; `tabspaces-open-or-create-project-and-workspace' reads
   ;; `project--list' without ensuring it was read from
   ;; `project-list-file'; only its interactive spec does that.  Force
   ;; the read through the public API first (upstream fix candidate).
   (project-known-project-roots)
   (tabspaces-open-or-create-project-and-workspace default-directory))
+
+(defun my-project-open-magit-or-dired ()
+  "Open the project being switched to: magit if git-controlled, dired otherwise.
+Installed as `tabspaces-project-switch-commands': a symbol value makes
+`project-switch-project' invoke this command immediately instead of
+showing the `project-switch-commands' dispatch menu.  Like the stock
+project commands, this finds the target through `project-current',
+which honors `project-current-directory-override'."
+  (interactive)
+  (let ((root (project-root (project-current t))))
+    (if (locate-dominating-file root ".git")
+        (magit-status root)
+      (dired root))))
 
 ;; tame the flood of ephemeral windows Emacs produces
 ;; https://github.com/karthink/popper
@@ -1990,9 +2007,9 @@ that happened before the auto-dark hooks were registered."
   (setq projectile-cache-file (no-littering-expand-var-file-name  "projectile.cache")
         projectile-known-projects-file (no-littering-expand-var-file-name "projectile-bookmarks.eld")
         ;; switch to the project's workspace when switching projects;
-        ;; a new project's tab lands on the `project-switch-commands'
-        ;; dispatch (f = find file, D = dired, ...); an existing
-        ;; project tab is just switched to
+        ;; a new project's tab lands on magit (git projects) or dired
+        ;; via `my-project-open-magit-or-dired'; an existing project
+        ;; tab is just switched to
         projectile-switch-project-action #'my-tabspaces-project-action
         ;; https://docs.projectile.mx/projectile/configuration.html#project-specific-compilation-buffers
         projectile-per-project-compilation-buffer t
