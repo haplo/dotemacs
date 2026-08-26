@@ -1177,9 +1177,7 @@ buffer instead of restoring the previous window layout."
                                ;; tab switching
                                "C-<next>" "C-<prior>"
                                ;; zoom-window
-                               "<f12>"))
-  :config
-  (add-to-list 'project-switch-commands '(ghostel-project "Term" "t") t))
+                               "<f12>")))
 
 ;; make eshell-visual-commands run in a Ghostel buffer.
 (use-package ghostel-eshell
@@ -1990,7 +1988,9 @@ that happened before the auto-dark hooks were registered."
 (use-package project
   :straight (:type built-in)  ;; Emacs built-in
   :config
-  (setq project-list-file (no-littering-expand-var-file-name "projects")))
+  (setq project-list-file (no-littering-expand-var-file-name "projects"))
+  (add-to-list 'project-switch-commands '(magit-status "Magit" "g") t)
+  (add-to-list 'project-switch-commands '(ghostel-project "Term" "t") t))
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
