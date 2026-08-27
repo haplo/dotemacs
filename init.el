@@ -405,9 +405,21 @@
 
 (setq-default fill-column my-line-length)
 
-;; fill paragraph if line is too long, unfill otherwise
-(use-package unfill
-  :bind (("M-q" . unfill-toggle)))
+(use-package emacs
+  :straight nil  ;; Emacs built-in
+  :preface
+  (defun my-fill-or-unfill ()
+    "Toggle between filling or unfilling the current paragraph."
+    (interactive)
+    ;; keep an active region so the toggle works on it repeatedly
+    (let (deactivate-mark)
+      (if (eq last-command this-command)
+          (progn
+            ;; reset the toggle so a third invocation fills again
+            (setq this-command nil)
+            (call-interactively #'unfill-paragraph))
+        (call-interactively #'fill-paragraph))))
+  :bind (("M-q" . my-fill-or-unfill)))
 
 ;; progressively expand region around cursor, tree-sitter based
 ;; https://emacsredux.com/blog/2026/03/03/expreg-expand-region-reborn/

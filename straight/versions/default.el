@@ -90,7 +90,6 @@
  ("tabspaces" . "ef19a5dc4147f6e69442bd2e64c00672438ebe04")
  ("treepy.el" . "806c000bd40153d17dfa5709c6d19546d507a416")
  ("treesit-auto" . "c227806dddd4b413009a453c450285d1123e7d72")
- ("unfill" . "4a15511876983eeaa75e57fcab8d4d51fe9b3840")
  ("valign" . "994231615f4abb2f05bdfde2f312e4239a998192")
  ("vertico" . "df51b901b78251be1e3bb54f173856f4cc395163")
  ("volatile-highlights.el" . "f68ac37451c1226d6f13c1b299ec7516f74888a1")
