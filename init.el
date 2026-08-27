@@ -1329,6 +1329,7 @@ buffer instead of restoring the previous window layout."
          ("C-c H" . my-consult-fd-home)
          ("C-c R" . my-consult-fd-root)
          ("C-c j" . consult-outline)
+         ("M-i" . consult-imenu)
          ("C-c i" . consult-imenu)
          ("C-c g" . consult-ripgrep)
          ("C-c G" . my-consult-ripgrep-at-point)
