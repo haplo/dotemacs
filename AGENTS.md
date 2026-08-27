@@ -117,3 +117,14 @@ below (newest last).
    public state (`frame-background-mode`, which auto-dark sets on every
    switch before running its hooks) instead of assuming an initial value.
    See `my-magit-delta-sync-appearance`.
+- **`:hook` on a symbol removed upstream manufactures a bogus autoload.**
+  When a deferred use-package block has `:hook (some-mode . some-fn)` and
+  `some-fn` is no longer defined (nor autoloaded) by its package, use-package
+  emits `(unless (fboundp 'some-fn) (autoload #'some-fn "BLOCKS-PACKAGE" nil t))`.
+  The hook then errors at run time with "Autoloading file X failed to define
+  function some-fn" — pointing at the block's package, not the symbol's real
+  owner. Example: embark-consult's `:hook (embark-collect-mode .
+  consult-preview-at-point-mode)` broke every embark-export falling back to
+  `embark-collect` (consult-imenu, consult-outline, symbol exports...) after
+  consult 3.7 removed `consult-preview-at-point-mode` (obsoleted 2025-12;
+  collect-buffer previews are enabled automatically by embark-consult itself).

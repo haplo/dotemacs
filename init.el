@@ -1720,9 +1720,10 @@ The link is pushed onto `org-stored-links' and offered by
   (keymap-set embark-command-map "h" #'helpful-command)
   (keymap-set embark-symbol-map "R" #'elisp-refs-symbol))
 
+;; Embark-Consult integration (export/preview glue for consult commands)
+;; https://github.com/oantolin/embark/blob/master/embark-consult.el
 (use-package embark-consult
-  :after (embark consult)
-  :hook (embark-collect-mode . consult-preview-at-point-mode))
+  :after (embark consult))
 
 ;; completion style that divides the pattern into space-separated components
 ;; and matches candidates that match all of the components in any order
