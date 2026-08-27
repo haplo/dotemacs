@@ -2513,6 +2513,10 @@ that happened before the auto-dark hooks were registered."
 (use-package markdown-ts-mode
   :straight nil  ;; Emacs built-in
   :mode ("\\.md\\'" . markdown-ts-mode)
+  :custom
+  ;; use markdown-ts-mode wherever markdown-mode is requested (e.g. org src blocks)
+  (major-mode-remap-alist (cons '(markdown-mode . markdown-ts-mode)
+                                major-mode-remap-alist))
   :bind (:map markdown-ts-mode-map
               ("C-c T" . valign-table)
               ("C-c C-l" . markdown-insert-link)))
