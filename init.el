@@ -2514,7 +2514,8 @@ that happened before the auto-dark hooks were registered."
   :straight nil  ;; Emacs built-in
   :mode ("\\.md\\'" . markdown-ts-mode)
   :bind (:map markdown-ts-mode-map
-              ("C-c T" . valign-table)))
+              ("C-c T" . valign-table)
+              ("C-c C-l" . markdown-insert-link)))
 
 ;;;;;;;;;;;
 ;;; CSV ;;;
