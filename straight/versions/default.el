@@ -63,7 +63,6 @@
  ("magit-delta" . "5fc7dbddcfacfe46d3fd876172ad02a9ab6ac616")
  ("marginalia" . "13220ab7a67f450434e6b2da452b9700ffcb39bf")
  ("markdown-mode" . "f441e8bc9951e73b12c61e9198658488dd8e86e1")
- ("markdown-ts-mode" . "801579b9b955f63673dd6dc9742c1fd5311b76c9")
  ("melpa" . "fa4a6c0d3e91acdf258317e325ad037a472887ec")
  ("move-text" . "142890cfb46d9c374113b4b49021a4202033147b")
  ("multiple-cursors.el" . "94b8b07a4bab87f803123723b68227565429dfa1")

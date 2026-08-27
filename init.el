@@ -2497,8 +2497,8 @@ that happened before the auto-dark hooks were registered."
               ("C-c T" . valign-table)))
 
 ;; Major mode for Markdown using tree-sitter
-;; https://github.com/LionyxML/markdown-ts-mode
 (use-package markdown-ts-mode
+  :straight nil  ;; Emacs built-in
   :mode ("\\.md\\'" . markdown-ts-mode)
   :bind (:map markdown-ts-mode-map
               ("C-c T" . valign-table)))
