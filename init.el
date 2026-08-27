@@ -2779,7 +2779,17 @@ exploits.\n\n%s"
                     openai-gpt-56-sol
                     grok-4-6
                     z-ai-glm-5-3-flash))
-        gptel-model 'z-ai-glm-5-3-flash))
+        gptel-model 'z-ai-glm-5-3-flash)
+  (gptel-make-openai "llama.cpp"
+    :protocol "http"
+    :host "localhost:11434"
+    :stream t
+    :models '((Qwen3.8-27b
+               :description "Local Qwen3.8 27B (Q4_K_M)"
+               :capabilities (media)
+               :mime-types
+               ("image/jpeg" "image/png" "image/gif" "image/webp")
+               :context-window 64))))
 
 ;; Agentic coding frontend driving external agents via ACP; one opencode
 ;; session per project, each in its own firejail sandbox
