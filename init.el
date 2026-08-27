@@ -515,11 +515,6 @@
          ("C-h ." . helpful-at-point)
          ))
 
-;; edit a grep buffer and apply those changes to the file buffer like sed interactively
-;; https://github.com/mhayashi1120/Emacs-wgrep
-(use-package wgrep
-  :after (embark))
-
 ;; multiple cursors
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors

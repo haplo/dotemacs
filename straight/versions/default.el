@@ -1,5 +1,4 @@
-(("Emacs-wgrep" . "49f09ab9b706d2312cab1199e1eeb1bcd3f27f6f")
- ("ace-window" . "77115afc1b0b9f633084cf7479c767988106c196")
+(("ace-window" . "77115afc1b0b9f633084cf7479c767988106c196")
  ("acp.el" . "7d5c16ebcf2af86aa0f14ad9ae0ce45df4e8c8a5")
  ("agent-shell" . "6929073c9a4b0898ac62f160e1c0779f19461df8")
  ("all-the-icons-completion" . "4c8bcad8033f5d0868ce82ea3807c6cd46c4a198")
