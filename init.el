@@ -2773,9 +2773,8 @@ exploits.\n\n%s"
                     claude-opus-5
                     openai-gpt-56-sol
                     grok-4-6
-                    zai-org-glm-5-2
-                    deepseek-v4-flash-0731))
-        gptel-model 'deepseek-v4-flash-0731))
+                    z-ai-glm-5-3-flash))
+        gptel-model 'z-ai-glm-5-3-flash))
 
 ;; Agentic coding frontend driving external agents via ACP; one opencode
 ;; session per project, each in its own firejail sandbox
