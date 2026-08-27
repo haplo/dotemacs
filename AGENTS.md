@@ -59,10 +59,12 @@ below (newest last).
 - **Batch Emacs loads can pick built-in copies of straight packages.** A batch
   session bootstrapped with only `early-init.el` activates just the packages
   explicitly requested; everything else resolves to Emacs' built-in copies.
-  Example: loading agent-shell in batch pulled the built-in transient 0.7.2.2
-  instead of the pinned git checkout and died on `transient--set-layout`.
+  Example (Emacs 30 era, when transient was a pinned git checkout): loading
+  agent-shell in batch pulled the built-in transient 0.7.2.2 and died on
+  `transient--set-layout`.  Transient is built-in-only since Emacs 31.1, but
+  the hazard applies to any straight package that also ships with Emacs.
   Activate every package the load depends on in the batch eval
-  (`(straight-use-package 'transient)` etc.) before requiring or compiling.
+  (`(straight-use-package 'magit)` etc.) before requiring or compiling.
 - **`:bind` with an unloaded `:map` defers to the BLOCK's package, not the
   map's owner.** use-package emits `(bind-keys :package NAME :map MODE-MAP ...)`
   and bind-key wraps it as `(if (boundp 'MODE-MAP) bind (eval-after-load 'NAME

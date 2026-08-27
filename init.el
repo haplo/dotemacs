@@ -21,11 +21,8 @@
 ;; Use Emacs' built-in versions of these libraries, even though they are
 ;; also available from package repositories. Registering them with
 ;; straight prevents repository checkouts when other packages depend on
-;; them (e.g. magit requires seq).
-;; NOTE: transient is deliberately NOT here: magit requires a newer
-;; transient than the one built into Emacs 30.2, so it is installed from
-;; its git repository (https://github.com/magit/transient).
-(dolist (pkg '(seq let-alist xref jsonrpc use-package))
+;; them (e.g. magit requires seq and transient).
+(dolist (pkg '(seq let-alist xref jsonrpc use-package transient))
   (straight-use-package (list pkg :type 'built-in)))
 
 (use-package xdg

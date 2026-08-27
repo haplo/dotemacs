@@ -90,7 +90,6 @@
  ("systemd-mode" . "8742607120fbc440821acbc351fda1e8e68a8806")
  ("tablist" . "01f065e387ffe6b7a41f180f257cd12551c7a9c2")
  ("tabspaces" . "ef19a5dc4147f6e69442bd2e64c00672438ebe04")
- ("transient" . "416bddb37eda2f838f1e08dddde208dae271cc39")
  ("treepy.el" . "806c000bd40153d17dfa5709c6d19546d507a416")
  ("treesit-auto" . "c227806dddd4b413009a453c450285d1123e7d72")
  ("unfill" . "4a15511876983eeaa75e57fcab8d4d51fe9b3840")

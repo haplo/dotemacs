@@ -14,9 +14,7 @@ straight-visit-package`) and contribute changes upstream.
 
 Packages that ship with Emacs are used as built-ins; they are registered with straight
 via `:type built-in` so that package dependencies don't pull repository checkouts
-anyway. The one exception is [transient](https://github.com/magit/transient): Magit
-requires a newer version than the one built into Emacs 30.2, so it is installed from its
-git repository.
+anyway.
 
 Upgrades are manual and reviewable:
 
