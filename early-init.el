@@ -17,6 +17,10 @@
                      gc-cons-percentage 0.1)
                (garbage-collect)))))
 
+;; caches contents of directories in memory, saves I/O
+(when (boundp 'load-path-filter-function)
+  (setq load-path-filter-function #'load-path-filter-cache-directory-files))
+
 ;; Use .el files over .elc if they are newer
 (when (boundp 'load-prefer-newer)
   (setq load-prefer-newer t))
