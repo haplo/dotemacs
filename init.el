@@ -1907,8 +1907,6 @@ to a reviewing agent."
   ;; do not ask confirmation for actions easily reverted when wip-mode is enabled
   (magit-no-confirm '(set-and-push safe-with-wip))
   :config
-  ;; enable magit-clean
-  (put 'magit-clean 'disabled nil)
   ;; save work-in-progress before potentially dangerous operations
   ;; https://magit.vc/manual/magit.html#Wip-Modes
   (magit-wip-mode +1)
