@@ -1755,9 +1755,9 @@ The link is pushed onto `org-stored-links' and offered by
    ;; Ignore single !
    ((string= "!" pattern) `(orderless-literal . ""))
    ;; Explicit prefix/suffix style dispatchers
-   ((if-let (x (assq (aref pattern 0) +orderless-dispatch-alist))
+   ((if-let* ((x (assq (aref pattern 0) +orderless-dispatch-alist)))
         (cons (cdr x) (substring pattern 1))
-      (when-let (x (assq (aref pattern (1- (length pattern))) +orderless-dispatch-alist))
+      (when-let* ((x (assq (aref pattern (1- (length pattern))) +orderless-dispatch-alist)))
         (cons (cdr x) (substring pattern 0 -1)))))
    ;; Default: accent-fold the pattern
    (t (let ((new-pattern (seq-reduce
@@ -2837,13 +2837,13 @@ current directory."
     (interactive)
     (let ((root (file-truename (or (ignore-errors (projectile-project-root))
                                    default-directory))))
-      (if-let ((buf (seq-find (lambda (b)
-                                (with-current-buffer b
-                                  (and (derived-mode-p 'agent-shell-mode)
-                                       (string-equal
-                                        (file-truename default-directory)
-                                        root))))
-                              (buffer-list))))
+      (if-let* ((buf (seq-find (lambda (b)
+                                 (with-current-buffer b
+                                   (and (derived-mode-p 'agent-shell-mode)
+                                        (string-equal
+                                         (file-truename default-directory)
+                                         root))))
+                               (buffer-list))))
           (pop-to-buffer buf)
         (pcase-let ((`(,override ,xtra-jail ,xtra)
                      (my-agent-shell--dir-locals root)))
