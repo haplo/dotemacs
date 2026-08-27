@@ -3,7 +3,7 @@
 This is my very own Emacs configuration.
 There are many like it, but this one's mine.
 
-This configuration is meant and has only been tested with Emacs 30.2.
+This configuration is meant and has only been tested with Emacs 31.1.
 
 ## Package management
 

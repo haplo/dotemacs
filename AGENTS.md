@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Personal GNU Emacs 30.2 configuration. Main files: `init.el`, `early-init.el`.
+Personal GNU Emacs 31.1 configuration. Main files: `init.el`, `early-init.el`.
 Packages are managed with straight.el as git clones (`straight/repos/`), pinned
 in the lockfile `straight/versions/default.el`. See README.md for the upgrade
 workflow.
