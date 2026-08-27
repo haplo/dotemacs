@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; profile startup time (also uncomment end of init.el)
 ;; (profiler-start 'cpu)
 
