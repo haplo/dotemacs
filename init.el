@@ -378,17 +378,22 @@
   ;; By Chmouel Boudjnah https://mastodon.social/@chmouel@fosstodon.org/109715305722356540
   (defun my-avy-copy-word (_arg)
     (interactive "p")
-    (save-excursion
-      (call-interactively  'avy-goto-symbol-1)
+    (let ((start-window (selected-window))
+          (start-point (point)))
+      (call-interactively 'avy-goto-symbol-1)
       (let ((symbol (thing-at-point 'symbol)))
+        (select-window start-window)
+        (goto-char start-point)
         (when symbol
-          (kill-new symbol)
-          (message "\"%s\" has been copied" symbol)))))
+          (kill-new symbol)))))
   (defun my-avy-embark (_arg)
     (interactive "p")
-    (save-excursion
-      (call-interactively  'avy-goto-symbol-1)
+    (let ((start-window (selected-window))
+          (start-point (point)))
+      (call-interactively 'avy-goto-symbol-1)
       (let ((symbol (thing-at-point 'symbol)))
+        (select-window start-window)
+        (goto-char start-point)
         (when symbol
           (embark-act symbol)))))
   :config (setq avy-background t
