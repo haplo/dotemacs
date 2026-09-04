@@ -19,6 +19,14 @@ workflow.
    that are not yours. Never stage, overwrite, revert, or delete them; never
    run `git checkout --`, `git restore`, `git clean`, or similar. Make only
    targeted edits to the files you were asked to change.
+4. **No live or non-batch Emacs processes.** Never run `emacsclient` (not
+   even `--eval` for read-only inspection) and never start a non-batch
+   Emacs (`emacs --daemon`, GUI). If the server socket is unreachable,
+   `ALTERNATE_EDITOR=""` makes emacsclient spawn a full daemon whose
+   startup and `kill-emacs-hook` run the entire config. Even a successful
+   `--eval` executes code in the user's stateful session. Inspect state
+   from files, use `emacs -Q --batch` for checks, and ask the user to run
+   any in-session evaluation themselves.
 
 ## Style
 
