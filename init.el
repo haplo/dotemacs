@@ -880,7 +880,93 @@ i.e. windows tiled side-by-side."
     (when (file-exists-p tabspaces-session-file)
       (copy-file tabspaces-session-file
                  (concat tabspaces-session-file ".bak") t)))
-  (add-hook 'kill-emacs-hook #'my-tabspaces-session-backup -50))
+  (add-hook 'kill-emacs-hook #'my-tabspaces-session-backup -50)
+
+  ;; save and restore Magit status buffers (only status, not diff or log)
+  ;; in tabspaces sessions.  Registration must run before `tabspaces-mode'
+  ;; auto-restores on `after-init-hook' -- hence here in tabspaces' own
+  ;; :config, not in magit's deferred block: records whose kind has no
+  ;; registered handler at restore time are dropped as unknown kinds.
+  ;; https://codeberg.org/mclear-tools/tabspaces#non-file-buffer-restoration
+
+  ;; forward declarations so the byte-compiler keeps the let-bindings in
+  ;; `my-tabspaces-restore-magit-status' dynamic when init.el is compiled
+  ;; before magit is loaded (a bare defvar marks a variable special only
+  ;; within the current file/scope; at run time the variables become
+  ;; permanently special when the restore-fn's require loads magit, which
+  ;; always precedes the let-bindings)
+  (defvar magit-display-buffer-function)
+  (defvar magit-display-buffer-noselect)
+  (defvar magit-status-mode-hook)
+
+  (defun my-tabspaces-save-magit-status (buffer)
+    "Return a session record for Magit status BUFFER, nil for other buffers.
+Only status buffers are recorded (not diff or log).  yadm status buffers
+get a non-remote :dir plus a :yadm key with the real tramp path, because
+tabspaces' restore loop skips records whose :dir is remote before
+handlers run."
+    (with-current-buffer buffer
+      (when (derived-mode-p 'magit-status-mode)
+        (if (equal (file-remote-p default-directory 'method) "yadm")
+            (let ((local (file-remote-p default-directory 'localname)))
+              (list :kind 'magit-status
+                    :dir (if (and local (not (equal local ""))) local "~/")
+                    :name (buffer-name)
+                    :yadm default-directory))
+          (list :kind 'magit-status
+                :dir default-directory
+                :name (buffer-name))))))
+
+  (defun my-tabspaces-restore-magit-status (record)
+    "Restore a Magit status buffer from session RECORD.
+:yadm records are recreated through the yadm tramp method, a purely
+local \"remote\", so restoring them is cheap."
+    (let ((name (plist-get record :name))
+          (dir (plist-get record :dir))
+          (yadm-dir (plist-get record :yadm)))
+      (cond
+       ((not (and dir (stringp dir) (file-directory-p dir))) nil)
+       ;; magit is only installed when git is (see its use-package :if)
+       ((not (require 'magit nil t))
+        (message "tabspaces: magit not installed; skipping %s" name)
+        nil)
+       (t
+        (or (tabspaces-reuse-existing-buffer name)
+            ;; magit reuses a repository's status buffer globally; if it
+            ;; lives in another tab, skip instead of leaking it into this
+            ;; one
+            (if (get-buffer name)
+                (progn
+                  (message "tabspaces: %s exists in another tab; skipping"
+                           name)
+                  nil)
+              (condition-case err
+                  (let ((default-directory (or yadm-dir dir))
+                        ;; `magit-status-setup-buffer' displays through
+                        ;; `magit-display-buffer'; neutralize it (same
+                        ;; trick as magit-bookmark) because restore
+                        ;; handlers must not change the window
+                        ;; configuration
+                        (magit-display-buffer-function #'identity)
+                        (magit-display-buffer-noselect t)
+                        ;; the restore loop owns tab selection; keep the
+                        ;; auto-routing hook from firing mid-restore
+                        (magit-status-mode-hook
+                         (remq #'my-magit-status-route-to-owning-workspace
+                               magit-status-mode-hook)))
+                    ;; pre-check the repo (for yadm this opens the local
+                    ;; tramp connection) so a dead repo leaves no
+                    ;; half-created buffer behind
+                    (when (magit-toplevel default-directory)
+                      (magit-status-setup-buffer)))
+                (error
+                 (message "tabspaces: magit status restore skipped (%s): %S"
+                          (or yadm-dir dir) err)
+                 nil))))))))
+
+  (tabspaces-register-buffer-kind 'magit-status
+                                  #'my-tabspaces-save-magit-status
+                                  #'my-tabspaces-restore-magit-status))
 
 ;;;; workspace auto-routing ;;;;
 

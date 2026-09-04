@@ -136,3 +136,16 @@ below (newest last).
   `embark-collect` (consult-imenu, consult-outline, symbol exports...) after
   consult 3.7 removed `consult-preview-at-point-mode` (obsoleted 2025-12;
   collect-buffer previews are enabled automatically by embark-consult itself).
+- **Bare `(defvar x)` marks a variable special only within the current file
+  or lexical scope when interpreted; a defvar WITH a value (or the
+  package's own defcustom) marks it special permanently.** For forward
+  declarations ahead of a deferred package, bare defvars suffice for the
+  byte-compiler (which tracks them file-wide), but at run time the
+  package's defcustoms must load before any let-binding of those
+  variables — otherwise an interpreted lexical let is invisible to the
+  package (silent breakage), and if the let is in effect while the package
+  loads, the package's compiled bare defvar signals "Defining as dynamic
+  an already lexical var".  Never "fix" this with `(defvar x nil)`: a
+  bound variable makes the package's defcustom skip its default
+  initialization.  Pattern: bare defvars for the compiler + `(require
+  'pkg)` before the let (see `my-tabspaces-restore-magit-status`).
