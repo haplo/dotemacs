@@ -2882,8 +2882,8 @@ exploits.\n\n%s"
                     claude-opus-5
                     openai-gpt-56-sol
                     grok-4-6
-                    z-ai-glm-5-3-flash))
-        gptel-model 'z-ai-glm-5-3-flash)
+                    deepseek-v4-1-flash))
+        gptel-model 'deepseek-v4-1-flash)
   (gptel-make-openai "llama.cpp"
     :protocol "http"
     :host "localhost:11434"
