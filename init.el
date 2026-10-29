@@ -10,6 +10,28 @@
 ;; no startup screen
 (setq inhibit-startup-screen t)
 
+;; Omarchy integration
+;; Omarchy's Emacs integration syncs the theme (to the system colors) and the
+;; default font (to the active terminal).  When it is installed, let it own
+;; both; the fonts, appearance and theme blocks below cover everything else.
+(defconst my-omarchy-config-dir "/usr/share/omarchy-emacs/config"
+  "Directory holding Omarchy's packaged Emacs integration.")
+
+(defconst my-omarchy-p
+  (file-exists-p (expand-file-name "omarchy.el" my-omarchy-config-dir))
+  "Non-nil when Omarchy's Emacs integration is installed.")
+
+(when my-omarchy-p
+  ;; `omarchy-apply-theme' looks its theme up through `custom-theme-load-path',
+  ;; which `omarchy-emacs-setup' populates by copying omarchy-theme.el into
+  ;; user-emacs-directory/themes.  When that copy is missing (a bare checkout,
+  ;; or the directory removed) the integration aborts startup as soon as the
+  ;; generated omarchy-colors.el exists, so fall back to the packaged theme.
+  (when (null (locate-file "omarchy-theme" custom-theme-load-path '(".el")))
+    (add-to-list 'custom-theme-load-path
+                 (expand-file-name "themes" my-omarchy-config-dir)))
+  (load (expand-file-name "omarchy.el" my-omarchy-config-dir)))
+
 ;; Super handy macro for loading packages but not stopping the init
 ;; process if they aren't found.
 ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/index.html
@@ -55,19 +77,49 @@
   :demand t
   :config (unless (server-running-p) (server-start)))
 
+;;;;;;;;;;;;;;;;;;
+;;; appearance ;;;
+;;;;;;;;;;;;;;;;;;
+
+;; Light/dark helpers shared by the theme config below and by the packages
+;; that derive state from the current appearance.
+(defun my-appearance-dark-p ()
+  "Return non-nil when the current appearance is dark.
+On Omarchy the state comes from the system theme; elsewhere from
+`frame-background-mode', which auto-dark sets before each switch."
+  (if (and my-omarchy-p (fboundp 'omarchy-light-theme-p))
+      (not (omarchy-light-theme-p))
+    (eq frame-background-mode 'dark)))
+
+(defun my-refresh-appearance (&rest _)
+  "Refresh state derived from the current theme.
+Covers Magit delta's --light/--dark flag and kind-icon's cache."
+  (when (bound-and-true-p magit-delta-mode)
+    (my-magit-delta-sync-appearance))
+  (when (fboundp 'kind-icon-reset-cache)
+    (kind-icon-reset-cache)))
+
+;; On Omarchy theme changes come from the system, not from auto-dark.
+(when my-omarchy-p
+  (add-hook 'enable-theme-functions #'my-refresh-appearance))
+
 ;; Theme
 ;; https://github.com/bbatsov/batppuccin-emacs
 (use-package batppuccin
+  :if (not my-omarchy-p)
   :config
   (load-theme 'batppuccin-latte t))
 
 ;; Follow system light/dark mode
 ;; https://github.com/LionyxML/auto-dark-emacs
 (use-package auto-dark
+  :if (not my-omarchy-p)
   :demand
   :init (auto-dark-mode)
   :custom
-  (auto-dark-themes '((batppuccin-mocha) (batppuccin-latte))))
+  (auto-dark-themes '((batppuccin-mocha) (batppuccin-latte)))
+  :hook ((auto-dark-dark-mode . my-refresh-appearance)
+         (auto-dark-light-mode . my-refresh-appearance)))
 
 ;; Pretty icons
 ;; https://github.com/domtronn/all-the-icons.el
@@ -86,9 +138,11 @@
   (doom-modeline-icon (display-graphic-p))
   (doom-modeline-buffer-encoding nil)
   :custom-face
-  (mode-line ((t (:family "Hack" :height 130))))
-  (mode-line-active ((t (:family "Hack" :height 130))))
-  (mode-line-inactive ((t (:family "Hack" :height 130))))
+  ;; No :family: the mode line inherits the default face font, i.e. the
+  ;; Omarchy terminal font on Omarchy and the system monospace elsewhere.
+  (mode-line ((t (:height 130))))
+  (mode-line-active ((t (:height 130))))
+  (mode-line-inactive ((t (:height 130))))
   )
 
 (use-package diminish)
@@ -2026,10 +2080,8 @@ to a reviewing agent."
 ;; https://github.com/dandavison/magit-delta
 (use-package magit-delta
   :if (executable-find "delta")
-  :after (auto-dark magit)
-  :hook ((magit-mode . magit-delta-mode)
-         ((auto-dark-dark-mode auto-dark-light-mode)
-          . my-magit-delta-sync-appearance))
+  :after magit
+  :hook (magit-mode . magit-delta-mode)
   :preface
   (defun my-magit-refresh-all-visible ()
     "Refresh Magit buffers visible in any window on any frame."
@@ -2041,15 +2093,14 @@ to a reviewing agent."
      'no-minibuf t))
   (defun my-magit-delta-sync-appearance ()
     "Sync delta's --light/--dark flag with the current appearance.
-Reads `frame-background-mode', which auto-dark sets on every switch
-before running its hooks, then refreshes visible Magit buffers.  No-op
-until magit-delta is loaded; the `:config' call covers theme switches
-that happened before the auto-dark hooks were registered."
+Reads `my-appearance-dark-p', then refreshes visible Magit buffers.
+No-op until magit-delta is loaded; `my-refresh-appearance' calls this
+on every appearance change (see the appearance section)."
     (when (boundp 'magit-delta-delta-args)
       (dolist (item '("--dark" "--light"))
         (setq magit-delta-delta-args (delete item magit-delta-delta-args)))
       (add-to-list 'magit-delta-delta-args
-                   (if (eq frame-background-mode 'dark) "--dark" "--light") t)
+                   (if (my-appearance-dark-p) "--dark" "--light") t)
       (my-magit-refresh-all-visible)))
   :config
   (add-to-list 'magit-delta-delta-args "--no-gitconfig")
@@ -2089,10 +2140,10 @@ that happened before the auto-dark hooks were registered."
 
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
-  :bind-keymap (("C-c p" . projectile-command-map)
-                ("s-p" . projectile-command-map))
+  :bind-keymap (("C-c p" . projectile-command-map))
   :init
   (setq projectile-project-search-path `(("~/Code/" . 2)
+                                         ("~/Work/" . 2)
                                          "~/Sync/Research/"
                                          ,(expand-file-name "straight/repos" user-emacs-directory)))
   :custom
@@ -2193,8 +2244,6 @@ that happened before the auto-dark hooks were registered."
 ;; https://github.com/jdtsmith/kind-icon
 (use-package kind-icon
   :after corfu
-  :hook ((auto-dark-dark-mode auto-dark-light-mode) . (lambda () (interactive)
-                                                        (kind-icon-reset-cache)))
   :custom
   ;; explicitly enable icons
   (kind-icon-use-icons t)
@@ -2286,8 +2335,10 @@ that happened before the auto-dark hooks were registered."
 (define-key my-mode-map (kbd "C-c o g") 'org-clock-goto)
 (define-key my-mode-map (kbd "C-c o l") 'org-store-link)
 
-;; Switch light/dark theme
-(define-key my-mode-map [f5] 'auto-dark-toggle-appearance)
+;; Switch light/dark theme.  Omarchy systems own the theme and switch it from
+;; Omarchy's own global theme switcher, so leave f5 free there.
+(unless my-omarchy-p
+  (define-key my-mode-map [f5] 'auto-dark-toggle-appearance))
 
 ;; Consult
 (define-key my-mode-map (kbd "C-c C-j") 'consult-org-agenda)  ; was org-goto in org mode
@@ -2528,10 +2579,10 @@ that happened before the auto-dark hooks were registered."
   (org-log-done 'time)
   ;; open files folded
   (org-startup-folded t)
-  (org-disputed-keys (quote (([(shift up)] . [(super shift up)])
-                             ([(shift down)] . [(super shift down)])
-                             ([(shift left)] . [(super shift left)])
-                             ([(shift right)] . [(super shift right)])))
+  (org-disputed-keys (quote (([(shift up)] . [(meta shift up)])
+                             ([(shift down)] . [(meta shift down)])
+                             ([(shift left)] . [(meta shift left)])
+                             ([(shift right)] . [(meta shift right)])))
                      org-replace-disputed-keys t)
   ;; don't ask for confirmation before running an org-babel block
   (org-confirm-babel-evaluate nil)
