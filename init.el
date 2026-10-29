@@ -356,8 +356,6 @@ Covers Magit delta's --light/--dark flag and kind-icon's cache."
   :straight (:type built-in)  ;; Emacs built-in
   :config
   (setq
-   ;; don't pollute .emacs.d directory
-   tramp-persistency-file-name (no-littering-expand-var-file-name "tramp")
    ;; default to SSH
    tramp-default-method "ssh")
   ;; manage yadm using Magit (also see yadm defun in magit section)
