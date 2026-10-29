@@ -149,3 +149,14 @@ below (newest last).
   bound variable makes the package's defcustom skip its default
   initialization.  Pattern: bare defvars for the compiler + `(require
   'pkg)` before the let (see `my-tabspaces-restore-magit-status`).
+- **The monospace family Emacs shows comes from fontconfig, not Emacs
+  config.** With `font-use-system-font` nil, Emacs falls back to the literal
+  family name `monospace` (the `monospace`/`monospace-10` strings in the
+  binary), which its `ft` backend resolves through fontconfig — so what
+  `~/.config/fontconfig/fonts.conf` maps `monospace` to is what Emacs
+  displays.  Corollary: `find-font` and `font-family-list` need a GUI frame,
+  so `early-init.el` (read before the GUI is initialized) can never probe for
+  an installed family; leave the family to fontconfig and set at most a
+  `:height` in Emacs.  Hence the Omarchy branch: on Omarchy `omarchy.el` syncs
+  family and size from the active terminal, off it the system monospace alias
+  decides the family and init.el only sets the size.
